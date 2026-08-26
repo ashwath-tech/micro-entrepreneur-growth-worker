@@ -1,0 +1,2 @@
+txn_id,date,customer_name,phone,item,amount_inr,is_return
+1,2023-10-23,Ramesh Kumar,9876543210,Chai,20.0,0

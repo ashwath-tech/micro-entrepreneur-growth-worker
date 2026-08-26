@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Entrepreneur Growth Worker</title>
+    <style>
+        /* EXTREME MINIMALISM - NO GRADIENTS */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            color: #111111;
+            line-height: 1.5;
+            padding: 32px 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 2px solid #111111;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #111111;
+        }
+
+        p.subtitle {
+            font-size: 14px;
+            color: #555555;
+            margin-top: 4px;
+        }
+
+        .section {
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            color: #111111;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        /* Form Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333333;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        input[type="tel"],
+        select {
+            padding: 8px 10px;
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            color: #111111;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #111111;
+        }
+
+        .filter-controls-grid {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.5fr;
+            gap: 12px;
+            margin-bottom: 12px;
+            background-color: #fafafa;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 700px) {
+            .filter-controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Buttons */
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 16px;
+            border: 1px solid #111111;
+            background-color: #111111;
+            color: #ffffff;
+            transition: none;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #333333;
+        }
+
+        button:disabled {
+            background-color: #888888;
+            border-color: #888888;
+            cursor: not-allowed;
+        }
+
+        button.btn-outline {
+            background-color: #ffffff;
+            color: #111111;
+        }
+
+        button.btn-outline:hover:not(:disabled) {
+            background-color: #f5f5f5;
+        }
+
+        button.btn-success {
+            background-color: #16a34a;
+            border-color: #16a34a;
+            color: #ffffff;
+        }
+
+        button.btn-success:hover:not(:disabled) {
+            background-color: #15803d;
+        }
+
+        button.btn-danger {
+            background-color: #dc2626;
+            border-color: #dc2626;
+            color: #ffffff;
+        }
+
+        button.btn-danger:hover:not(:disabled) {
+            background-color: #b91c1c;
+        }
+
+        .btn-large {
+            font-size: 15px;
+            padding: 12px 24px;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+            background-color: #eeeeee;
+            color: #333333;
+        }
+
+        .status-running {
+            background-color: #0284c7;
+            color: #ffffff;
+        }
+
+        .status-waiting {
+            background-color: #d97706;
+            color: #ffffff;
+        }
+
+        .status-escalated {
+            background-color: #dc2626;
+            color: #ffffff;
+        }
+
+        .status-completed {
+            background-color: #16a34a;
+            color: #ffffff;
+        }
+
+        /* Notification & Alerts */
+        .form-message {
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .form-message.success {
+            display: block;
+            background-color: #f0fdf4;
+            border: 1px solid #16a34a;
+            color: #166534;
+        }
+
+        .form-message.error {
+            display: block;
+            background-color: #fef2f2;
+            border: 1px solid #dc2626;
+            color: #991b1b;
+        }
+
+        /* Console */
+        .console-container {
+            background-color: #111111;
+            color: #f0f0f0;
+            padding: 16px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 12px;
+            height: 220px;
+            overflow-y: auto;
+            border: 1px solid #111111;
+        }
+
+        .console-line {
+            margin-bottom: 4px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .console-time {
+            color: #888888;
+            margin-right: 6px;
+        }
+
+        .console-tag {
+            color: #38bdf8;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        /* Modal / Notification Boxes */
+        .alert-box {
+            border: 2px solid #111111;
+            padding: 20px;
+            margin-bottom: 24px;
+            background-color: #ffffff;
+            display: none;
+        }
+
+        .alert-box.escalation {
+            border-color: #dc2626;
+            background-color: #fffaf0;
+        }
+
+        .alert-box.approval {
+            border-color: #111111;
+            background-color: #fafafa;
+        }
+
+        .alert-header {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .alert-escalation-header {
+            color: #dc2626;
+        }
+
+        .alert-body {
+            font-size: 14px;
+            margin-bottom: 16px;
+            color: #222222;
+        }
+
+        .draft-card {
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            padding: 14px;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .draft-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 6px;
+        }
+
+        .draft-card-meta {
+            font-size: 12px;
+            color: #666666;
+            margin-bottom: 6px;
+        }
+
+        .draft-card-message {
+            font-size: 13px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #111111;
+            padding: 8px 12px;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+
+        .draft-rationale-box {
+            background-color: #f0f9ff;
+            border-left: 3px solid #0284c7;
+            padding: 6px 10px;
+            margin: 6px 0 8px 0;
+            font-size: 12px;
+            color: #0c4a6e;
+            line-height: 1.4;
+        }
+
+        .draft-message-textarea {
+            width: 100%;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-size: 13px;
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            color: #111111;
+            outline: none;
+            resize: vertical;
+            min-height: 65px;
+            box-sizing: border-box;
+        }
+
+        .draft-message-textarea:focus {
+            border-color: #111111;
+        }
+
+        .draft-word-count {
+            font-size: 11px;
+            color: #666666;
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        .btn-remove-draft {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+
+        .btn-remove-draft:hover {
+            background-color: #dc2626;
+            color: #ffffff;
+            border-color: #dc2626;
+        }
+
+        .btn-add-draft {
+            background-color: #ffffff;
+            color: #111111;
+            border: 1px dashed #111111;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            margin-top: 4px;
+            margin-bottom: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add-draft:hover {
+            background-color: #f5f5f5;
+            border-style: solid;
+        }
+
+        .action-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Result Section */
+        .result-box {
+            border: 1px solid #16a34a;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .summary-list {
+            margin-top: 10px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            list-style-position: inside;
+        }
+
+        .summary-list li {
+            margin-bottom: 4px;
+        }
+
+        .badge-active {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            text-transform: uppercase;
+        }
+
+        .badge-lapsed {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 6px;
+            text-transform: uppercase;
+        }
+
+        /* GRAPHS & VISUALIZATIONS */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+            margin-bottom: 16px;
+        }
+
+        .chart-card {
+            border: 1px solid #e0e0e0;
+            background-color: #fafafa;
+            padding: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .chart-card.expanded {
+            grid-column: 1 / -1;
+            background-color: #ffffff;
+            border-color: #111111;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-icon {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            color: #333333;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            cursor: pointer;
+        }
+
+        .btn-icon:hover {
+            background-color: #111111;
+            color: #ffffff;
+            border-color: #111111;
+        }
+
+        .chart-bar-rect {
+            cursor: pointer;
+            transition: fill 0.15s ease, opacity 0.15s ease;
+        }
+
+        .chart-bar-rect:hover {
+            fill: #0284c7 !important;
+            opacity: 0.9;
+        }
+
+        .chart-bar-rect.selected {
+            fill: #0284c7 !important;
+            stroke: #111111;
+            stroke-width: 2px;
+        }
+
+        /* Day Details Inspector Box */
+        .day-inspector-box {
+            border: 2px solid #111111;
+            background-color: #ffffff;
+            padding: 16px;
+            margin-top: 16px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .day-inspector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .day-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .day-stat-card {
+            background-color: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            padding: 10px;
+        }
+
+        .day-stat-val {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        .day-stat-label {
+            font-size: 11px;
+            color: #666666;
+            text-transform: uppercase;
+        }
+
+        .txn-table-container {
+            max-height: 220px;
+            overflow-y: auto;
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            margin-top: 6px;
+        }
+
+        .txn-table-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .txn-table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .txn-table-container::-webkit-scrollbar-thumb {
+            background: #cccccc;
+        }
+
+        .txn-table-container::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
+        .txn-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .txn-table th,
+        .txn-table td {
+            border: 1px solid #e0e0e0;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .txn-table th {
+            background-color: #f5f5f5;
+            font-weight: 700;
+            color: #222;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .txn-table tr:hover {
+            background-color: #fafafa;
+        }
+
+        .chart-header {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #111111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-svg-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        #itemChartContainer {
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .chart-card.expanded #itemChartContainer {
+            max-height: 360px;
+        }
+
+        #itemChartContainer::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #itemChartContainer::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #itemChartContainer::-webkit-scrollbar-thumb {
+            background: #cccccc;
+        }
+
+        #itemChartContainer::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
+        /* Bar Breakdown */
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .bar-label {
+            width: 110px;
+            font-weight: 600;
+            color: #222222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bar-track {
+            flex-grow: 1;
+            background-color: #e5e5e5;
+            height: 18px;
+            position: relative;
+            margin: 0 8px;
+        }
+
+        .bar-fill {
+            background-color: #111111;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 4px;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .bar-val {
+            min-width: 60px;
+            text-align: right;
+            font-weight: 600;
+            color: #111111;
+        }
+
+        /* CUSTOMER CARDS GRID */
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-top: 12px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 6px;
+            padding-bottom: 4px;
+        }
+
+        .customer-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .customer-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .customer-grid::-webkit-scrollbar-thumb {
+            background: #cccccc;
+        }
+
+        .customer-grid::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
+        .customer-card {
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .customer-card:hover {
+            border-color: #111111;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .customer-card.selected {
+            border: 2px solid #0284c7;
+            background-color: #f0f9ff;
+        }
+
+        .customer-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 6px;
+        }
+
+        .customer-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        .customer-id-tag {
+            font-size: 11px;
+            color: #666666;
+            font-family: monospace;
+        }
+
+        .customer-meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #444444;
+            margin-bottom: 4px;
+        }
+
+        .customer-pref-box {
+            background-color: #f9f9f9;
+            border: 1px solid #eeeeee;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .pref-title {
+            font-weight: 700;
+            color: #222222;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background-color: #eeeeee;
+            border: 1px solid #dddddd;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 4px;
+            margin-top: 2px;
+        }
+
+        .tag-pill.primary {
+            background-color: #111111;
+            color: #ffffff;
+            border-color: #111111;
+        }
+
+        /* CUSTOMER DRILLDOWN & INTERACTIVE INSPECTOR */
+        .customer-inspector-box {
+            border: 2px solid #111111;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 16px;
+            margin-bottom: 20px;
+            display: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .customer-inspector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .inspector-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .risk-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            text-transform: uppercase;
+        }
+
+        .risk-badge.low {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+
+        .risk-badge.medium {
+            background-color: #fef9c3;
+            color: #854d0e;
+            border: 1px solid #fde047;
+        }
+
+        .risk-badge.high {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+        }
+
+        .customer-tabs-nav {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 16px;
+            overflow-x: auto;
+        }
+
+        .customer-tab-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #cccccc;
+            border-bottom: none;
+            color: #333333;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .customer-tab-btn.active {
+            background-color: #111111;
+            color: #ffffff;
+            border-color: #111111;
+        }
+
+        .inspector-panel {
+            display: none;
+        }
+
+        .inspector-panel.active {
+            display: block;
+        }
+
+        .ai-card {
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .ai-card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #111111;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .talking-point-item {
+            background-color: #ffffff;
+            border-left: 3px solid #0284c7;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .outreach-box {
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Micro-Entrepreneur Growth Worker 🇮🇳</h1>
+        <p class="subtitle">Autonomous Multi-Agent Kirana Business Analyst • Privacy-Preserving DPDP • Human-in-the-Loop</p>
+    </header>
+
+    <!-- SECTION 1: DATA ENTRY FORM -->
+    <div class="section">
+        <div class="section-title">1. Record Daily Sale (Appends to data/sales.csv)</div>
+        <form id="saleForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="saleDate">Date</label>
+                    <input type="date" id="saleDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" id="customerName" placeholder="e.g. Ramesh Kumar" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" placeholder="e.g. 9876543210" required>
+                </div>
+                <div class="form-group">
+                    <label for="saleItem">Item Purchased</label>
+                    <input type="text" id="saleItem" placeholder="e.g. Chai, Samosa" required>
+                </div>
+                <div class="form-group">
+                    <label for="saleAmount">Amount (₹)</label>
+                    <input type="number" id="saleAmount" step="1" min="0" placeholder="e.g. 40" required>
+                </div>
+            </div>
+            <button type="submit" id="btnAddSale">Append Sale to CSV</button>
+            <div id="formFeedback" class="form-message"></div>
+        </form>
+    </div>
+
+    <!-- SECTION 2: WORKFLOW CONTROLS -->
+    <div class="section">
+        <div class="section-title">
+            2. Run Autonomous Agents
+            <span id="statusBadge" class="status-badge">IDLE</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <p style="font-size: 13px; color: #444444;" id="currentStepText">Ready to run weekly review.</p>
+            <button id="btnRunAgents" class="btn-large" onclick="triggerAgentWorkflow()">Run Weekly Analysis</button>
+        </div>
+    </div>
+
+    <!-- HUMAN ESCALATION BOX -->
+    <div id="escalationBox" class="alert-box escalation">
+        <div class="alert-header alert-escalation-header">⚠️ Human Escalation — Ingestion Agent Issue</div>
+        <div class="alert-body" id="escalationMessage">Data ingestion failed. Please fix the CSV data.</div>
+        <div class="action-group">
+            <button class="btn-danger" onclick="sendHumanResponse('retry')">I fixed the CSV, Retry</button>
+        </div>
+    </div>
+
+    <!-- HUMAN APPROVAL BOX -->
+    <div id="approvalBox" class="alert-box approval">
+        <div class="alert-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <span>🔔 Human Review & Action Plan Approval (HITL)</span>
+            <span style="font-size: 11px; font-weight: normal; color: #555;">💡 Edit any message, change offers, or add new messages below</span>
+        </div>
+        <div class="alert-body">
+            The <strong>QACriticAgent</strong> has audited and approved the initial strategy drafts. You can directly edit message wording, adjust ₹ offers, delete drafts, or add new custom messages to the plan before final approval.
+        </div>
+        <div id="draftsContainer"></div>
+        <div>
+            <button type="button" class="btn-add-draft" onclick="addNewDraftCard()">+ Add New Message</button>
+        </div>
+        <div class="action-group">
+            <button class="btn-success btn-large" onclick="sendHumanResponse('approve')">✓ Approve & Save Plan</button>
+            <button class="btn-outline btn-large" onclick="sendHumanResponse('reject')">✗ Reject Plan</button>
+        </div>
+    </div>
+
+    <!-- SECTION 3: LIVE STATUS CONSOLE -->
+    <div class="section">
+        <div class="section-title">3. Live Agent Console</div>
+        <div id="consoleLog" class="console-container">
+            <div class="console-line"><span class="console-time">[--:--:--]</span> System initialized. Waiting for action.</div>
+        </div>
+    </div>
+
+    <!-- SECTION 4: VISUAL ANALYSIS & GRAPHS -->
+    <div id="graphsSection" class="section" style="display: none;">
+        <div class="section-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+            <div>
+                <span>4. Weekly Business Analysis & Graphs 📊</span>
+                <span style="font-size: 11px; font-weight: normal; color: #666; margin-left: 6px;">💡 Click any day bar to view detailed daily sales</span>
+            </div>
+            <span style="font-size: 11px; font-weight: normal; color: #666;">(Scrollable charts)</span>
+        </div>
+        <div class="chart-grid">
+            <div id="revenueCard" class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <span>Revenue Trend & Activity (₹)</span>
+                        <span style="font-size: 11px; color: #666; margin-left: 6px;">Daily / Weekly</span>
+                    </div>
+                    <button type="button" class="btn-icon" onclick="toggleExpandChart('revenueCard')">⤢ Expand</button>
+                </div>
+                <div id="revenueChartContainer" class="chart-svg-container"></div>
+            </div>
+            <div id="itemCard" class="chart-card">
+                <div class="chart-header">
+                    <div>
+                        <span>Item Sales & Revenue Distribution (₹)</span>
+                        <span style="font-size: 11px; color: #666; margin-left: 6px;">Top Items</span>
+                    </div>
+                    <button type="button" class="btn-icon" onclick="toggleExpandChart('itemCard')">⤢ Expand</button>
+                </div>
+                <div id="itemChartContainer"></div>
+            </div>
+        </div>
+
+        <!-- DAY DETAILS DRILLDOWN INSPECTOR -->
+        <div id="dayInspectorBox" class="day-inspector-box">
+            <div class="day-inspector-header">
+                <div>
+                    <span style="font-size: 15px; font-weight: 700;" id="dayInspectorTitle">📅 Day Details: Loading...</span>
+                </div>
+                <button type="button" class="btn-icon" onclick="closeDayInspector()">✕ Close Details</button>
+            </div>
+            <div id="dayInspectorBody">
+                <div class="day-stat-grid">
+                    <div class="day-stat-card">
+                        <div class="day-stat-label">Total Revenue</div>
+                        <div class="day-stat-val" id="dayStatRevenue">₹0.00</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-label">Transactions</div>
+                        <div class="day-stat-val" id="dayStatTxns">0</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-label">Items Sold</div>
+                        <div class="day-stat-val" id="dayStatItems">0</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 12px; font-weight: 700; margin-top: 10px; margin-bottom: 4px;">Items Sold on this Day:</div>
+                <div id="dayInspectorItemsPills" style="margin-bottom: 12px;"></div>
+
+                <div style="font-size: 12px; font-weight: 700; margin-top: 10px; margin-bottom: 4px;">All Transactions (Scrollable):</div>
+                <div class="txn-table-container">
+                    <table class="txn-table">
+                        <thead>
+                            <tr>
+                                <th># ID</th>
+                                <th>Customer Name</th>
+                                <th>Phone</th>
+                                <th>Items</th>
+                                <th>Amount (₹)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dayInspectorTxnTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 5: CUSTOMER-WISE ANALYSIS & PREFERENCES -->
+    <div id="customerAnalysisSection" class="section" style="display: none;">
+        <div class="section-title" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <span>5. Customer-Wise Analysis & Preferences 👥</span>
+                <span style="font-size: 11px; font-weight: normal; color: #666; margin-left: 6px;">(Scrollable list)</span>
+            </div>
+            <span id="customerCountBadge" style="font-size: 11px; font-weight: 600; color: #555;"></span>
+        </div>
+        <p style="font-size: 13px; color: #555; margin-bottom: 12px;">
+            Detailed breakdown of customer preferences, buying frequency, and activity status:
+        </p>
+
+        <!-- SEARCH, FILTER & SORT CONTROLS -->
+        <div class="filter-controls-grid">
+            <div class="form-group">
+                <label for="customerSearchInput">Search Customers / Preferences</label>
+                <input type="text" id="customerSearchInput" placeholder="e.g. Ramesh, C001, Chai, 9876..." oninput="applyCustomerFilter()">
+            </div>
+            <div class="form-group">
+                <label for="customerStatusFilter">Filter Status</label>
+                <select id="customerStatusFilter" onchange="applyCustomerFilter()">
+                    <option value="ALL">All Customers</option>
+                    <option value="ACTIVE">Active Only</option>
+                    <option value="LAPSED">Lapsed Only</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="customerSortSelect">Sort By</label>
+                <select id="customerSortSelect" onchange="applyCustomerFilter()">
+                    <option value="SPEND_DESC">Total Spend (High to Low)</option>
+                    <option value="SPEND_ASC">Total Spend (Low to High)</option>
+                    <option value="VISITS_DESC">Most Visits / Orders</option>
+                    <option value="NAME_ASC">Customer Name (A-Z)</option>
+                    <option value="ID_ASC">Customer ID (C001...)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CUSTOMER DRILLDOWN & INTERACTIVE INSPECTOR -->
+        <div id="customerInspectorBox" class="customer-inspector-box">
+            <div class="customer-inspector-header">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 18px; font-weight: 700;" id="inspectorCustomerName">Customer Details</span>
+                        <span class="customer-id-tag" style="font-size: 13px;" id="inspectorCustomerIdTag">(C001)</span>
+                    </div>
+                    <div class="inspector-badge-group">
+                        <span id="inspectorStatusBadge" class="badge-active">Active</span>
+                        <span id="inspectorPhoneTag" style="font-size: 12px; color: #555;">📞 Loading...</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-icon" onclick="closeCustomerInspector()">✕ Close Customer Inspector</button>
+            </div>
+
+            <!-- Top Summary Stat Cards -->
+            <div class="day-stat-grid" style="margin-bottom: 16px;">
+                <div class="day-stat-card">
+                    <div class="day-stat-label">Lifetime Spend</div>
+                    <div class="day-stat-val" id="inspectorTotalSpend">₹0.00</div>
+                </div>
+                <div class="day-stat-card">
+                    <div class="day-stat-label">Total Visits</div>
+                    <div class="day-stat-val" id="inspectorVisits">0</div>
+                </div>
+                <div class="day-stat-card">
+                    <div class="day-stat-label">Avg Order Value</div>
+                    <div class="day-stat-val" id="inspectorAvgSpend">₹0.00</div>
+                </div>
+                <div class="day-stat-card">
+                    <div class="day-stat-label">Top Favorite Item</div>
+                    <div class="day-stat-val" id="inspectorTopItem" style="font-size: 14px;">-</div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="customer-tabs-nav">
+                <button type="button" id="tabBtnGraphs" class="customer-tab-btn active" onclick="switchCustomerTab('graphs')">📊 Visual Graphs</button>
+                <button type="button" id="tabBtnAI" class="customer-tab-btn" onclick="switchCustomerTab('ai-analysis')">⚡ Deep AI Analysis</button>
+                <button type="button" id="tabBtnOutreach" class="customer-tab-btn" onclick="switchCustomerTab('outreach')">💬 Message & WhatsApp Outreach</button>
+                <button type="button" id="tabBtnOrders" class="customer-tab-btn" onclick="switchCustomerTab('orders')">📜 Purchase History</button>
+            </div>
+
+            <!-- TAB 1: VISUAL GRAPHS -->
+            <div id="tabPanelGraphs" class="inspector-panel active">
+                <div class="chart-grid" style="margin-top: 0;">
+                    <!-- Item Preference Chart -->
+                    <div class="chart-card" style="background-color: #ffffff;">
+                        <div class="chart-header">
+                            <div>
+                                <span>Item Preference Breakdown (₹)</span>
+                                <span style="font-size: 11px; color: #666; margin-left: 6px;">Orders & Spend</span>
+                            </div>
+                        </div>
+                        <div id="inspectorPrefChartContainer"></div>
+                    </div>
+                    <!-- Spending Timeline Chart -->
+                    <div class="chart-card" style="background-color: #ffffff;">
+                        <div class="chart-header">
+                            <div>
+                                <span>Spending Activity Timeline (₹)</span>
+                                <span style="font-size: 11px; color: #666; margin-left: 6px;">Visits & Amounts</span>
+                            </div>
+                        </div>
+                        <div id="inspectorActivityChartContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: DEEP AI ANALYSIS -->
+            <div id="tabPanelAI" class="inspector-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <div style="font-size: 14px; font-weight: 700;">Customer Intelligence & Churn Risk Analysis</div>
+                        <div style="font-size: 12px; color: #666;">Autonomous persona analysis based on transaction recency, cadence, and basket items.</div>
+                    </div>
+                    <button type="button" id="btnRunDeepAI" class="btn-icon" style="background: #111; color: #fff; padding: 6px 12px;" onclick="triggerSingleCustomerAIAnalysis()">⚡ Refresh Deep Analysis</button>
+                </div>
+
+                <div id="inspectorAIContent">
+                    <div style="text-align: center; padding: 24px; color: #666; font-size: 13px;">
+                        Click &quot;⚡ Refresh Deep Analysis&quot; to generate an on-demand behavioral profile.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: MESSAGE & WHATSAPP OUTREACH -->
+            <div id="tabPanelOutreach" class="inspector-panel">
+                <div class="outreach-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 700;">Direct Customer Outreach & WhatsApp Dispatch</div>
+                            <div style="font-size: 12px; color: #666;">Draft a personalized WhatsApp follow-up or offer adhering to local Kirana guidelines.</div>
+                        </div>
+                        <button type="button" id="btnGenSingleMsg" class="btn-icon" style="background: #0284c7; color: #fff; border-color: #0284c7; padding: 6px 12px;" onclick="triggerSingleMessageGeneration()">⚡ Generate AI Message</button>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;">
+                            <label style="font-size: 12px; font-weight: 700; color: #111;">Offer Amount (₹):</label>
+                            <input type="number" id="singleMsgOfferInput" min="0" step="5" style="width: 90px; font-size: 13px;" value="20" oninput="validateSingleMessageOffer()">
+                            <span id="singleOfferWarning" style="font-size: 11px; color: #666;">(Discount should be ≤20%)</span>
+                        </div>
+
+                        <label style="font-size: 12px; font-weight: 700; color: #111; display: block; margin-bottom: 4px;">WhatsApp Message Text (Editable):</label>
+                        <textarea id="singleMsgTextarea" class="draft-message-textarea" rows="3" oninput="updateSingleMsgWordCount()" placeholder="Namaste... Type message in ₹"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; flex-wrap: wrap; gap: 4px;">
+                            <span id="singleMsgComplianceHint" style="font-size: 11px; color: #15803d; font-weight: 600;">✓ Starts with Namaste • Uses ₹</span>
+                            <span id="singleMsgWordCount" class="draft-word-count">0 words (under 50 words recommended)</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <label style="font-size: 11px; font-weight: 600; color: #666; display: block; margin-bottom: 2px;">Strategic Rationale / Note:</label>
+                        <input type="text" id="singleMsgRationaleInput" style="width: 100%; font-size: 12px; padding: 6px 8px; border: 1px solid #ccc;" placeholder="e.g. Reactivation discount on favorite Sweets.">
+                    </div>
+
+                    <div class="action-group" style="margin-top: 12px;">
+                        <button type="button" class="btn-success" onclick="dispatchCustomerMessage(true)">📱 Send via WhatsApp & Record</button>
+                        <button type="button" class="btn-outline" onclick="dispatchCustomerMessage(false)">💾 Save to Action Plan Only</button>
+                    </div>
+
+                    <div id="singleMsgFeedback" class="form-message" style="margin-top: 10px;"></div>
+                </div>
+
+                <div style="font-size: 13px; font-weight: 700; margin-top: 16px; margin-bottom: 8px;">Previous Outreach & Recorded Offers:</div>
+                <div class="txn-table-container">
+                    <table class="txn-table">
+                        <thead>
+                            <tr>
+                                <th># ID</th>
+                                <th>Date Recorded</th>
+                                <th>Message</th>
+                                <th>Offer (₹)</th>
+                                <th>Rationale</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inspectorMsgHistoryTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 4: PURCHASE HISTORY -->
+            <div id="tabPanelOrders" class="inspector-panel">
+                <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">All Previous Transactions (Chronological):</div>
+                <div class="txn-table-container">
+                    <table class="txn-table">
+                        <thead>
+                            <tr>
+                                <th>Txn #</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Amount (₹)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inspectorOrderTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="customerCardsContainer" class="customer-grid"></div>
+    </div>
+
+    <!-- SECTION 6: FINAL APPROVED RESULTS -->
+    <div id="resultBox" class="result-box">
+        <div class="section-title" style="color: #166534; border-color: #bbf7d0;">6. Approved Weekly Action Plan</div>
+        <p style="font-size: 13px; margin-bottom: 12px;">
+            <strong>Status:</strong> Approved by human. Stored in SQLite table <code>approved_drafts</code> in <code>data/memory.db</code>.
+        </p>
+
+        <div id="resultSummaryContent"></div>
+        <div id="resultDraftsContent"></div>
+    </div>
+</div>
+
+<script>
+    // Set default today date in form
+    document.getElementById('saleDate').value = new Date().toISOString().split('T')[0];
+
+    let pollTimer = null;
+    let lastLogCount = 0;
+    let isApprovalRendered = false;
+
+    // Handle Form Submit: POST /api/add_data
+    document.getElementById('saleForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnAddSale');
+        const feedback = document.getElementById('formFeedback');
+        feedback.className = 'form-message';
+        feedback.style.display = 'none';
+
+        const payload = {
+            date: document.getElementById('saleDate').value,
+            customer_name: document.getElementById('customerName').value,
+            phone: document.getElementById('customerPhone').value,
+            item: document.getElementById('saleItem').value,
+            amount_inr: parseFloat(document.getElementById('saleAmount').value),
+            is_return: false
+        };
+
+        btn.disabled = true;
+        btn.innerText = "Appending...";
+
+        try {
+            const resp = await fetch('/api/add_data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await resp.json();
+            if (resp.ok) {
+                feedback.innerText = `✓ Transaction #${data.txn_id} for ${payload.customer_name} appended to data/sales.csv`;
+                feedback.className = 'form-message success';
+                feedback.style.display = 'block';
+                // Reset inputs except date
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerPhone').value = '';
+                document.getElementById('saleItem').value = '';
+                document.getElementById('saleAmount').value = '';
+            } else {
+                feedback.innerText = `Error: ${data.detail || 'Failed to append sale.'}`;
+                feedback.className = 'form-message error';
+                feedback.style.display = 'block';
+            }
+        } catch (err) {
+            feedback.innerText = `Network Error: ${err.message}`;
+            feedback.className = 'form-message error';
+            feedback.style.display = 'block';
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Append Sale to CSV";
+        }
+    });
+
+    // Trigger Agent Workflow: POST /api/run_agents
+    async function triggerAgentWorkflow() {
+        const btn = document.getElementById('btnRunAgents');
+        btn.disabled = true;
+        btn.innerText = "Starting Agents...";
+        hideNotificationBoxes();
+        isApprovalRendered = false;
+        document.getElementById('resultBox').style.display = 'none';
+        closeDayInspector();
+        const gSec = document.getElementById('graphsSection');
+        if (gSec) gSec.style.display = 'none';
+        const cSec = document.getElementById('customerAnalysisSection');
+        if (cSec) cSec.style.display = 'none';
+
+        try {
+            const resp = await fetch('/api/run_agents', { method: 'POST' });
+            const data = await resp.json();
+            if (resp.ok) {
+                startPolling();
+            } else {
+                alert(`Error: ${data.detail || 'Could not start workflow.'}`);
+                btn.disabled = false;
+                btn.innerText = "Run Weekly Analysis";
+            }
+        } catch (err) {
+            alert(`Network Error: ${err.message}`);
+            btn.disabled = false;
+            btn.innerText = "Run Weekly Analysis";
+        }
+    }
+
+    // Submit Human Response: POST /api/human_response (Supports edited & added drafts)
+    async function sendHumanResponse(action) {
+        try {
+            let payload = { action: action };
+            if (action === 'approve') {
+                const editedDrafts = collectDraftsFromUI();
+                if (editedDrafts.length === 0) {
+                    if (!confirm("No messages currently in the plan. Do you want to approve an empty plan?")) {
+                        return;
+                    }
+                }
+                payload.drafts = editedDrafts;
+            }
+
+            const resp = await fetch('/api/human_response', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await resp.json();
+            if (resp.ok) {
+                hideNotificationBoxes();
+                isApprovalRendered = false;
+                startPolling();
+            } else {
+                alert(`Error submitting response: ${data.detail}`);
+            }
+        } catch (err) {
+            alert(`Network Error: ${err.message}`);
+        }
+    }
+
+    // Polling function for GET /api/status
+    function startPolling() {
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = setInterval(pollStatus, 1000);
+        pollStatus();
+    }
+
+    function stopPolling() {
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+    }
+
+    async function pollStatus() {
+        try {
+            const resp = await fetch('/api/status');
+            if (!resp.ok) return;
+            const data = await resp.json();
+
+            updateUI(data);
+
+            if (data.status === 'COMPLETED' || data.status === 'REJECTED' || data.status === 'FAILED' || data.status === 'IDLE') {
+                document.getElementById('btnRunAgents').disabled = false;
+                document.getElementById('btnRunAgents').innerText = "Run Weekly Analysis";
+            } else {
+                document.getElementById('btnRunAgents').disabled = true;
+                document.getElementById('btnRunAgents').innerText = "Agents Running...";
+            }
+        } catch (e) {
+            console.error("Polling error:", e);
+        }
+    }
+
+    function updateUI(data) {
+        const badge = document.getElementById('statusBadge');
+        badge.innerText = data.status;
+        badge.className = 'status-badge';
+
+        if (data.status === 'RUNNING') badge.classList.add('status-running');
+        else if (data.status === 'WAITING_APPROVAL') badge.classList.add('status-waiting');
+        else if (data.status === 'ESCALATED') badge.classList.add('status-escalated');
+        else if (data.status === 'COMPLETED') badge.classList.add('status-completed');
+
+        document.getElementById('currentStepText').innerText = data.current_step || '';
+
+        // Update Console Logs
+        const consoleEl = document.getElementById('consoleLog');
+        if (data.logs && data.logs.length > 0) {
+            consoleEl.innerHTML = '';
+            data.logs.forEach(log => {
+                const line = document.createElement('div');
+                line.className = 'console-line';
+                line.innerHTML = `<span class="console-time">[${log.timestamp}]</span> ${escapeHtml(log.message)}`;
+                consoleEl.appendChild(line);
+            });
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Render Graphs if available
+        if (data.graphs && Object.keys(data.graphs).length > 0) {
+            document.getElementById('graphsSection').style.display = 'block';
+            renderWeeklyRevenueGraph(data.graphs.weekly_revenue_graph);
+            renderItemSalesGraph(data.graphs.item_distribution_graph);
+        }
+
+        // Render Customer Analysis if available
+        if (data.customer_analysis && Object.keys(data.customer_analysis).length > 0) {
+            document.getElementById('customerAnalysisSection').style.display = 'block';
+            currentCustomerData = data.customer_analysis;
+            currentCustomerGraphs = data.graphs ? data.graphs.customer_graphs : {};
+            applyCustomerFilter();
+        }
+
+        // Handle ESCALATED state
+        const escBox = document.getElementById('escalationBox');
+        if (data.status === 'ESCALATED') {
+            document.getElementById('escalationMessage').innerText = data.error_message || 'Workflow escalated. Action required.';
+            escBox.style.display = 'block';
+            document.getElementById('approvalBox').style.display = 'none';
+        } else {
+            escBox.style.display = 'none';
+        }
+
+        // Handle WAITING_APPROVAL state (Avoid re-rendering on every poll tick to preserve user keystrokes)
+        const appBox = document.getElementById('approvalBox');
+        if (data.status === 'WAITING_APPROVAL') {
+            if (!isApprovalRendered) {
+                renderEditableDrafts(data.unmasked_drafts || data.drafts);
+                isApprovalRendered = true;
+            }
+            appBox.style.display = 'block';
+            escBox.style.display = 'none';
+        } else {
+            isApprovalRendered = false;
+            appBox.style.display = 'none';
+        }
+
+        // Handle COMPLETED state
+        const resBox = document.getElementById('resultBox');
+        if (data.status === 'COMPLETED') {
+            renderResults(data);
+            resBox.style.display = 'block';
+            stopPolling();
+        }
+    }
+
+    // -------------------------------------------------------------
+    // GRAPH RENDERING (Expandable & Interactive Day Drilldown)
+    // -------------------------------------------------------------
+    let currentWeeklyGraphData = null;
+    let currentItemGraphData = null;
+    let selectedDayDate = null;
+
+    function toggleExpandChart(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+        const isExpanded = card.classList.toggle('expanded');
+        const btn = card.querySelector('.btn-icon');
+        if (btn) {
+            btn.innerText = isExpanded ? '⤡ Collapse' : '⤢ Expand';
+        }
+        if (cardId === 'revenueCard' && currentWeeklyGraphData) {
+            renderWeeklyRevenueGraph(currentWeeklyGraphData);
+        }
+    }
+
+    function renderWeeklyRevenueGraph(graphData) {
+        currentWeeklyGraphData = graphData;
+        const container = document.getElementById('revenueChartContainer');
+        if (!graphData || !graphData.labels || graphData.labels.length === 0) {
+            container.innerHTML = '<p style="font-size:12px; color:#888;">No revenue timeline data available.</p>';
+            return;
+        }
+
+        const labels = graphData.labels;
+        const revDataset = graphData.datasets ? (graphData.datasets.find(d => d.label && d.label.includes('Revenue')) || graphData.datasets[0]) : null;
+        const values = revDataset ? revDataset.data : [];
+        const maxVal = Math.max(...values, 100);
+
+        const card = document.getElementById('revenueCard');
+        const isExpanded = card && card.classList.contains('expanded');
+
+        const svgWidth = isExpanded ? 880 : 420;
+        const svgHeight = isExpanded ? 240 : 160;
+        const padLeft = 45;
+        const padBottom = 28;
+        const padTop = 20;
+        const padRight = 15;
+
+        const chartWidth = svgWidth - padLeft - padRight;
+        const chartHeight = svgHeight - padTop - padBottom;
+        const slotWidth = chartWidth / labels.length;
+        const barWidth = Math.max(12, Math.min(isExpanded ? 44 : 32, slotWidth - 6));
+
+        let barsSvg = '';
+        labels.forEach((lbl, idx) => {
+            const val = values[idx] || 0;
+            const barH = (val / maxVal) * chartHeight;
+            const x = padLeft + (idx * slotWidth) + ((slotWidth - barWidth) / 2);
+            const y = padTop + (chartHeight - barH);
+
+            const shortDate = lbl.split('-').slice(1).join('/');
+            const isSelected = (selectedDayDate === lbl);
+            const fillColor = isSelected ? '#0284c7' : '#111111';
+            const strokeAttr = isSelected ? 'stroke="#111111" stroke-width="2"' : '';
+
+            barsSvg += `
+                <!-- Clickable bar column -->
+                <g style="cursor: pointer;" onclick="inspectDay('${lbl}')">
+                    <rect x="${padLeft + idx * slotWidth}" y="${padTop}" width="${slotWidth}" height="${chartHeight}" fill="transparent">
+                        <title>Click to view sales details for ${lbl} (₹${val.toFixed(2)})</title>
+                    </rect>
+                    <rect class="chart-bar-rect ${isSelected ? 'selected' : ''}" x="${x}" y="${y}" width="${barWidth}" height="${barH}" fill="${fillColor}" ${strokeAttr}>
+                        <title>${lbl}: ₹${val.toFixed(2)} (Click for details)</title>
+                    </rect>
+                    <text x="${x + barWidth/2}" y="${y - 4}" text-anchor="middle" font-size="${isExpanded ? 11 : 9}" font-weight="600" fill="#333">₹${Math.round(val)}</text>
+                    <text x="${x + barWidth/2}" y="${svgHeight - 8}" text-anchor="middle" font-size="${isExpanded ? 11 : 9}" fill="${isSelected ? '#0284c7' : '#666'}" font-weight="${isSelected ? '700' : 'normal'}">${shortDate}</text>
+                </g>
+            `;
+        });
+
+        container.innerHTML = `
+            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; height: ${svgHeight}px; font-family: inherit;">
+                <line x1="${padLeft}" y1="${padTop + chartHeight}" x2="${svgWidth - padRight}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
+                <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
+                ${barsSvg}
+            </svg>
+        `;
+    }
+
+    function renderItemSalesGraph(graphData) {
+        currentItemGraphData = graphData;
+        const container = document.getElementById('itemChartContainer');
+        if (!graphData || !graphData.labels || graphData.labels.length === 0) {
+            container.innerHTML = '<p style="font-size:12px; color:#888;">No item sales data available.</p>';
+            return;
+        }
+
+        const labels = graphData.labels;
+        const values = graphData.data;
+        const maxVal = Math.max(...values, 100);
+
+        let html = '';
+        labels.forEach((lbl, idx) => {
+            const val = values[idx] || 0;
+            const pct = Math.max(5, (val / maxVal) * 100);
+
+            html += `
+                <div class="bar-row">
+                    <div class="bar-label" title="${escapeHtml(lbl)}">${escapeHtml(lbl)}</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: ${pct}%;"></div>
+                    </div>
+                    <div class="bar-val">₹${val.toFixed(0)}</div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // -------------------------------------------------------------
+    // DAY DETAILS INSPECTOR (Click day on graph)
+    // -------------------------------------------------------------
+    async function inspectDay(dateStr) {
+        selectedDayDate = dateStr;
+        if (currentWeeklyGraphData) {
+            renderWeeklyRevenueGraph(currentWeeklyGraphData);
+        }
+
+        const box = document.getElementById('dayInspectorBox');
+        if (!box) return;
+
+        box.style.display = 'block';
+        document.getElementById('dayInspectorTitle').innerText = `📅 Day Details: ${dateStr}`;
+        document.getElementById('dayStatRevenue').innerText = 'Loading...';
+        document.getElementById('dayStatTxns').innerText = '...';
+        document.getElementById('dayStatItems').innerText = '...';
+        document.getElementById('dayInspectorItemsPills').innerHTML = '<em>Loading items breakdown...</em>';
+        document.getElementById('dayInspectorTxnTable').innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">Fetching transactions...</td></tr>';
+
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        try {
+            const resp = await fetch(`/api/day_details/${dateStr}`);
+            if (!resp.ok) {
+                const errData = await resp.json();
+                throw new Error(errData.detail || 'Could not fetch day details');
+            }
+            const data = await resp.json();
+
+            document.getElementById('dayStatRevenue').innerText = `₹${data.total_revenue_inr.toFixed(2)}`;
+            document.getElementById('dayStatTxns').innerText = data.total_transactions;
+            document.getElementById('dayStatItems').innerText = data.items_sold_count;
+
+            const itemsContainer = document.getElementById('dayInspectorItemsPills');
+            const itemsSummary = data.items_summary || {};
+            if (Object.keys(itemsSummary).length > 0) {
+                let pillsHtml = '';
+                Object.keys(itemsSummary).forEach(item => {
+                    pillsHtml += `<span class="tag-pill primary">${escapeHtml(item)}: <strong>${itemsSummary[item]} sold</strong></span>`;
+                });
+                itemsContainer.innerHTML = pillsHtml;
+            } else {
+                itemsContainer.innerHTML = '<span style="color:#888; font-size:12px;">No items recorded</span>';
+            }
+
+            const tbody = document.getElementById('dayInspectorTxnTable');
+            tbody.innerHTML = '';
+            if (data.transactions && data.transactions.length > 0) {
+                data.transactions.forEach(t => {
+                    const row = document.createElement('tr');
+                    const isRet = t.is_return;
+                    const amtClass = isRet ? 'color: #dc2626;' : 'color: #111; font-weight: 600;';
+                    const statusBadge = isRet 
+                        ? '<span class="badge-lapsed">Return / Refund</span>' 
+                        : '<span class="badge-active">Sale</span>';
+
+                    row.innerHTML = `
+                        <td style="font-family: monospace; font-weight: 600;">${escapeHtml(t.txn_id)}</td>
+                        <td><strong>${escapeHtml(t.customer_name)}</strong> <span style="font-size: 10px; color: #666;">(${escapeHtml(t.customer_id)})</span></td>
+                        <td style="font-size: 11px; color: #555;">${escapeHtml(t.phone_number)}</td>
+                        <td>${escapeHtml(t.item)}</td>
+                        <td style="${amtClass}">${isRet ? '-₹' : '₹'}${parseFloat(t.amount_inr).toFixed(2)}</td>
+                        <td>${statusBadge}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No transactions found for this day.</td></tr>';
+            }
+        } catch (err) {
+            document.getElementById('dayInspectorTxnTable').innerHTML = `<tr><td colspan="6" style="text-align:center; color:#dc2626;">Error: ${escapeHtml(err.message)}</td></tr>`;
+        }
+    }
+
+    function closeDayInspector() {
+        const box = document.getElementById('dayInspectorBox');
+        if (box) box.style.display = 'none';
+        selectedDayDate = null;
+        if (currentWeeklyGraphData) {
+            renderWeeklyRevenueGraph(currentWeeklyGraphData);
+        }
+    }
+
+    // -------------------------------------------------------------
+    // CUSTOMER ANALYSIS SEARCH, FILTER & SORT RENDERING
+    // -------------------------------------------------------------
+    let currentCustomerData = {};
+    let currentCustomerGraphs = {};
+
+    function applyCustomerFilter() {
+        const container = document.getElementById('customerCardsContainer');
+        const countBadge = document.getElementById('customerCountBadge');
+        if (!container) return;
+
+        const searchInput = document.getElementById('customerSearchInput');
+        const statusFilter = document.getElementById('customerStatusFilter');
+        const sortSelect = document.getElementById('customerSortSelect');
+
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const status = statusFilter ? statusFilter.value : 'ALL';
+        const sortBy = sortSelect ? sortSelect.value : 'SPEND_DESC';
+
+        const allCustomers = Object.values(currentCustomerData);
+        if (allCustomers.length === 0) {
+            container.innerHTML = '<p style="font-size: 13px; color: #666;">No customer analytics available.</p>';
+            if (countBadge) countBadge.innerText = '';
+            return;
+        }
+
+        // 1. Filtering
+        let filtered = allCustomers.filter(c => {
+            // Status filter
+            if (status !== 'ALL') {
+                const cStatus = (c.activity_status || '').toUpperCase();
+                if (status === 'ACTIVE' && cStatus !== 'ACTIVE') return false;
+                if (status === 'LAPSED' && cStatus !== 'LAPSED') return false;
+            }
+
+            // Search query filter (matches name, phone, customer_id, or preferred items)
+            if (query) {
+                const name = (c.customer_name || '').toLowerCase();
+                const phone = (c.phone_number || '').toLowerCase();
+                const cid = (c.customer_id || '').toLowerCase();
+                const prefItems = (c.preferred_items || []).join(' ').toLowerCase();
+
+                const matches = name.includes(query) || phone.includes(query) || cid.includes(query) || prefItems.includes(query);
+                if (!matches) return false;
+            }
+
+            return true;
+        });
+
+        // 2. Sorting
+        filtered.sort((a, b) => {
+            if (sortBy === 'SPEND_DESC') {
+                return (parseFloat(b.total_spend_inr) || 0) - (parseFloat(a.total_spend_inr) || 0);
+            } else if (sortBy === 'SPEND_ASC') {
+                return (parseFloat(a.total_spend_inr) || 0) - (parseFloat(b.total_spend_inr) || 0);
+            } else if (sortBy === 'VISITS_DESC') {
+                return (b.visit_count || 0) - (a.visit_count || 0);
+            } else if (sortBy === 'NAME_ASC') {
+                return (a.customer_name || '').localeCompare(b.customer_name || '');
+            } else if (sortBy === 'ID_ASC') {
+                return (a.customer_id || '').localeCompare(b.customer_id || '');
+            }
+            return 0;
+        });
+
+        // 3. Update count indicator badge
+        if (countBadge) {
+            countBadge.innerText = `Showing ${filtered.length} of ${allCustomers.length} customers`;
+        }
+
+        // 4. Render cards
+        container.innerHTML = '';
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1; padding: 24px; background-color: #fafafa; border: 1px dashed #ccc; text-align: center; font-size: 13px; color: #666;">
+                    No customers found matching &quot;${escapeHtml(query)}&quot; with filter (${status}).
+                </div>
+            `;
+            return;
+        }
+
+        filtered.forEach(c => {
+            const card = createCustomerCardElement(c);
+            container.appendChild(card);
+        });
+    }
+
+    let currentInspectedCustomerId = null;
+    let currentInspectedCustomerProfile = null;
+
+    function createCustomerCardElement(c) {
+        const cid = c.customer_id || 'UNKNOWN';
+        const name = c.customer_name || `Customer ${cid}`;
+        const phone = c.phone_number || 'N/A';
+        const status = c.activity_status || 'Unknown';
+        const totalSpend = c.total_spend_inr !== undefined ? `₹${parseFloat(c.total_spend_inr).toFixed(2)}` : '₹0.00';
+        const visits = c.visit_count || 0;
+        const preferredItems = c.preferred_items || [];
+        const topItem = c.top_preferred_item || 'None';
+        const itemBreakdown = c.item_breakdown || [];
+
+        const isLapsed = status.toLowerCase() === 'lapsed';
+        const badgeClass = isLapsed ? 'badge-lapsed' : 'badge-active';
+        const isSelected = (currentInspectedCustomerId === cid);
+
+        let itemsPills = '';
+        if (preferredItems.length > 0) {
+            preferredItems.forEach((item, idx) => {
+                const isTop = (idx === 0);
+                itemsPills += `<span class="tag-pill ${isTop ? 'primary' : ''}">${isTop ? '★ ' : ''}${escapeHtml(item)}</span>`;
+            });
+        } else {
+            itemsPills = '<span style="color:#888;">No preference recorded</span>';
+        }
+
+        let breakdownHtml = '';
+        if (itemBreakdown.length > 0) {
+            breakdownHtml = '<div style="margin-top: 6px; font-size: 11px; color: #555;">';
+            itemBreakdown.slice(0, 3).forEach(ib => {
+                breakdownHtml += `<div>• ${escapeHtml(ib.item)}: ${ib.count} orders (₹${ib.spend_inr})</div>`;
+            });
+            breakdownHtml += '</div>';
+        }
+
+        const card = document.createElement('div');
+        card.className = `customer-card ${isSelected ? 'selected' : ''}`;
+        card.id = `cust_card_${cid}`;
+        card.onclick = () => inspectCustomer(cid);
+
+        card.innerHTML = `
+            <div>
+                <div class="customer-card-header">
+                    <div>
+                        <div class="customer-name">${escapeHtml(name)}</div>
+                        <div class="customer-id-tag">ID: ${escapeHtml(cid)} • ${escapeHtml(phone)}</div>
+                    </div>
+                    <span class="${badgeClass}">${escapeHtml(status)}</span>
+                </div>
+
+                <div class="customer-meta-row">
+                    <span>Total Spend:</span>
+                    <strong>${escapeHtml(totalSpend)}</strong>
+                </div>
+                <div class="customer-meta-row">
+                    <span>Visits Recorded:</span>
+                    <span>${visits} visits</span>
+                </div>
+                <div class="customer-meta-row">
+                    <span>Last Purchase:</span>
+                    <span>${escapeHtml(c.last_visit || 'N/A')}</span>
+                </div>
+
+                <div class="customer-pref-box">
+                    <div class="pref-title">🎯 Customer Preferences:</div>
+                    <div>${itemsPills}</div>
+                    ${breakdownHtml}
+                </div>
+
+                <button type="button" class="btn-icon" style="margin-top: 10px; width: 100%; text-align: center; background: #111111; color: #ffffff; padding: 7px 10px; display: flex; align-items: center; justify-content: center; gap: 6px;" onclick="event.stopPropagation(); inspectCustomer('${escapeHtml(cid)}')">
+                    <span>📊 View Graphs, Analyze & Outreach →</span>
+                </button>
+            </div>
+        `;
+        return card;
+    }
+
+    function renderCustomerAnalysis(customerData, customerGraphs) {
+        currentCustomerData = customerData || {};
+        currentCustomerGraphs = customerGraphs || {};
+        applyCustomerFilter();
+    }
+
+    // -------------------------------------------------------------
+    // CUSTOMER INSPECTOR DRILLDOWN (Graphs, Deep AI Analysis & Messaging)
+    // -------------------------------------------------------------
+
+    function switchCustomerTab(tabName) {
+        const tabs = ['graphs', 'ai-analysis', 'outreach', 'orders'];
+        const panels = {
+            'graphs': 'tabPanelGraphs',
+            'ai-analysis': 'tabPanelAI',
+            'outreach': 'tabPanelOutreach',
+            'orders': 'tabPanelOrders'
+        };
+        const btns = {
+            'graphs': 'tabBtnGraphs',
+            'ai-analysis': 'tabBtnAI',
+            'outreach': 'tabBtnOutreach',
+            'orders': 'tabBtnOrders'
+        };
+
+        tabs.forEach(t => {
+            const panel = document.getElementById(panels[t]);
+            const btn = document.getElementById(btns[t]);
+            if (panel) panel.classList.toggle('active', t === tabName);
+            if (btn) btn.classList.toggle('active', t === tabName);
+        });
+
+        if (tabName === 'graphs' && currentInspectedCustomerProfile) {
+            renderCustomerItemPreferencesChart(currentInspectedCustomerProfile.preference_chart);
+            renderCustomerSpendingTimelineChart(currentInspectedCustomerProfile.activity_chart);
+        }
+    }
+
+    async function inspectCustomer(customerId) {
+        currentInspectedCustomerId = customerId;
+        
+        // Highlight active customer card in grid
+        document.querySelectorAll('.customer-card').forEach(c => c.classList.remove('selected'));
+        const activeCard = document.getElementById(`cust_card_${customerId}`);
+        if (activeCard) activeCard.classList.add('selected');
+
+        const box = document.getElementById('customerInspectorBox');
+        if (!box) return;
+
+        box.style.display = 'block';
+        document.getElementById('inspectorCustomerName').innerText = `Loading customer ${customerId}...`;
+        document.getElementById('inspectorCustomerIdTag').innerText = `(${customerId})`;
+        document.getElementById('inspectorPhoneTag').innerText = '📞 Loading...';
+        document.getElementById('inspectorTotalSpend').innerText = '...';
+        document.getElementById('inspectorVisits').innerText = '...';
+        document.getElementById('inspectorAvgSpend').innerText = '...';
+        document.getElementById('inspectorTopItem').innerText = '...';
+
+        document.getElementById('inspectorPrefChartContainer').innerHTML = '<p style="font-size:12px; color:#888;">Loading preference graph...</p>';
+        document.getElementById('inspectorActivityChartContainer').innerHTML = '<p style="font-size:12px; color:#888;">Loading activity graph...</p>';
+        document.getElementById('inspectorOrderTable').innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">Loading transactions...</td></tr>';
+        document.getElementById('inspectorMsgHistoryTable').innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">Loading message history...</td></tr>';
+        
+        // Reset feedback
+        const fb = document.getElementById('singleMsgFeedback');
+        if (fb) { fb.style.display = 'none'; fb.className = 'form-message'; }
+
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        try {
+            const resp = await fetch(`/api/customer/${customerId}`);
+            if (!resp.ok) {
+                const errData = await resp.json();
+                throw new Error(errData.detail || `Failed to fetch customer ${customerId}`);
+            }
+            const data = await resp.json();
+            currentInspectedCustomerProfile = data;
+
+            const name = data.customer_name || `Customer ${customerId}`;
+            const phone = data.phone_number || 'N/A';
+            const status = data.activity_status || 'Unknown';
+            const isLapsed = (status.toLowerCase() === 'lapsed');
+
+            document.getElementById('inspectorCustomerName').innerText = name;
+            document.getElementById('inspectorCustomerIdTag').innerText = `(${customerId})`;
+            document.getElementById('inspectorPhoneTag').innerText = `📞 ${phone}`;
+            
+            const badgeEl = document.getElementById('inspectorStatusBadge');
+            badgeEl.innerText = status;
+            badgeEl.className = isLapsed ? 'badge-lapsed' : 'badge-active';
+
+            document.getElementById('inspectorTotalSpend').innerText = `₹${parseFloat(data.total_spend_inr || 0).toFixed(2)}`;
+            document.getElementById('inspectorVisits').innerText = data.visit_count || 0;
+            document.getElementById('inspectorAvgSpend').innerText = `₹${parseFloat(data.avg_spend_per_visit_inr || 0).toFixed(2)}`;
+            document.getElementById('inspectorTopItem').innerText = data.top_preferred_item || 'None';
+
+            // 1. Render Customer Graphs
+            renderCustomerItemPreferencesChart(data.preference_chart);
+            renderCustomerSpendingTimelineChart(data.activity_chart);
+
+            // 2. Render Orders Table
+            renderCustomerOrdersTable(data.timeline || []);
+
+            // 3. Render Outreach Messages Table
+            renderCustomerMessageHistory(data.messages || []);
+
+            // 4. Populate default message in outreach tab
+            const defaultOffer = Math.round(Math.min((parseFloat(data.avg_spend_per_visit_inr) || 100) * 0.15, 30));
+            document.getElementById('singleMsgOfferInput').value = defaultOffer > 0 ? defaultOffer : 15;
+            const topItem = data.top_preferred_item || 'favorite items';
+            
+            if (isLapsed) {
+                document.getElementById('singleMsgTextarea').value = `Namaste ${name}! We miss you at our shop. Enjoy a special 15% discount (up to ₹${defaultOffer}) on fresh ${topItem} this week. Visit us today!`;
+                document.getElementById('singleMsgRationaleInput').value = `Retention incentive: 15% discount offer on favorite ${topItem} to reactivate lapsed buyer.`;
+            } else {
+                document.getElementById('singleMsgTextarea').value = `Namaste ${name}! Thank you for your continued patronage. Get flat ₹${defaultOffer} off on purchase of fresh ${topItem} above ₹100 today!`;
+                document.getElementById('singleMsgRationaleInput').value = `Loyalty booster: ₹${defaultOffer} discount on preferred item (${topItem}).`;
+            }
+            updateSingleMsgWordCount();
+
+            // 5. Initial AI panel preview
+            document.getElementById('inspectorAIContent').innerHTML = `
+                <div class="ai-card">
+                    <div class="ai-card-title">
+                        <span>🎯 Initial Behavioral Profile (${escapeHtml(name)})</span>
+                        <span class="risk-badge ${isLapsed ? 'high' : 'low'}">${isLapsed ? 'High Churn Risk (Lapsed)' : 'Active Customer (Low Churn Risk)'}</span>
+                    </div>
+                    <p style="font-size: 13px; color: #333; margin-bottom: 8px;">
+                        ${escapeHtml(data.activity_summary || 'No summary available.')}
+                    </p>
+                    <div style="font-size: 12px; color: #555; margin-bottom: 12px;">
+                        <strong>Favorite Items:</strong> ${(data.preferred_items || []).join(', ') || 'N/A'} • <strong>Avg Spend:</strong> ₹${parseFloat(data.avg_spend_per_visit_inr || 0).toFixed(2)}
+                    </div>
+                    <button type="button" class="btn-icon" style="background: #111; color: #fff; padding: 6px 12px;" onclick="triggerSingleCustomerAIAnalysis()">
+                        ⚡ Run Deep AI Analysis & Strategic Insights
+                    </button>
+                </div>
+            `;
+
+        } catch (err) {
+            document.getElementById('inspectorCustomerName').innerText = `Error loading customer: ${err.message}`;
+        }
+    }
+
+    function renderCustomerItemPreferencesChart(prefData) {
+        const container = document.getElementById('inspectorPrefChartContainer');
+        if (!prefData || !prefData.labels || prefData.labels.length === 0) {
+            container.innerHTML = '<p style="font-size:12px; color:#888; padding: 12px;">No item purchase history recorded for this customer.</p>';
+            return;
+        }
+
+        const labels = prefData.labels;
+        const counts = prefData.data || [];
+        const spends = prefData.spend_data || [];
+        const maxSpend = Math.max(...spends, 10);
+
+        let html = '<div style="max-height: 190px; overflow-y: auto; padding-right: 4px;">';
+        labels.forEach((lbl, idx) => {
+            const count = counts[idx] || 0;
+            const spend = spends[idx] || 0;
+            const pct = Math.max(8, (spend / maxSpend) * 100);
+
+            html += `
+                <div class="bar-row">
+                    <div class="bar-label" title="${escapeHtml(lbl)}">${escapeHtml(lbl)} <span style="font-size: 10px; color: #666;">(${count}x)</span></div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: ${pct}%; background-color: #0284c7;"></div>
+                    </div>
+                    <div class="bar-val">₹${spend.toFixed(0)}</div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function renderCustomerSpendingTimelineChart(activityData) {
+        const container = document.getElementById('inspectorActivityChartContainer');
+        if (!activityData || !activityData.labels || activityData.labels.length === 0) {
+            container.innerHTML = '<p style="font-size:12px; color:#888; padding: 12px;">No spending timeline recorded for this customer.</p>';
+            return;
+        }
+
+        const labels = activityData.labels;
+        const values = activityData.data || [];
+        const maxVal = Math.max(...values.map(v => Math.abs(v)), 50);
+
+        const svgWidth = 400;
+        const svgHeight = 160;
+        const padLeft = 40;
+        const padBottom = 26;
+        const padTop = 18;
+        const padRight = 10;
+
+        const chartWidth = svgWidth - padLeft - padRight;
+        const chartHeight = svgHeight - padTop - padBottom;
+        const slotWidth = chartWidth / labels.length;
+        const barWidth = Math.max(10, Math.min(28, slotWidth - 4));
+
+        let barsSvg = '';
+        labels.forEach((lbl, idx) => {
+            const val = values[idx] || 0;
+            const isReturn = val < 0;
+            const absVal = Math.abs(val);
+            const barH = Math.max(4, (absVal / maxVal) * chartHeight);
+            const x = padLeft + (idx * slotWidth) + ((slotWidth - barWidth) / 2);
+            const y = padTop + (chartHeight - barH);
+            const shortDate = lbl.split('-').slice(1).join('/');
+
+            const fillColor = isReturn ? '#dc2626' : '#111111';
+
+            barsSvg += `
+                <g>
+                    <rect x="${x}" y="${y}" width="${barWidth}" height="${barH}" fill="${fillColor}">
+                        <title>${lbl}: ${isReturn ? '-' : ''}₹${absVal.toFixed(2)}</title>
+                    </rect>
+                    <text x="${x + barWidth/2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="600" fill="#333">₹${Math.round(absVal)}</text>
+                    <text x="${x + barWidth/2}" y="${svgHeight - 6}" text-anchor="middle" font-size="9" fill="#666">${shortDate}</text>
+                </g>
+            `;
+        });
+
+        container.innerHTML = `
+            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; height: ${svgHeight}px; font-family: inherit;">
+                <line x1="${padLeft}" y1="${padTop + chartHeight}" x2="${svgWidth - padRight}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
+                <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
+                ${barsSvg}
+            </svg>
+        `;
+    }
+
+    async function triggerSingleCustomerAIAnalysis() {
+        if (!currentInspectedCustomerId) return;
+        const container = document.getElementById('inspectorAIContent');
+        const btn = document.getElementById('btnRunDeepAI');
+        if (btn) { btn.disabled = true; btn.innerText = "Analyzing with AI..."; }
+
+        container.innerHTML = `
+            <div style="padding: 24px; text-align: center; font-size: 13px; color: #555;">
+                ⚡ <em>Querying AI analyst model for customer persona, churn risk, and talking points...</em>
+            </div>
+        `;
+
+        try {
+            const resp = await fetch(`/api/customer/${currentInspectedCustomerId}/analyze`, { method: 'POST' });
+            if (!resp.ok) {
+                const errData = await resp.json();
+                throw new Error(errData.detail || 'Analysis request failed');
+            }
+            const data = await resp.json();
+
+            const churnScore = data.churn_score_pct || 0;
+            const churnRisk = data.churn_risk || 'Medium';
+            let riskClass = 'medium';
+            if (churnRisk.toLowerCase() === 'low' || churnScore < 40) riskClass = 'low';
+            else if (churnRisk.toLowerCase() === 'high' || churnScore > 70) riskClass = 'high';
+
+            let insightsListHtml = '';
+            (data.insights || []).forEach(ins => {
+                insightsListHtml += `<li style="margin-bottom: 4px;">${escapeHtml(ins)}</li>`;
+            });
+
+            let talkingPointsHtml = '';
+            (data.talking_points || []).forEach(tp => {
+                talkingPointsHtml += `<div class="talking-point-item">💬 &quot;${escapeHtml(tp)}&quot;</div>`;
+            });
+
+            container.innerHTML = `
+                <div class="ai-card">
+                    <div class="ai-card-title">
+                        <div>
+                            <span>👤 Customer Segment: <strong>${escapeHtml(data.segment || 'Valued Shopper')}</strong></span>
+                        </div>
+                        <span class="risk-badge ${riskClass}">Churn Risk: ${escapeHtml(churnRisk)} (${churnScore}%)</span>
+                    </div>
+
+                    <div style="margin-top: 10px; margin-bottom: 12px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #222; margin-bottom: 4px;">Key Behavioral Observations:</div>
+                        <ul style="font-size: 12px; color: #444; list-style-position: inside;">
+                            ${insightsListHtml}
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 12px; margin-bottom: 12px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #222; margin-bottom: 6px;">Recommended Store Owner Talking Points:</div>
+                        ${talkingPointsHtml}
+                    </div>
+
+                    <div style="background-color: #f0fdf4; border-left: 3px solid #16a34a; padding: 10px 12px; margin-top: 12px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #166534;">🎯 Strategic Recommended Action:</div>
+                        <div style="font-size: 12px; color: #14532d; margin-top: 2px;">
+                            ${escapeHtml(data.recommended_action || 'Engage customer with relevant discounts.')}
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <button type="button" class="btn-icon" style="background: #16a34a; color: #fff; border-color: #16a34a; font-size: 11px;" onclick="applyAIRecommendationToMessage(${data.recommended_offer_inr || 20})">
+                                ✍️ Use Recommended Offer (₹${data.recommended_offer_inr || 20}) in WhatsApp Outreach
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } catch (err) {
+            container.innerHTML = `
+                <div style="padding: 16px; background-color: #fef2f2; border: 1px solid #dc2626; color: #991b1b; font-size: 13px;">
+                    Error performing analysis: ${escapeHtml(err.message)}
+                </div>
+            `;
+        } finally {
+            if (btn) { btn.disabled = false; btn.innerText = "⚡ Refresh Deep Analysis"; }
+        }
+    }
+
+    function applyAIRecommendationToMessage(offerInr) {
+        switchCustomerTab('outreach');
+        const offerInput = document.getElementById('singleMsgOfferInput');
+        if (offerInput) {
+            offerInput.value = offerInr;
+            validateSingleMessageOffer();
+        }
+        triggerSingleMessageGeneration();
+    }
+
+    async function triggerSingleMessageGeneration() {
+        if (!currentInspectedCustomerId) return;
+        const btn = document.getElementById('btnGenSingleMsg');
+        if (btn) { btn.disabled = true; btn.innerText = "Generating..."; }
+
+        try {
+            const resp = await fetch(`/api/customer/${currentInspectedCustomerId}/generate_message`, { method: 'POST' });
+            if (!resp.ok) {
+                const errData = await resp.json();
+                throw new Error(errData.detail || 'Message generation failed');
+            }
+            const data = await resp.json();
+
+            document.getElementById('singleMsgTextarea').value = data.display_message || data.message_text || '';
+            document.getElementById('singleMsgOfferInput').value = data.offer_inr || 20;
+            document.getElementById('singleMsgRationaleInput').value = data.rationale || '';
+            updateSingleMsgWordCount();
+        } catch (err) {
+            alert(`Could not generate message: ${err.message}`);
+        } finally {
+            if (btn) { btn.disabled = false; btn.innerText = "⚡ Generate AI Message"; }
+        }
+    }
+
+    function validateSingleMessageOffer() {
+        const offerInput = document.getElementById('singleMsgOfferInput');
+        const warning = document.getElementById('singleOfferWarning');
+        const val = parseFloat(offerInput.value) || 0;
+        const avgSpend = currentInspectedCustomerProfile ? (parseFloat(currentInspectedCustomerProfile.avg_spend_per_visit_inr) || 100) : 100;
+        const maxDiscount = avgSpend * 0.20;
+
+        if (val > maxDiscount && val > 40) {
+            warning.innerText = `⚠️ ₹${val} may exceed 20% discount (Max suggested: ₹${Math.round(maxDiscount)})`;
+            warning.style.color = '#dc2626';
+        } else {
+            warning.innerText = `✓ Discount is within reasonable limits (≤20%)`;
+            warning.style.color = '#16a34a';
+        }
+    }
+
+    function updateSingleMsgWordCount() {
+        const textarea = document.getElementById('singleMsgTextarea');
+        const wcEl = document.getElementById('singleMsgWordCount');
+        const hintEl = document.getElementById('singleMsgComplianceHint');
+        const text = textarea ? textarea.value : '';
+
+        const words = countWords(text);
+        wcEl.innerText = `${words} words (under 50 words recommended)`;
+        wcEl.style.color = (words > 50) ? '#dc2626' : '#666';
+
+        const startsNamaste = text.trim().toLowerCase().startsWith('namaste');
+        const hasRupee = text.includes('₹') || text.toLowerCase().includes('rupee') || text.toLowerCase().includes('rs');
+
+        if (startsNamaste && hasRupee) {
+            hintEl.innerText = '✓ Starts with Namaste • Uses ₹';
+            hintEl.style.color = '#15803d';
+        } else if (!startsNamaste && !hasRupee) {
+            hintEl.innerText = '⚠️ Must start with "Namaste" and include ₹ symbol';
+            hintEl.style.color = '#dc2626';
+        } else if (!startsNamaste) {
+            hintEl.innerText = '⚠️ Must start with "Namaste"';
+            hintEl.style.color = '#dc2626';
+        } else {
+            hintEl.innerText = '⚠️ Must include Rupee symbol (₹)';
+            hintEl.style.color = '#dc2626';
+        }
+    }
+
+    async function dispatchCustomerMessage(openWhatsApp = true) {
+        if (!currentInspectedCustomerId) return;
+        const text = document.getElementById('singleMsgTextarea').value.trim();
+        const offer = parseFloat(document.getElementById('singleMsgOfferInput').value) || 0;
+        const rationale = document.getElementById('singleMsgRationaleInput').value.trim();
+        const feedback = document.getElementById('singleMsgFeedback');
+
+        if (!text) {
+            alert("Please type a message before sending.");
+            return;
+        }
+
+        feedback.className = 'form-message';
+        feedback.style.display = 'none';
+
+        try {
+            const resp = await fetch(`/api/customer/${currentInspectedCustomerId}/send_message`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message_text: text,
+                    offer_inr: offer,
+                    rationale: rationale || `Direct outreach to ${currentInspectedCustomerId}`
+                })
+            });
+
+            if (!resp.ok) {
+                const errData = await resp.json();
+                throw new Error(errData.detail || 'Failed to dispatch message');
+            }
+
+            const data = await resp.json();
+
+            if (openWhatsApp && data.whatsapp_url) {
+                window.open(data.whatsapp_url, '_blank');
+                feedback.innerHTML = `✓ Outreach recorded in SQLite! WhatsApp chat opened for <strong>${escapeHtml(data.customer_name)}</strong> (${escapeHtml(data.phone_number)}).`;
+            } else {
+                feedback.innerHTML = `✓ Message saved to Action Plan and recorded in SQLite database for <strong>${escapeHtml(data.customer_name)}</strong>.`;
+            }
+
+            feedback.className = 'form-message success';
+            feedback.style.display = 'block';
+
+            // Refresh message history table
+            fetchCustomerMessages(currentInspectedCustomerId);
+
+        } catch (err) {
+            feedback.innerText = `Error: ${err.message}`;
+            feedback.className = 'form-message error';
+            feedback.style.display = 'block';
+        }
+    }
+
+    async function fetchCustomerMessages(customerId) {
+        try {
+            const resp = await fetch(`/api/customer/${customerId}/messages`);
+            if (resp.ok) {
+                const data = await resp.json();
+                renderCustomerMessageHistory(data.messages || []);
+            }
+        } catch (e) {
+            console.error("Failed to refresh message history:", e);
+        }
+    }
+
+    function renderCustomerMessageHistory(messages) {
+        const tbody = document.getElementById('inspectorMsgHistoryTable');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (!messages || messages.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">No outreach messages recorded yet for this customer.</td></tr>';
+            return;
+        }
+
+        messages.forEach(m => {
+            const row = document.createElement('tr');
+            const phone = currentInspectedCustomerProfile ? currentInspectedCustomerProfile.phone_number : '';
+            const cleanPhone = (phone || '').replace(/\D/g, '');
+            const fullPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+            const waUrl = fullPhone ? `https://wa.me/${fullPhone}?text=${encodeURIComponent(m.display_message || m.message_text)}` : '';
+
+            row.innerHTML = `
+                <td style="font-family: monospace; font-weight: 600;">#${m.id}</td>
+                <td style="font-size: 11px; color: #666;">${escapeHtml(m.date_approved || 'N/A')}</td>
+                <td style="font-size: 12px;">${escapeHtml(m.display_message || m.message_text)}</td>
+                <td style="color: #166534; font-weight: 700;">₹${parseFloat(m.offer_inr || 0).toFixed(2)}</td>
+                <td style="font-size: 11px; color: #555;">${escapeHtml(m.rationale || '-')}</td>
+                <td>
+                    ${waUrl ? `<a href="${waUrl}" target="_blank" class="btn-icon" style="text-decoration:none; display:inline-block; background:#16a34a; color:#fff; font-size:11px; padding:3px 6px;">📱 Chat</a>` : '<span style="color:#888;">-</span>'}
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function renderCustomerOrdersTable(timeline) {
+        const tbody = document.getElementById('inspectorOrderTable');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (!timeline || timeline.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No transactions found.</td></tr>';
+            return;
+        }
+
+        timeline.forEach(t => {
+            const row = document.createElement('tr');
+            const isRet = t.is_return;
+            const amtClass = isRet ? 'color: #dc2626;' : 'color: #111; font-weight: 600;';
+            const statusBadge = isRet 
+                ? '<span class="badge-lapsed">Return</span>' 
+                : '<span class="badge-active">Sale</span>';
+
+            row.innerHTML = `
+                <td style="font-family: monospace;">${escapeHtml(t.txn_id)}</td>
+                <td>${escapeHtml(t.date)}</td>
+                <td>${escapeHtml(t.item)}</td>
+                <td style="${amtClass}">${isRet ? '-₹' : '₹'}${parseFloat(t.amount_inr).toFixed(2)}</td>
+                <td>${statusBadge}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function closeCustomerInspector() {
+        const box = document.getElementById('customerInspectorBox');
+        if (box) box.style.display = 'none';
+        currentInspectedCustomerId = null;
+        currentInspectedCustomerProfile = null;
+        document.querySelectorAll('.customer-card').forEach(c => c.classList.remove('selected'));
+    }
+
+    async function loadInitialCustomers() {
+        try {
+            const resp = await fetch('/api/customers');
+            if (resp.ok) {
+                const data = await resp.json();
+                if (data.customers && data.customers.length > 0) {
+                    const custMap = {};
+                    data.customers.forEach(c => { custMap[c.customer_id] = c; });
+                    currentCustomerData = custMap;
+                    document.getElementById('customerAnalysisSection').style.display = 'block';
+                    applyCustomerFilter();
+                }
+            }
+        } catch (e) {
+            console.error("Initial customer load error:", e);
+        }
+    }
+
+
+    // -------------------------------------------------------------
+    // INTERACTIVE EDITABLE DRAFTS (HITL Approval Box)
+    // -------------------------------------------------------------
+    let draftCardCounter = 0;
+
+    function renderEditableDrafts(drafts) {
+        const container = document.getElementById('draftsContainer');
+        container.innerHTML = '';
+
+        if (!drafts || drafts.length === 0) {
+            container.innerHTML = '<p id="noDraftsMsg" style="font-size: 13px; color: #888; font-style: italic; padding: 12px; border: 1px dashed #ccc; text-align: center;">No drafts generated. Click &quot;+ Add New Message&quot; to create a custom message for the action plan.</p>';
+            return;
+        }
+
+        drafts.forEach(d => {
+            addNewDraftCard(d);
+        });
+    }
+
+    function addNewDraftCard(initialData = null) {
+        const container = document.getElementById('draftsContainer');
+        const emptyMsg = document.getElementById('noDraftsMsg');
+        if (emptyMsg) emptyMsg.remove();
+
+        draftCardCounter++;
+        const cardId = 'draft_card_' + draftCardCounter + '_' + Date.now();
+        const card = document.createElement('div');
+        card.className = 'draft-card editable-draft-card';
+        card.id = cardId;
+
+        const isNewCustom = !initialData;
+        const data = initialData || {
+            customer_id: 'STORE_OFFER',
+            customer_name: 'Store Broadcast',
+            phone_number: 'All Customers',
+            offer_inr: 15,
+            message_text: 'Namaste neighbours! Special Kirana Deal: Get flat ₹15 off on your purchase above ₹100 this week. Visit our shop today!',
+            rationale: 'Custom added message to growth action plan.'
+        };
+
+        const currentCid = data.customer_id || 'STORE_OFFER';
+        const isCustomTarget = (currentCid === 'CUSTOM');
+        const defaultNames = {
+            'C001': 'Ramesh Kumar',
+            'C002': 'Sita Devi',
+            'C003': 'Anil Sharma',
+            'C004': 'Pooja Patel'
+        };
+
+        // Build target dropdown
+        let targetOptions = `<option value="STORE_OFFER"${currentCid === 'STORE_OFFER' ? ' selected' : ''}>📢 Store Broadcast (All Customers)</option>`;
+        
+        const knownCids = (currentCustomerData && Object.keys(currentCustomerData).length > 0)
+            ? Object.keys(currentCustomerData)
+            : ['C001', 'C002', 'C003', 'C004'];
+
+        knownCids.forEach(cid => {
+            const cInfo = (currentCustomerData && currentCustomerData[cid]) || {};
+            const cName = cInfo.customer_name || defaultNames[cid] || `Customer ${cid}`;
+            const isSel = (currentCid === cid) ? ' selected' : '';
+            targetOptions += `<option value="${escapeHtml(cid)}"${isSel}>👤 ${escapeHtml(cName)} (${escapeHtml(cid)})</option>`;
+        });
+
+        targetOptions += `<option value="CUSTOM"${isCustomTarget ? ' selected' : ''}>✍️ Custom Recipient...</option>`;
+
+        let rationale = data.rationale || '';
+        if (!rationale) {
+            if (currentCid === 'STORE_OFFER') {
+                rationale = 'Dead stock liquidation: Broadcast offer to boost store foot-traffic and clear inventory.';
+            } else if (currentCustomerData && currentCustomerData[currentCid]) {
+                const topItem = currentCustomerData[currentCid].top_preferred_item || 'favorite items';
+                rationale = `Retention incentive: Targeted offer based on purchase history for ${topItem}.`;
+            } else {
+                rationale = 'Suggested marketing action based on analytical trends.';
+            }
+        }
+
+        const msg = data.display_message || data.message_text || '';
+        const offerVal = (data.offer_inr !== undefined && data.offer_inr !== null) ? data.offer_inr : 0;
+
+        card.setAttribute('data-customer-id', currentCid);
+        card.setAttribute('data-customer-name', data.customer_name || '');
+        card.setAttribute('data-phone-number', data.phone_number || '');
+        card.setAttribute('data-rationale', rationale);
+
+        card.innerHTML = `
+            <div class="draft-card-header">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #333;">Recipient:</label>
+                    <select class="draft-target-select" onchange="onDraftTargetChanged('${cardId}')" style="font-size: 12px; padding: 4px 8px; font-family: inherit;">
+                        ${targetOptions}
+                    </select>
+                    <input type="text" class="draft-custom-name" placeholder="Enter recipient name" style="font-size: 12px; padding: 4px 8px; display: ${isCustomTarget ? 'inline-block' : 'none'}; width: 150px; font-family: inherit;" value="${escapeHtml(data.customer_name || '')}">
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                        <label style="font-size: 11px; font-weight: 700; color: #111;">Offer (₹):</label>
+                        <input type="number" class="draft-offer-input" min="0" step="5" style="width: 75px; font-size: 12px; padding: 4px 6px; font-family: inherit;" value="${offerVal}">
+                    </div>
+                    <button type="button" class="btn-remove-draft" onclick="removeDraftCard('${cardId}')" title="Delete this draft">🗑 Remove</button>
+                </div>
+            </div>
+
+            <div class="draft-rationale-box">
+                <strong>💡 Why Suggested:</strong> <span class="draft-rationale-text">${escapeHtml(rationale)}</span>
+            </div>
+
+            <div style="margin-top: 6px;">
+                <label style="font-size: 11px; font-weight: 600; color: #333; margin-bottom: 3px; display: block;">Message Text (Editable):</label>
+                <textarea class="draft-message-textarea" rows="3" oninput="updateWordCount('${cardId}')" placeholder="Namaste... Type message in ₹">${escapeHtml(msg)}</textarea>
+                <div class="draft-word-count" id="wc_${cardId}">${countWords(msg)} words (under 50 words recommended)</div>
+            </div>
+        `;
+
+        container.appendChild(card);
+    }
+
+    function removeDraftCard(cardId) {
+        const card = document.getElementById(cardId);
+        if (card) {
+            card.remove();
+            const container = document.getElementById('draftsContainer');
+            if (container.children.length === 0) {
+                container.innerHTML = '<p id="noDraftsMsg" style="font-size: 13px; color: #888; font-style: italic; padding: 12px; border: 1px dashed #ccc; text-align: center;">All drafts removed. Click &quot;+ Add New Message&quot; to create a custom message for the action plan.</p>';
+            }
+        }
+    }
+
+    function onDraftTargetChanged(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+        const select = card.querySelector('.draft-target-select');
+        const customInput = card.querySelector('.draft-custom-name');
+        const rationaleEl = card.querySelector('.draft-rationale-text');
+        const val = select.value;
+
+        if (val === 'CUSTOM') {
+            customInput.style.display = 'inline-block';
+            if (rationaleEl) rationaleEl.innerText = 'Custom message created by store owner for targeted communication.';
+        } else {
+            customInput.style.display = 'none';
+            if (val === 'STORE_OFFER') {
+                if (rationaleEl) rationaleEl.innerText = 'Dead stock liquidation: Broadcast offer to boost store foot-traffic and clear inventory.';
+            } else if (currentCustomerData && currentCustomerData[val]) {
+                const cInfo = currentCustomerData[val];
+                const cName = cInfo.customer_name || val;
+                const topItem = cInfo.top_preferred_item || 'favorite items';
+                if (rationaleEl) rationaleEl.innerText = `Retention incentive: Personalized offer for ${cName} (${val}) based on preference for ${topItem}.`;
+            }
+        }
+    }
+
+    function countWords(str) {
+        if (!str) return 0;
+        return str.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    function updateWordCount(cardId) {
+        const card = document.getElementById(cardId);
+        if (!card) return;
+        const textarea = card.querySelector('.draft-message-textarea');
+        const wcEl = document.getElementById('wc_' + cardId);
+        if (textarea && wcEl) {
+            const count = countWords(textarea.value);
+            wcEl.innerText = `${count} words (under 50 words recommended)`;
+            if (count > 50) {
+                wcEl.style.color = '#dc2626';
+                wcEl.style.fontWeight = 'bold';
+            } else {
+                wcEl.style.color = '#666666';
+                wcEl.style.fontWeight = 'normal';
+            }
+        }
+    }
+
+    function collectDraftsFromUI() {
+        const cards = document.querySelectorAll('#draftsContainer .draft-card');
+        const drafts = [];
+
+        cards.forEach(card => {
+            const targetSelect = card.querySelector('.draft-target-select');
+            const customNameInput = card.querySelector('.draft-custom-name');
+            const offerInput = card.querySelector('.draft-offer-input');
+            const messageTextarea = card.querySelector('.draft-message-textarea');
+            const rationaleEl = card.querySelector('.draft-rationale-text');
+
+            let cid = targetSelect ? targetSelect.value : 'STORE_OFFER';
+            let cname = '';
+            let cphone = 'N/A';
+
+            if (cid === 'STORE_OFFER') {
+                cname = 'Store Broadcast';
+                cphone = 'All Customers';
+            } else if (cid === 'CUSTOM') {
+                cname = customNameInput ? customNameInput.value.trim() || 'Custom Recipient' : 'Custom Recipient';
+                cphone = 'Custom';
+            } else if (currentCustomerData && currentCustomerData[cid]) {
+                cname = currentCustomerData[cid].customer_name || `Customer ${cid}`;
+                cphone = currentCustomerData[cid].phone_number || 'N/A';
+            } else {
+                cname = card.getAttribute('data-customer-name') || `Customer ${cid}`;
+                cphone = card.getAttribute('data-phone-number') || 'N/A';
+            }
+
+            const offer = parseFloat(offerInput ? offerInput.value : 0) || 0.0;
+            const msg = messageTextarea ? messageTextarea.value.trim() : '';
+            const rationale = rationaleEl ? rationaleEl.innerText.trim() : (card.getAttribute('data-rationale') || '');
+
+            if (msg) {
+                drafts.push({
+                    customer_id: cid,
+                    customer_name: cname,
+                    phone_number: cphone,
+                    message_text: msg,
+                    display_message: msg,
+                    offer_inr: offer,
+                    rationale: rationale || 'Action plan message for customer growth.'
+                });
+            }
+        });
+
+        return drafts;
+    }
+
+    // -------------------------------------------------------------
+    // FINAL RESULTS RENDERING (Section 6)
+    // -------------------------------------------------------------
+    function renderResults(data) {
+        const summaryEl = document.getElementById('resultSummaryContent');
+        const summary = data.analysis_summary || {};
+        
+        let lapsedStr = (summary.lapsed_customers && summary.lapsed_customers.length) 
+            ? summary.lapsed_customers.join(', ') : 'None';
+        let slowStr = (summary.slow_moving_items && summary.slow_moving_items.length) 
+            ? summary.slow_moving_items.join(', ') : 'None';
+
+        const finalDrafts = data.unmasked_drafts || data.drafts || [];
+
+        summaryEl.innerHTML = `
+            <div style="background-color: #f9f9f9; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 16px;">
+                <div style="font-weight: 700; font-size: 13px; margin-bottom: 6px;">Analyst Agent Summary:</div>
+                <ul class="summary-list">
+                    <li><strong>Revenue Trend:</strong> ${escapeHtml(summary.revenue_trend || 'N/A')}</li>
+                    <li><strong>Lapsed Customers Identified:</strong> ${escapeHtml(lapsedStr)}</li>
+                    <li><strong>Slow-Moving Items:</strong> ${escapeHtml(slowStr)}</li>
+                </ul>
+            </div>
+            <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">Approved & Recorded Action Messages (${finalDrafts.length}):</div>
+        `;
+
+        renderFinalApprovedDrafts(finalDrafts, 'resultDraftsContent');
+    }
+
+    function renderFinalApprovedDrafts(drafts, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        if (!drafts || drafts.length === 0) {
+            container.innerHTML = '<p style="font-size: 13px; color: #666;">No messages in approved plan.</p>';
+            return;
+        }
+
+        drafts.forEach((d, idx) => {
+            const card = document.createElement('div');
+            card.className = 'draft-card';
+            card.style.borderColor = '#16a34a';
+
+            const name = d.customer_name || 'Customer';
+            const phone = d.phone_number || 'N/A';
+            const cid = d.customer_id || 'STORE_OFFER';
+            const offer = (d.offer_inr !== undefined && d.offer_inr !== null) ? `₹${parseFloat(d.offer_inr).toFixed(2)}` : 'None';
+            const msg = d.display_message || d.message_text || '';
+            const rationale = d.rationale || '';
+
+            card.innerHTML = `
+                <div class="draft-card-header">
+                    <span>Target: <strong>${escapeHtml(name)}</strong> (${escapeHtml(cid)})</span>
+                    <span style="color: #166534; font-weight: 700;">Offer: ${escapeHtml(offer)}</span>
+                </div>
+                <div class="draft-card-meta">Phone: ${escapeHtml(phone)}</div>
+                ${rationale ? `<div class="draft-rationale-box"><strong>💡 Why Suggested:</strong> ${escapeHtml(rationale)}</div>` : ''}
+                <div class="draft-card-message">${escapeHtml(msg)}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function hideNotificationBoxes() {
+        document.getElementById('escalationBox').style.display = 'none';
+        document.getElementById('approvalBox').style.display = 'none';
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    // Initial status check and customer list load on page load
+    pollStatus();
+    loadInitialCustomers();
+</script>
+
+</body>
+</html>

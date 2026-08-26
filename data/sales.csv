@@ -1,0 +1,54 @@
+txn_id,date,customer_name,phone,item,amount_inr,is_return
+1,2023-10-23,Ramesh Kumar,9876543210,"Chai, Samosa",40,False
+2,2023-10-23,Sita Devi,9876512345,Chai,20,False
+3,2023-10-23,Vikram Singh,9811223344,Milk (1L),65,False
+4,2023-10-23,Priya Sharma,9822334455,Bread,40,False
+5,2023-10-23,Rajesh Gupta,9833445566,Atta (5kg),240,False
+6,2023-10-23,Sunita Verma,9844556677,"Biscuits, Chai",50,False
+7,2023-10-23,Mohammed Ali,9855667788,Mustard Oil (1L),160,False
+8,2023-10-23,Deepak Verma,9866778899,Sugar (1kg),45,False
+9,2023-10-24,Ramesh Kumar,9876543210,Sweets,500,True
+10,2023-10-24,Kavita Joshi,9877889900,Toor Dal (1kg),150,False
+11,2023-10-24,Amit Shah,9888990011,"Chai, Samosa",40,False
+12,2023-10-24,Neha Reddy,9899001122,Rice (5kg),320,False
+13,2023-10-24,Sanjay Rao,9812345678,Bath Soap (Pack of 3),120,False
+14,2023-10-24,Sita Devi,9876512345,Detergent Powder (1kg),110,False
+15,2023-10-24,Anil Sharma,9876500001,Potato Chips,30,False
+16,2023-10-24,Pooja Patel,9876500002,Cold Drink (500ml),40,False
+17,2023-10-25,Manoj Tiwari,9823456789,Spices (Garam Masala),85,False
+18,2023-10-25,Ananya Roy,9834567890,Milk (1L),65,False
+19,2023-10-25,Gaurav Malhotra,9845678901,Sweets,350,False
+20,2023-10-25,Ramesh Kumar,9876543210,Chai,20,False
+21,2023-10-25,Vikram Singh,9811223344,Namkeen,60,False
+22,2023-10-25,Priya Sharma,9822334455,Bread,40,True
+23,2023-10-25,Rajesh Gupta,9833445566,Toor Dal (1kg),150,False
+24,2023-10-25,Sunita Verma,9844556677,Sugar (1kg),45,False
+25,2023-10-26,Mohammed Ali,9855667788,Atta (5kg),240,False
+26,2023-10-26,Deepak Verma,9866778899,Biscuits,30,False
+27,2023-10-26,Kavita Joshi,9877889900,"Chai, Samosa",40,False
+28,2023-10-26,Amit Shah,9888990011,Mustard Oil (1L),160,False
+29,2023-10-26,Neha Reddy,9899001122,Cold Drink (500ml),40,False
+30,2023-10-26,Sita Devi,9876512345,Milk (1L),65,False
+31,2023-10-26,Anil Sharma,9876500001,Sweets,250,False
+32,2023-10-27,Pooja Patel,9876500002,Rice (5kg),320,False
+33,2023-10-27,Manoj Tiwari,9823456789,Detergent Powder (1kg),110,False
+34,2023-10-27,Ananya Roy,9834567890,Namkeen,80,False
+35,2023-10-27,Gaurav Malhotra,9845678901,"Chai, Samosa",40,False
+36,2023-10-27,Ramesh Kumar,9876543210,Biscuits,50,False
+37,2023-10-27,Vikram Singh,9811223344,Spices (Garam Masala),85,False
+38,2023-10-27,Priya Sharma,9822334455,Bath Soap (Pack of 3),120,False
+39,2023-10-28,Rajesh Gupta,9833445566,Milk (1L),65,False
+40,2023-10-28,Sunita Verma,9844556677,Sweets,400,False
+41,2023-10-28,Mohammed Ali,9855667788,Bread,40,False
+42,2023-10-28,Deepak Verma,9866778899,Toor Dal (1kg),150,False
+43,2023-10-28,Kavita Joshi,9877889900,Atta (5kg),240,False
+44,2023-10-28,Amit Shah,9888990011,Potato Chips,30,False
+45,2023-10-29,Neha Reddy,9899001122,"Chai, Samosa",40,False
+46,2023-10-29,Sanjay Rao,9812345678,Mustard Oil (1L),160,False
+47,2023-10-29,Sita Devi,9876512345,Sugar (1kg),45,False
+48,2023-10-29,Anil Sharma,9876500001,Rice (5kg),320,False
+49,2023-10-29,Pooja Patel,9876500002,Milk (1L),65,False
+50,2023-10-29,Ramesh Kumar,9876543210,Sweets,250,False
+51,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
+52,2023-10-31,Ramesh Kumar,9876543210,Samosa,40.0,False
+53,2023-10-31,Ramesh Kumar,9876543210,Samosa,40.0,False
