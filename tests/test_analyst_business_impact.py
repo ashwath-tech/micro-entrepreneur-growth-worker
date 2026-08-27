@@ -98,3 +98,46 @@ class TestAnalystBusinessImpact:
         assert "item_distribution_graph" in graphs
         assert "labels" in graphs["weekly_revenue_graph"]
         assert "datasets" in graphs["weekly_revenue_graph"]
+
+    def test_rfm_customer_segmentation(self, temp_db_path):
+        """Verify quantitative RFM scoring and strategic cohort classification."""
+        from src.tools import compute_rfm_segmentation
+        rfm = compute_rfm_segmentation("C001", db_path=temp_db_path, reference_date="2023-10-23")
+        assert "r_score" in rfm
+        assert "f_score" in rfm
+        assert "m_score" in rfm
+        assert "rfm_cohort" in rfm
+        assert 1 <= rfm["r_score"] <= 5
+        assert 1 <= rfm["f_score"] <= 5
+        assert 1 <= rfm["m_score"] <= 5
+        assert rfm["monetary_total_inr"] > 0
+
+    def test_market_basket_affinity_rules(self, temp_db_path):
+        """Verify Apriori transactional co-occurrence mining (support, confidence, lift)."""
+        from src.tools import compute_market_basket_affinity, get_top_affinity_items
+        basket_analysis = compute_market_basket_affinity(db_path=temp_db_path)
+        assert "total_baskets" in basket_analysis
+        assert "top_affinity_rules" in basket_analysis
+        assert basket_analysis["total_baskets"] > 0
+        
+        complements = get_top_affinity_items("Chai", db_path=temp_db_path)
+        assert isinstance(complements, list)
+
+    def test_statistical_z_score_revenue_analysis(self, temp_db_path):
+        """Verify standard deviation and Z-score calculation during revenue baseline comparison."""
+        current_data = [{"amount_inr": 150.0, "date": "2023-10-23", "is_return": False}]
+        rev_res = analyze_revenue(current_data, db_path=temp_db_path)
+        assert "z_score" in rev_res
+        assert "daily_mean_inr" in rev_res
+        assert "is_statistically_significant" in rev_res
+
+    def test_inventory_aging_and_velocity(self, temp_db_path):
+        """Verify inventory turnover velocity and category classification."""
+        baseline = query_mom_revenue(days=30, db_path=temp_db_path)
+        current_data = [{"customer_id": "C001", "item": "Chai", "amount_inr": 20.0, "date": "2023-10-23"}]
+        weak = identify_weakareas(current_data, baseline_data=baseline, db_path=temp_db_path)
+        assert "inventory_classification" in weak
+        assert "Chai" in weak["inventory_classification"]
+        assert "velocity_per_week" in weak["inventory_classification"]["Chai"]
+        assert "category" in weak["inventory_classification"]["Chai"]
+

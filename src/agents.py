@@ -30,6 +30,11 @@ from src.tools import (
     check_trends,
     identify_weakareas,
     analyze_customer,
+    compute_rfm_segmentation,
+    compute_market_basket_affinity,
+    get_top_affinity_items,
+    calculate_margin_safe_discount,
+    scrub_pii_from_text,
     generate_graphs,
     save_analysis,
     save_draft,
@@ -239,19 +244,23 @@ def marketing_node(state: SharedAgentState) -> Dict[str, Any]:
     qa_feedback = state.get("qa_feedback", "")
 
     slow_moving_str = ", ".join(slow_moving) if slow_moving else "Biscuits, Samosa"
+    target_slow = slow_moving[0] if slow_moving else "Biscuits"
+    affinity_complements = get_top_affinity_items(target_slow)
+    complement_item = affinity_complements[0]["complementary_item"] if affinity_complements else "Chai"
 
-    # Identify C001 customer preferences
+    # Identify C001 customer preferences and RFM cohort
     c001_info = customer_analysis.get("C001", {})
     c001_prefs = c001_info.get("preferred_items", ["Chai", "Sweets"])
     c001_top_item = c001_info.get("top_preferred_item", "Sweets")
     c001_pref_str = ", ".join(c001_prefs) if c001_prefs else "Chai, Sweets"
+    c001_cohort = c001_info.get("rfm_cohort", "At-Risk High-Value")
 
     default_drafts = [
         {
             "customer_id": "C001",
             "message_text": f"Namaste C001! We value your visits for {c001_pref_str}. Enjoy a 15% discount (up to ₹30) on your favorite fresh {c001_top_item} this week. Visit our shop soon!",
             "offer_inr": 30.0,
-            "rationale": f"Retention incentive: Reactivates lapsed customer C001 with a 15% discount on their top favorite item ({c001_top_item})."
+            "rationale": f"Retention incentive: Reactivates {c001_cohort.lower()} customer C001 with a 15% discount on their top favorite item ({c001_top_item})."
         },
         {
             "customer_id": "C001",
@@ -261,9 +270,9 @@ def marketing_node(state: SharedAgentState) -> Dict[str, Any]:
         },
         {
             "customer_id": "STORE_OFFER",
-            "message_text": f"Namaste neighbours! Special Kirana Deal: Buy 2 packets of fresh {slow_moving[0] if slow_moving else 'Biscuits'} and get 20% off on hot Chai (save ₹10)! Valid till Sunday in ₹.",
+            "message_text": f"Namaste neighbours! Special Kirana Deal: Buy 2 packets of fresh {target_slow} and get 20% off on hot {complement_item} (save ₹10)! Valid till Sunday in ₹.",
             "offer_inr": 10.0,
-            "rationale": f"Dead stock liquidation: Clears slow-moving {slow_moving[0] if slow_moving else 'Biscuits'} (0 sales this week) by bundling with hot Chai."
+            "rationale": f"Dead stock liquidation: Clears slow-moving {target_slow} by bundling with high-affinity complementary {complement_item}."
         }
     ]
 
@@ -353,7 +362,7 @@ def marketing_node(state: SharedAgentState) -> Dict[str, Any]:
                         
                     validated_drafts.append({
                         "customer_id": cid,
-                        "message_text": msg,
+                        "message_text": scrub_pii_from_text(msg),
                         "offer_inr": amt,
                         "rationale": rat
                     })

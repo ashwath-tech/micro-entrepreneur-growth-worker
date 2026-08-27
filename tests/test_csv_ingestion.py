@@ -105,3 +105,29 @@ class TestCSVIngestion:
         assert res["status"] == "escalated"
         assert res["resolved"] is False
         assert "Invalid CSV" in res["issue"]
+
+    def test_phone_number_normalization(self):
+        """Verify canonicalization of Indian phone numbers with various prefixes and formatting."""
+        from src.tools import normalize_phone_number
+        assert normalize_phone_number("+91 98765 43210") == "9876543210"
+        assert normalize_phone_number("919876543210") == "9876543210"
+        assert normalize_phone_number("09876543210") == "9876543210"
+        assert normalize_phone_number("98765-43210") == "9876543210"
+        assert normalize_phone_number("(98765) 43210") == "9876543210"
+
+    def test_item_normalization_and_tokens(self):
+        """Verify item tokenization and whitespace/casing normalization."""
+        from src.tools import normalize_item_name, extract_item_tokens
+        assert normalize_item_name("  hot samosa  ") == "hot samosa"
+        tokens = extract_item_tokens("Chai, Hot Samosa, Biscuits")
+        assert tokens == ["Chai", "Hot Samosa", "Biscuits"]
+
+    def test_transaction_idempotency_hash(self):
+        """Verify deterministic transaction hash generation for deduplication."""
+        from src.tools import generate_txn_hash
+        txn1 = {"date": "2023-10-23", "customer_id": "C001", "item": "Chai", "amount_inr": 20.0, "is_return": False}
+        txn2 = {"date": "2023-10-23", "customer_id": "C001", "item": "Chai", "amount_inr": 20.0, "is_return": False}
+        txn3 = {"date": "2023-10-24", "customer_id": "C001", "item": "Chai", "amount_inr": 20.0, "is_return": False}
+        assert generate_txn_hash(txn1) == generate_txn_hash(txn2)
+        assert generate_txn_hash(txn1) != generate_txn_hash(txn3)
+

@@ -26,11 +26,11 @@ from src.tools import (
     analyze_customer,
     generate_single_customer_message,
     llm_as_a_judge,
-    human_escalation_csv
+    human_escalation_csv,
+    ShopImpactEvaluator
 )
 from src.state import create_initial_state
 from src.graph import create_multi_agent_graph, route_ingestion_decision, route_qa_decision
-from tests.test_shop_growth_evaluation import ShopImpactEvaluator
 
 
 # Terminal Colors

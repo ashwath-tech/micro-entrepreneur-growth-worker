@@ -116,3 +116,43 @@ class TestMarketingCriticLoop:
         assert "₹" in msg_draft["message_text"]
         assert len(msg_draft["message_text"].split()) <= 50
         assert msg_draft["offer_inr"] > 0
+
+    def test_critic_rejects_disguised_excessive_discounts(self, temp_db_path):
+        """Verify rejection when disguised excessive discounts like 'Buy 1 Get 1' or 'Half Price' are used."""
+        bogo_draft = [
+            {
+                "customer_id": "C001",
+                "message_text": "Namaste C001! Special offer: Buy 1 Get 1 free on all hot snacks today in ₹!",
+                "offer_inr": 20.0
+            }
+        ]
+        result = llm_as_a_judge(bogo_draft, db_path=temp_db_path)
+        assert result["Approved"] is False
+        assert "Disguised" in result["Feedback"] or "20%" in result["Feedback"]
+
+    def test_critic_returns_rubric_scores(self, temp_db_path):
+        """Verify that llm_as_a_judge includes multi-criteria rubric evaluation scores."""
+        valid_drafts = [
+            {
+                "customer_id": "C001",
+                "message_text": "Namaste C001! Fresh Sweets ready for you. Enjoy 15% off (Save ₹20) today!",
+                "offer_inr": 20.0,
+                "rationale": "VIP retention."
+            }
+        ]
+        result = llm_as_a_judge(valid_drafts, db_path=temp_db_path)
+        assert "Rubric_Scores" in result
+        assert "personalization_match" in result["Rubric_Scores"]
+        assert "margin_safety" in result["Rubric_Scores"]
+
+    def test_margin_safe_discount_calculation(self):
+        """Verify unit-economic margin calculations for prepared snacks vs packaged staples."""
+        from src.tools import calculate_margin_safe_discount
+        snack_calc = calculate_margin_safe_discount("Samosa", avg_spend=150.0, rfm_cohort="At-Risk High-Value")
+        assert snack_calc["margin_safe"] is True
+        assert snack_calc["discount_pct"] <= 20.0
+        assert snack_calc["breakeven_volume_uplift_pct"] > 0
+
+        staple_calc = calculate_margin_safe_discount("Atta Flour", avg_spend=200.0, rfm_cohort="Loyal Core Customers")
+        assert staple_calc["discount_pct"] <= 15.0
+

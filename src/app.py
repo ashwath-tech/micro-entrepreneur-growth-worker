@@ -893,8 +893,7 @@ async def get_shop_impact():
     Returns real-time shop growth and revenue protection evaluation for the store.
     """
     try:
-        from tests.test_shop_growth_evaluation import ShopImpactEvaluator
-        from src.tools import query_mom_revenue, read_sql, identify_weakareas
+        from src.tools import ShopImpactEvaluator, query_mom_revenue, read_sql, identify_weakareas
 
         init_db("data/memory.db")
         seed_historical_data("data/memory.db")

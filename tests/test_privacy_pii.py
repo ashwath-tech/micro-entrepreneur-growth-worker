@@ -54,3 +54,23 @@ class TestPrivacyAndPII:
             read_sql("SELECT * FROM pii_mapping", db_path=temp_db_path)
         assert "Security Exception" in str(exc_info.value)
         assert "strictly prohibited" in str(exc_info.value)
+
+    def test_scrub_pii_from_text(self, temp_db_path):
+        """Verify post-generation scrubbing of real names and 10-digit mobile numbers."""
+        from src.tools import scrub_pii_from_text
+        raw_msg = "Namaste Ramesh! Call us at 9876543210 for ₹20 off today."
+        sanitized = scrub_pii_from_text(raw_msg, db_path=temp_db_path)
+        assert "9876543210" not in sanitized
+        assert "[PHONE_PROTECTED]" in sanitized
+        assert "₹20" in sanitized
+
+    def test_hash_pii_identifier(self):
+        """Verify cryptographic salted hashing of customer identifiers."""
+        from src.tools import hash_pii_identifier
+        h1 = hash_pii_identifier("9876543210")
+        h2 = hash_pii_identifier("9876543210")
+        h3 = hash_pii_identifier("9876500000")
+        assert len(h1) == 64
+        assert h1 == h2
+        assert h1 != h3
+
