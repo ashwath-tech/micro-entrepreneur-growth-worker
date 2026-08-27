@@ -1,50 +1,51 @@
 # About the Agents
 
-#### This file has all the agents and waht each agent does and how they are connected with each other
+#### This file has all the agents and what each agent does and how they are connected with each other
 
 ## Nodes(Agents)
 
 ### 1. Ingestion agent
 
-#### Role : This agent is the first agent that reads the daily/weekly sales CSV, masks PII (names/phones to customer_id), and writes to SQLite.
+#### Role : This agent is the first agent that reads the daily/weekly sales CSV, validates schema and values, normalies phone numbers (+91), hashes records for checking duplicates, masks PII (names/phones to customer_id), and writes to SQLite.
 
-#### Tools: read_csv, mask_pii, Human_escalation_csv, convert_to_sql
+#### Tools: read_csv, mask_pii, human_escalation_csv, convert_to_sql, normalize_phone_number, generate_txn_hash
 
-#### Next Step: If the csv is valid then it pii masks the data and call Analyst agent, if the data in csv has errors or is of bad quality, then it is escalated to human
+#### Next Step: If the CSV is valid, it masks PII data and calls AnalystAgent. If the CSV has errors or missing required columns, it escalates to human review.
 
 ### 2. Analyst Agent:
 
-#### Role : This agent is the second agent that reviews data from sql, identifies weak areas, checks trends, compares revenue, analyzes customer preferences & activity history, generates weekly and customer-wise graphs, and gives all the points to the marketing agent
+#### Role : This agent is the second agent that reviews data from SQL, calculates statistical Z-score revenue trends, identifies weak areas & inventory turnover velocity, computes RFM customer segmentation, mines Apriori market basket item affinities, generates visual graphs, and saves findings to shared state.
 
-#### Tools: read_sql, analyze_revenue, check_trends, identify_weakareas, analyze_customer, generate_graphs, save_analysis
+#### Tools: read_sql, query_mom_revenue, analyze_revenue, check_trends, identify_weakareas, analyze_customer, compute_rfm_segmentation, compute_market_basket_affinity, get_top_affinity_items, generate_graphs, save_analysis
 
-#### Next Step: After analyzing, it makes a summary of its findings (including graphs) and gives the findings to the marketting agent by saving it in the state
+#### Next Step: After analyzing, it creates a structured analysis summary (including graphs, RFM cohorts, and affinity bundles) and passes it to MarketingAgent via shared state.
 
 ### 3. Marketing Agent:
 
-#### Role : This agent is the third agent that understands what the Analyst agent has given, and drafts a plan of action which will contain follow up questions to the customer and feedback, suggest offers that will interest the customers
+#### Role : This agent is the third agent that receives the analysis summary and drafts RFM-tailored WhatsApp messages for target customers and store promotional bundle offers using margin-safe discount calculations and high-affinity item pairing.
 
-#### Tools: save_draft
+#### Tools: save_draft, generate_single_customer_message, calculate_margin_safe_discount
 
-#### Next Step: Saves the drafted plan and gives it to the critique agent
+#### Next Step: Saves the drafted plan and passes it to CritiqueAgent.
 
-### 3. Critique Agent:
+### 4. Critique Agent:
 
-#### Role : This agent is the fourth agent that uses judging criterias (LLM-as-a-judge) to critique the draft made by the marketting agent. 
+#### Role : This agent is the fourth agent that uses rule-based compliance checks (Namaste, <50 words, ₹ symbol, ≤20% discount, disguised discount detection, no real customer names) and LLM-as-a-judge multi-criteria rubric scoring (1-5) to audit drafts.
 
-#### Tools: llm_as_a_judge, human_verify
+#### Tools: llm_as_a_judge, scrub_pii_from_text, human_verify
 
 #### Next Step: 
-- If REJECTED: check whether it is a data quality problem or marketting strategy problem. loop to analyst agent or marketting agent and create a critique draft that the agents will use depending on the critique. 
-- If APPROVED: then  move to human approval
+- If REJECTED: Emits targeted minimal diff feedback and loops back to AnalystAgent (if data/customer issue) or MarketingAgent (if wording/discount issue). Max 2 retries.
+- If APPROVED: Passes approved drafts to human approval.
 
 
 ## Workflow States (Edges)
 - START -> IngestionAgent
-- ingestionAgent -> AnalystAgent (On Success)
+- IngestionAgent -> AnalystAgent (On Success)
 - IngestionAgent -> HumanEscalation (On Tool Failure / Missing Data)
 - AnalystAgent -> MarketingAgent (On Success)
 - MarketingAgent -> CriticAgent (Always)
 - CriticAgent -> AnalystAgent (On Rejection - TRIGGERS LOOP)
 - CriticAgent -> MarketingAgent (On Rejection - TRIGGERS LOOP)
 - CriticAgent -> HumanApproval (On Approval - EXITS LOOP)
+

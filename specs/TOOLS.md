@@ -4,88 +4,132 @@
 
 ## IngestionAgent tools:
 
-### 1. read_csv(file_path :str) -> dict
-
-#### Description: Parses a local CSV file containing daily sales data.
+### 1. read_csv(file_path: str) -> list
+#### Description: Parses a local CSV file containing daily sales data, validates required columns, and canonicalizes phones.
 #### Input: file_path (String) - Path to the CSV file.
-#### Output: (JSON) List of raw transaction dictionaries.
-#### Example Output: [{"txn_id": "1", "date": "2023-10-23", "customer_name": "Ramesh", "item": "Samosa", "amount_inr": 40}, "ph_no" : 1234567890]
+#### Output: (JSON) List of validated transaction dictionaries.
 
-### 2. mask_pii(raw_data: dict) -> dict
+### 2. mask_pii(raw_data: list) -> list
+#### Description: Strips sensitive customer names and phone numbers, replaces them with customer_id (e.g. C001), and stores the reversible mapping locally in SQLite.
+#### Input: Raw unmasked transaction list.
+#### Output: List of masked transaction dictionaries.
 
-#### Description: Masks sensitive data like phone numbers. Has to be able to be converted back.
-#### Input: raw unmasked data dictionary.
-#### Output: dictionary of masked data.
-#### Example Output: [{"txn_id": "1", "date": "2023-10-23", "customer_name": "Ramesh", "item": "Samosa", "amount_inr": 40}, "ph_no" : abcdefghi]
+### 3. normalize_phone_number(raw_phone: str) -> str
+#### Description: Canonicalizes Indian mobile numbers into clean 10-digit format (+91, leading 0, and symbols removed).
+#### Input: Raw phone string.
+#### Output: 10-digit clean phone string.
 
-### 3. human_escalation_csv(str)
+### 4. generate_txn_hash(record: dict) -> str
+#### Description: Computes a deterministic SHA-256 fingerprint hash to prevent duplicate sales entries.
+#### Input: Transaction dictionary.
+#### Output: Hexadecimal hash string.
 
-#### Description: Raises human interference to fin data which has errors or is of bad quality
-#### Input: the issue.
-#### Output: after human fixes, human clicks button and Ingestion agent runs again.
+### 5. convert_to_sql(records: list) -> bool
+#### Description: Inserts masked sales transactions into the SQLite database in WAL mode.
+#### Input: List of masked transaction dictionaries.
+#### Output: Boolean True on success.
 
-### 4. convert_to_sql(dict)
+### 6. human_escalation_csv(issue: str) -> dict
+#### Description: Escalates corrupted or invalid CSV data to human review.
+#### Input: Issue description string.
+#### Output: Escalation status JSON.
 
-#### Description: Converts dict to SQL and stores it in SQLLite
-#### Input: dictionary of what is to be stored.
-#### Output: Stored in SQLLite.
 
 ## AnalystAgent Tools:
 
-### 1. read_sql(query: str) -> dict
-
-#### Description: Queries the local SQLite database to retrieve masked transaction data.
+### 1. read_sql(query: str) -> list
+#### Description: Queries the local SQLite database to retrieve masked transaction data (blocks queries to pii_mapping).
 #### Input: SQL query string.
 #### Output: JSON list of database rows.
 
-### 2. analyze_revenue(data: dict) -> dict
+### 2. query_mom_revenue(days: int) -> dict
+#### Description: Computes baseline metrics (total revenue, active customers, item stats) over the previous 30 days.
+#### Input: Baseline days window (default 30).
+#### Output: Baseline summary JSON.
 
-#### Description: Compares this week's revenue in ₹ against last month's data.
-#### Input: Data from read_sql.
-#### Output: JSON summary of revenue drops/growth.
+### 3. analyze_revenue(current_data: list, baseline_data: dict) -> dict
+#### Description: Compares current revenue in ₹ against 30-day baseline with statistical Z-scores.
+#### Input: Current transactions and baseline summary.
+#### Output: Revenue change %, drop flag, and Z-score significance JSON.
 
-### 3. identify_weakareas(analysis: dict) -> dict
+### 4. check_trends(revenue_analysis: dict) -> str
+#### Description: Formats a human-readable trend description in ₹ with growth/drop percentages and Z-scores.
+#### Input: Revenue analysis dict.
+#### Output: Formatted trend string.
 
-#### Description: Identifies specific weak areas (e.g., drop in repeat visits).
-#### Input: Revenue analysis data.
-#### Output: JSON list of weak areas.
+### 5. identify_weakareas(current_data: list, baseline_data: dict) -> dict
+#### Description: Identifies lapsed customers, slow-moving items, and inventory turnover velocity classifications.
+#### Input: Current transactions and baseline summary.
+#### Output: JSON with lapsed_customers, slow_moving_items, and inventory_classification.
 
-### 4. analyze_customer(customer_id: str) -> dict
+### 6. analyze_customer(customer_id: str) -> dict
+#### Description: Extracts a customer's purchase preferences, visit frequency, spend history, and RFM cohort metrics.
+#### Input: customer_id (e.g. 'C001').
+#### Output: JSON summary of customer preferences, timeline, and RFM segment.
 
-#### Description: Analyzes a specific customer's transaction history to determine preferences (most bought items) and activity patterns (visit count, total spend, recency).
-#### Input: customer_id (String).
-#### Output: JSON summary of customer preferences and activity.
+### 7. compute_rfm_segmentation(customer_id: str) -> dict
+#### Description: Computes Recency, Frequency, and Monetary scores (1-5) and assigns strategic cohort categories.
+#### Input: customer_id string.
+#### Output: RFM score string and cohort category JSON.
 
-### 5. generate_graphs(analysis: dict) -> dict
+### 8. compute_market_basket_affinity() -> dict
+#### Description: Mines transactional co-occurrence rules (Support, Confidence, Lift) across shopping baskets.
+#### Input: Optional db_path.
+#### Output: JSON of pairwise product association rules.
 
-#### Description: Generates visualization graphs for weekly revenue trends and customer-wise activity/preferences.
-#### Input: Analysis data JSON.
-#### Output: JSON containing graph paths/chart data.
+### 9. get_top_affinity_items(target_item: str) -> list
+#### Description: Retrieves the highest-affinity complementary items to pair with a given target item for bundle offers.
+#### Input: target_item string (e.g. 'Biscuits').
+#### Output: List of complementary item recommendations with lift scores.
 
-### 6. save_analysis(weak_areas: dict) -> bool
+### 10. generate_graphs(current_data: list, baseline_data: dict) -> dict
+#### Description: Generates visualization datasets for weekly revenue trends and customer item preferences.
+#### Input: Current transactions, baseline data, customer analyses.
+#### Output: JSON containing chart plotting datasets.
 
-#### Description: Saves the analysis summary, customer insights, and graphs to the shared agent state (MEMORY).
-#### Input: Analysis JSON.
-#### Output: Boolean True if saved to state.
-
-## MarketingAgent tools:
-
-### 1. save_draft(drafts: dict) -> bool
-
-#### Description: Saves drafted follow-up messages and offers to shared state for the Critique Agent.
-#### Input: JSON containing drafted messages and ₹ offers.
+### 11. save_analysis(analysis_result: dict) -> bool
+#### Description: Saves the analysis summary, customer insights, and graphs to the shared agent state.
+#### Input: Analysis summary JSON.
 #### Output: Boolean True.
 
-## CritiqueAgent tools:
 
-### 1. llm_as_a_judge(drafts: dict) -> dict
+## MarketingAgent Tools:
 
-#### Description: Uses an LLM to score drafts on tone, ₹ usage, and discount limits.
-#### Input: Drafts from Marketing Agent.
-#### Output: JSON with "Approved": bool, "Feedback": str, "Target": "Analyst" or "Marketing".
+### 1. save_draft(drafts: list) -> bool
+#### Description: Saves drafted WhatsApp messages and promotional offers to shared state for critique review.
+#### Input: List of draft dictionaries.
+#### Output: Boolean True.
 
-### 2. human_verify(approved_drafts: dict) -> str
+### 2. generate_single_customer_message(customer_id: str) -> dict
+#### Description: Generates a personalized WhatsApp message draft for an individual customer using RFM cohort, margin-safe discount, and top affinity recommendations.
+#### Input: customer_id string.
+#### Output: Draft dictionary with message_text, offer_inr, and rationale.
 
-#### Description: Pauses the workflow and presents approved drafts to the human in the CLI.
-#### Input: Approved drafts JSON.
-#### Output: Human input string ("y" or "n").
+### 3. calculate_margin_safe_discount(item_name: str, avg_spend: float) -> dict
+#### Description: Calculates unit-economic margin-safe discount amounts and breakeven volume multipliers.
+#### Input: item_name and avg_spend in ₹.
+#### Output: JSON with safe discount %, offer ₹, and breakeven volume multiplier.
+
+
+## CritiqueAgent & Evaluation Tools:
+
+### 1. llm_as_a_judge(drafts: list) -> dict
+#### Description: Audits drafts on rule compliance (Namaste, <50 words, ₹ symbol, ≤20% discount, disguised discount traps, no real names) and multi-criteria 1-5 rubric scoring.
+#### Input: List of draft dictionaries.
+#### Output: JSON with "Approved": bool, "Feedback": str, "Target": str, "Rubric_Scores": dict.
+
+### 2. scrub_pii_from_text(text: str) -> str
+#### Description: Post-processes generated texts to scrub any accidental customer names or 10-digit mobile numbers.
+#### Input: Text string.
+#### Output: Sanitized text string.
+
+### 3. human_verify(approved_drafts: list) -> str
+#### Description: Pauses the workflow and presents approved drafts for human confirmation (y/n).
+#### Input: Approved drafts list.
+#### Output: Human input decision string ("y" or "n").
+
+### 4. ShopImpactEvaluator
+#### Description: Calculates recoverable revenue from lapsed buyers using time-decay return probabilities and unlocked dead-stock working capital.
+#### Input: Lapsed customers list and slow-moving items list.
+#### Output: Shop Growth Index score (0-100), net revenue value in ₹, and promotion ROI ratio.
+
