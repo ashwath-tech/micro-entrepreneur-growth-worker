@@ -1,0 +1,408 @@
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpoqycgwok.db
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpoqycgwok.db
+[2026-08-27 15:22:08] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:22:08] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmp8k50wrta.db
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmp8k50wrta.db
+[2026-08-27 15:22:08] [TOOL_CALL:analyze_revenue] Analyzing revenue across 2 transactions
+[2026-08-27 15:22:08] [TOOL_SUCCESS:analyze_revenue] Analysis: Current=₹500.0, Baseline=₹1000.0, Change=-50.0%
+[2026-08-27 15:22:08] [TOOL_CALL:analyze_revenue] Analyzing revenue across 2 transactions
+[2026-08-27 15:22:08] [TOOL_SUCCESS:analyze_revenue] Analysis: Current=₹1500.0, Baseline=₹1000.0, Change=50.0%
+[2026-08-27 15:22:08] [TOOL_CALL:check_trends] Evaluating revenue trends
+[2026-08-27 15:22:08] [TOOL_SUCCESS:check_trends] Trend detected: Revenue dropped by 50.0% compared to previous 30-day baseline (₹500.00 vs ₹1000.00).
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpbrrah7bc.db
+[2026-08-27 15:22:08] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpbrrah7bc.db
+[2026-08-27 15:22:08] [TOOL_CALL:identify_weakareas] Identifying weak areas for 1 records
+[2026-08-27 15:22:08] [TOOL_SUCCESS:identify_weakareas] Lapsed: ['C001', 'C003'], Slow items: ['Biscuits', 'Samosa', 'Sweets']
+[2026-08-27 15:22:09] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpvi3qk7gv.db
+[2026-08-27 15:22:09] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpvi3qk7gv.db
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Lapsed
+[2026-08-27 15:22:09] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpsxdv7c68.db
+[2026-08-27 15:22:09] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpsxdv7c68.db
+[2026-08-27 15:22:09] [TOOL_CALL:generate_graphs] Building visual graph datasets
+[2026-08-27 15:22:09] [TOOL_SUCCESS:generate_graphs] Generated graphs: 9 dates, 0 customers
+[2026-08-27 15:22:09] [API:add_data] Appended txn_id=54 for Deepak Test (₹50.0)
+[2026-08-27 15:22:09] [TOOL_CALL:read_sql] Executing query: SELECT DISTINCT customer_id FROM transactions
+[2026-08-27 15:22:09] [TOOL_SUCCESS:read_sql] Query returned 18 rows
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Samosa, Visits=9, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C002
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C002: Preferred=Chai, Visits=6, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Rice (5kg), Visits=5, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C004
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C004: Preferred=Biscuits, Visits=6, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C005
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C005: Preferred=Spices (Garam Masala), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C006
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C006: Preferred=Bread, Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C007
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C007: Preferred=Atta (5kg), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C008
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C008: Preferred=Sweets, Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C009
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C009: Preferred=Atta (5kg), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C010
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C010: Preferred=Toor Dal (1kg), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C011
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C011: Preferred=Atta (5kg), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C012
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C012: Preferred=Mustard Oil (1L), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C013
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C013: Preferred=Rice (5kg), Visits=3, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C014
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C014: Preferred=Mustard Oil (1L), Visits=2, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C015
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C015: Preferred=Detergent Powder (1kg), Visits=2, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C016
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C016: Preferred=Namkeen, Visits=2, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C017
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C017: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C018
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C018: Preferred=Chai, Visits=1, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Samosa, Visits=9, Status=Active
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer_deep] Deep analysis for C001
+[2026-08-27 15:22:09] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:09] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Samosa, Visits=9, Status=Active
+[2026-08-27 15:22:11] [ANALYZE_CUSTOMER_DEEP:LLM_FALLBACK] LLM fallback used: name 'json' is not defined
+[2026-08-27 15:22:11] [TOOL_SUCCESS:analyze_customer_deep] Deep analysis completed for C001: Segment=Loyal Frequent Shopper, Risk=Low
+[2026-08-27 15:22:11] [API:analyze_single_customer] Deep analysis completed for C001 (Ramesh Kumar)
+[2026-08-27 15:22:11] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:22:11] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:11] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Samosa, Visits=9, Status=Active
+[2026-08-27 15:22:21] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:22:21] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹10.0
+[2026-08-27 15:22:21] [CUSTOMER_OUTREACH:SENT] Recorded outreach #40 for C001 (Ramesh Kumar) - ₹20.0: Namaste C001! Enjoy ₹20 discount on Chai today.
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpreqx81n8.csv
+[2026-08-27 15:22:21] [TOOL_SUCCESS:read_csv] Successfully read 5 transactions from C:\Users\ash12\AppData\Local\Temp\tmpreqx81n8.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpm7behh67.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmpm7behh67.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpdouldtw1.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] Invalid amount_inr 'FREE' at row 1
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: data/non_existent_file_xyz.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] File not found: data/non_existent_file_xyz.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmphhjuno_0.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] Required column 'amount_inr, customer_name, date, item, txn_id' is missing from C:\Users\ash12\AppData\Local\Temp\tmphhjuno_0.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp35dqou4f.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] Malformed CSV row at line 2: unexpected extra values ['EXTRA_COLUMN_VAL']
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpdrdnmcfq.csv
+[2026-08-27 15:22:21] [TOOL_SUCCESS:read_csv] Successfully read 4 transactions from C:\Users\ash12\AppData\Local\Temp\tmpdrdnmcfq.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpz1124yjl.csv
+[2026-08-27 15:22:21] [TOOL_SUCCESS:read_csv] Successfully read 1 transactions from C:\Users\ash12\AppData\Local\Temp\tmpz1124yjl.csv
+[2026-08-27 15:22:21] [TOOL_CALL:human_escalation_csv] Escalation triggered: Invalid CSV header detected.
+[2026-08-27 15:22:21] [INGESTION_AGENT:START] Ingesting data from C:\Users\ash12\AppData\Local\Temp\tmp2zxqzlea.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp2zxqzlea.csv
+[2026-08-27 15:22:21] [TOOL_SUCCESS:read_csv] Successfully read 5 transactions from C:\Users\ash12\AppData\Local\Temp\tmp2zxqzlea.csv
+[2026-08-27 15:22:21] [TOOL_CALL:mask_pii] Masking PII for 5 records
+[2026-08-27 15:22:21] [TOOL_SUCCESS:mask_pii] Masked 5 records. PII mapping saved in data/memory.db
+[2026-08-27 15:22:21] [TOOL_CALL:convert_to_sql] Writing 5 transactions to data/memory.db
+[2026-08-27 15:22:21] [TOOL_SUCCESS:convert_to_sql] Successfully wrote 5 records to transactions table in data/memory.db
+[2026-08-27 15:22:21] [INGESTION_AGENT:START] Ingesting data from C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv
+[2026-08-27 15:22:21] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv
+[2026-08-27 15:22:21] [TOOL_ERROR:read_csv] Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv
+[2026-08-27 15:22:21] [INGESTION_AGENT:ERROR] Ingestion Failure for 'C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv': Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv
+[2026-08-27 15:22:21] [TOOL_CALL:human_escalation_csv] Escalation triggered: Ingestion Failure for 'C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv': Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmp__95tcyv.csv
+[2026-08-27 15:22:21] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpzivxgsq9.db
+[2026-08-27 15:22:21] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpzivxgsq9.db
+[2026-08-27 15:22:21] [TOOL_CALL:llm_as_a_judge] Evaluating 2 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:LLM_FALLBACK] LLM judge evaluation skipped/fallback (504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'The request timed out. Please try again.', 'status': 'DEADLINE_EXCEEDED'}})
+[2026-08-27 15:22:31] [QA_CRITIQUE:APPROVED] All marketing drafts passed rule-based and LLM-as-a-judge criteria.
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpjzvznr19.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpjzvznr19.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Message does not start with 'Namaste'.
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmp8vvn_s_b.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmp8vvn_s_b.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Discount of 40% exceeds maximum allowed limit of 20%.
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpmn0qwiyc.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpmn0qwiyc.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Dollar symbol ($) used. Currency must always be Rupees (₹).
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpn0ctb9rb.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpn0ctb9rb.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Rupee symbol (₹) is missing from message text.
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpm6sso_4z.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpm6sso_4z.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Message length (137 words) exceeds 50-word maximum limit.
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpvj02e2z1.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpvj02e2z1.db
+[2026-08-27 15:22:31] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:31] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Privacy violation! Real customer name 'Ramesh' used instead of customer_id (C001).
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmp7f2r55xs.db
+[2026-08-27 15:22:31] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmp7f2r55xs.db
+[2026-08-27 15:22:31] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:22:31] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:31] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:39] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:22:39] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:22:39] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmp_a41nhiy.db
+[2026-08-27 15:22:39] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmp_a41nhiy.db
+[2026-08-27 15:22:39] [TOOL_CALL:mask_pii] Masking PII for 2 records
+[2026-08-27 15:22:39] [TOOL_SUCCESS:mask_pii] Masked 2 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmp_a41nhiy.db
+[2026-08-27 15:22:39] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpkpfflef8.db
+[2026-08-27 15:22:39] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpkpfflef8.db
+[2026-08-27 15:22:39] [TOOL_CALL:mask_pii] Masking PII for 2 records
+[2026-08-27 15:22:39] [TOOL_SUCCESS:mask_pii] Masked 2 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmpkpfflef8.db
+[2026-08-27 15:22:39] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpadml5itc.db
+[2026-08-27 15:22:40] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpadml5itc.db
+[2026-08-27 15:22:40] [TOOL_CALL:mask_pii] Masking PII for 1 records
+[2026-08-27 15:22:40] [TOOL_SUCCESS:mask_pii] Masked 1 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmpadml5itc.db
+[2026-08-27 15:22:40] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpgbvudraf.db
+[2026-08-27 15:22:40] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpgbvudraf.db
+[2026-08-27 15:22:40] [TOOL_CALL:read_sql] Executing query: SELECT * FROM pii_mapping
+[2026-08-27 15:22:40] [SECURITY_VIOLATION:read_sql] Security Exception: Direct queries to pii_mapping table are strictly prohibited for privacy.
+[2026-08-27 15:22:40] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpr7vu7rch.db
+[2026-08-27 15:22:40] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpr7vu7rch.db
+[2026-08-27 15:22:40] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:40] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:40] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:22:40] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:40] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:42] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmparnjptex.db
+[2026-08-27 15:22:42] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmparnjptex.db
+[2026-08-27 15:22:42] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp6sin3sdc.csv
+[2026-08-27 15:22:42] [TOOL_SUCCESS:read_csv] Successfully read 2 transactions from C:\Users\ash12\AppData\Local\Temp\tmp6sin3sdc.csv
+[2026-08-27 15:22:42] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpt9cl7eyp.csv
+[2026-08-27 15:22:42] [TOOL_ERROR:read_csv] Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmpt9cl7eyp.csv
+[2026-08-27 15:22:42] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp0t71xpas.csv
+[2026-08-27 15:22:42] [TOOL_ERROR:read_csv] Invalid amount_inr 'FREE_ITEM' at row 1
+[2026-08-27 15:22:42] [TOOL_CALL:read_csv] Attempting to read file: data/does_not_exist_9999.csv
+[2026-08-27 15:22:42] [TOOL_ERROR:read_csv] File not found: data/does_not_exist_9999.csv
+[2026-08-27 15:22:42] [TOOL_CALL:mask_pii] Masking PII for 1 records
+[2026-08-27 15:22:42] [TOOL_SUCCESS:mask_pii] Masked 1 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmparnjptex.db
+[2026-08-27 15:22:42] [TOOL_CALL:read_sql] Executing query: SELECT * FROM pii_mapping
+[2026-08-27 15:22:42] [SECURITY_VIOLATION:read_sql] Security Exception: Direct queries to pii_mapping table are strictly prohibited for privacy.
+[2026-08-27 15:22:42] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:22:42] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:22:42] [TOOL_CALL:analyze_revenue] Analyzing revenue across 1 transactions
+[2026-08-27 15:22:42] [TOOL_SUCCESS:analyze_revenue] Analysis: Current=₹100.0, Baseline=₹2900.0, Change=-96.55%
+[2026-08-27 15:22:42] [TOOL_CALL:check_trends] Evaluating revenue trends
+[2026-08-27 15:22:42] [TOOL_SUCCESS:check_trends] Trend detected: Revenue dropped by 96.5% compared to previous 30-day baseline (₹100.00 vs ₹2900.00).
+[2026-08-27 15:22:42] [TOOL_CALL:identify_weakareas] Identifying weak areas for 1 records
+[2026-08-27 15:22:42] [TOOL_SUCCESS:identify_weakareas] Lapsed: ['C001', 'C002', 'C003', 'C004'], Slow items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:22:42] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:48] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:22:48] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:22:48] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:22:48] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:22:48] [TOOL_CALL:generate_single_customer_message] Drafting message for C003
+[2026-08-27 15:22:48] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:22:48] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:22:52] [QA_CRITIQUE:LLM_FALLBACK] LLM judge evaluation skipped/fallback (504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'The request timed out. Please try again.', 'status': 'DEADLINE_EXCEEDED'}})
+[2026-08-27 15:22:52] [QA_CRITIQUE:APPROVED] All marketing drafts passed rule-based and LLM-as-a-judge criteria.
+[2026-08-27 15:22:52] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:52] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Discount of 50% exceeds maximum allowed limit of 20%.
+[2026-08-27 15:22:52] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:22:52] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Dollar symbol ($) used. Currency must always be Rupees (₹).
+[2026-08-27 15:22:52] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:52] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:52] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:22:52] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:52] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:55] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:22:55] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C003: Offer=₹24.0
+[2026-08-27 15:22:55] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpfrerh512.db
+[2026-08-27 15:22:55] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpfrerh512.db
+[2026-08-27 15:22:55] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:22:55] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:22:55] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmp5k0s2ysr.db
+[2026-08-27 15:22:55] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmp5k0s2ysr.db
+[2026-08-27 15:22:55] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:55] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:22:55] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:22:55] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:22:55] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:23:00] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:23:00] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:23:00] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:23:00] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:23:00] [TOOL_CALL:generate_single_customer_message] Drafting message for C003
+[2026-08-27 15:23:00] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:23:00] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:23:02] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 56.929213436s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '56s'}]}})
+[2026-08-27 15:23:02] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C003: Offer=₹24.0
+[2026-08-27 15:23:02] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:23:02] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:23:03] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:23:03] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:23:03] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:23:03] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:23:03] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:23:03] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:23:04] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpb_0c54wm.db
+[2026-08-27 15:23:04] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpb_0c54wm.db
+[2026-08-27 15:23:04] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:23:04] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:23:04] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:23:04] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:23:04] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:23:06] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 53.234420716s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '53s'}]}})
+[2026-08-27 15:23:06] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:23:06] [TOOL_CALL:analyze_customer] Analyzing customer C002
+[2026-08-27 15:23:06] [TOOL_SUCCESS:analyze_customer] Customer C002: Preferred=Chai, Visits=2, Status=Active
+[2026-08-27 15:23:06] [TOOL_CALL:generate_single_customer_message] Drafting message for C002
+[2026-08-27 15:23:06] [TOOL_CALL:analyze_customer] Analyzing customer C002
+[2026-08-27 15:23:06] [TOOL_SUCCESS:analyze_customer] Customer C002: Preferred=Chai, Visits=2, Status=Active
+[2026-08-27 15:23:08] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 51.417752444s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '51s'}]}})
+[2026-08-27 15:23:08] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C002: Offer=₹18.0
+[2026-08-27 15:23:08] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:23:08] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:23:08] [TOOL_CALL:generate_single_customer_message] Drafting message for C003
+[2026-08-27 15:23:08] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:23:08] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:23:10] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 49.256784744s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '49s'}]}})
+[2026-08-27 15:23:10] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C003: Offer=₹24.0
+[2026-08-27 15:23:10] [TOOL_CALL:analyze_customer] Analyzing customer C004
+[2026-08-27 15:23:10] [TOOL_SUCCESS:analyze_customer] Customer C004: Preferred=Biscuits, Visits=3, Status=Active
+[2026-08-27 15:23:10] [TOOL_CALL:generate_single_customer_message] Drafting message for C004
+[2026-08-27 15:23:10] [TOOL_CALL:analyze_customer] Analyzing customer C004
+[2026-08-27 15:23:10] [TOOL_SUCCESS:analyze_customer] Customer C004: Preferred=Biscuits, Visits=3, Status=Active
+[2026-08-27 15:23:12] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (Error calling model 'gemini-2.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-2.5-flash\nPlease retry in 47.128373889s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '5'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '47s'}]}})
+[2026-08-27 15:23:12] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C004: Offer=₹30.0
+[2026-08-27 15:24:14] [API:add_data] Appended txn_id=55 for Deepak Test (₹50.0)
+[2026-08-27 15:24:14] [TOOL_CALL:read_sql] Executing query: SELECT DISTINCT customer_id FROM transactions
+[2026-08-27 15:24:14] [TOOL_SUCCESS:read_sql] Query returned 18 rows
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=10, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C002
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C002: Preferred=Chai, Visits=6, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Rice (5kg), Visits=5, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C004
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C004: Preferred=Biscuits, Visits=7, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C008
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C008: Preferred=Sweets, Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C009
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C009: Preferred=Atta (5kg), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C010
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C010: Preferred=Toor Dal (1kg), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C011
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C011: Preferred=Atta (5kg), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C012
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C012: Preferred=Mustard Oil (1L), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C013
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C013: Preferred=Rice (5kg), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C014
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C014: Preferred=Mustard Oil (1L), Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C015
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C015: Preferred=Detergent Powder (1kg), Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C016
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C016: Preferred=Namkeen, Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C017
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C017: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C005
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C005: Preferred=Spices (Garam Masala), Visits=3, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C006
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C006: Preferred=Bath Soap (Pack of 3), Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C007
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C007: Preferred=Toor Dal (1kg), Visits=2, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C018
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C018: Preferred=Chai, Visits=1, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=10, Status=Active
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer_deep] Deep analysis for C001
+[2026-08-27 15:24:14] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:24:14] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=10, Status=Active
+[2026-08-27 15:24:15] [ANALYZE_CUSTOMER_DEEP:LLM_FALLBACK] LLM fallback used: name 'json' is not defined
+[2026-08-27 15:24:15] [TOOL_SUCCESS:analyze_customer_deep] Deep analysis completed for C001: Segment=Loyal Frequent Shopper, Risk=Low
+[2026-08-27 15:24:15] [API:analyze_single_customer] Deep analysis completed for C001 (Ramesh Kumar)
+[2026-08-27 15:24:15] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:24:15] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:24:15] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=10, Status=Active
+[2026-08-27 15:24:25] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'The request timed out. Please try again.', 'status': 'DEADLINE_EXCEEDED'}})
+[2026-08-27 15:24:25] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹10.0
+[2026-08-27 15:24:25] [CUSTOMER_OUTREACH:SENT] Recorded outreach #41 for C001 (Ramesh Kumar) - ₹20.0: Namaste C001! Enjoy ₹20 discount on Chai today.
+[2026-08-27 15:24:50] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpqtinotza.db
+[2026-08-27 15:24:51] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpqtinotza.db
+[2026-08-27 15:24:51] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpwexnm0s1.csv
+[2026-08-27 15:24:51] [TOOL_SUCCESS:read_csv] Successfully read 2 transactions from C:\Users\ash12\AppData\Local\Temp\tmpwexnm0s1.csv
+[2026-08-27 15:24:51] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpfiu6o1xz.csv
+[2026-08-27 15:24:51] [TOOL_ERROR:read_csv] Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmpfiu6o1xz.csv
+[2026-08-27 15:24:51] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp18oe42mn.csv
+[2026-08-27 15:24:51] [TOOL_ERROR:read_csv] Invalid amount_inr 'FREE_ITEM' at row 1
+[2026-08-27 15:24:51] [TOOL_CALL:read_csv] Attempting to read file: data/does_not_exist_9999.csv
+[2026-08-27 15:24:51] [TOOL_ERROR:read_csv] File not found: data/does_not_exist_9999.csv
+[2026-08-27 15:24:51] [TOOL_CALL:mask_pii] Masking PII for 1 records
+[2026-08-27 15:24:51] [TOOL_SUCCESS:mask_pii] Masked 1 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmpqtinotza.db
+[2026-08-27 15:24:51] [TOOL_CALL:read_sql] Executing query: SELECT * FROM pii_mapping
+[2026-08-27 15:24:51] [SECURITY_VIOLATION:read_sql] Security Exception: Direct queries to pii_mapping table are strictly prohibited for privacy.
+[2026-08-27 15:24:51] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:24:51] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:24:51] [TOOL_CALL:analyze_revenue] Analyzing revenue across 1 transactions
+[2026-08-27 15:24:51] [TOOL_SUCCESS:analyze_revenue] Analysis: Current=₹100.0, Baseline=₹2900.0, Change=-96.55%
+[2026-08-27 15:24:51] [TOOL_CALL:check_trends] Evaluating revenue trends
+[2026-08-27 15:24:51] [TOOL_SUCCESS:check_trends] Trend detected: Revenue dropped by 96.5% compared to previous 30-day baseline (₹100.00 vs ₹2900.00).
+[2026-08-27 15:24:51] [TOOL_CALL:identify_weakareas] Identifying weak areas for 1 records
+[2026-08-27 15:24:51] [TOOL_SUCCESS:identify_weakareas] Lapsed: ['C001', 'C002', 'C003', 'C004'], Slow items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:24:51] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:25:00] [QA_CRITIQUE:LLM_FALLBACK] LLM judge evaluation skipped/fallback (504 DEADLINE_EXCEEDED. {'error': {'code': 504, 'message': 'The request timed out. Please try again.', 'status': 'DEADLINE_EXCEEDED'}})
+[2026-08-27 15:25:00] [QA_CRITIQUE:APPROVED] All marketing drafts passed rule-based and LLM-as-a-judge criteria.
+[2026-08-27 15:25:00] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:25:00] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Discount of 50% exceeds maximum allowed limit of 20%.
+[2026-08-27 15:25:00] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:25:00] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Dollar symbol ($) used. Currency must always be Rupees (₹).
+[2026-08-27 15:25:00] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:25:00] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:25:00] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:25:00] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:25:00] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:25:07] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:25:07] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:25:07] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:25:07] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:25:07] [TOOL_CALL:generate_single_customer_message] Drafting message for C003
+[2026-08-27 15:25:07] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:25:07] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:25:14] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:25:14] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C003: Offer=₹24.0
+[2026-08-27 15:25:14] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:25:14] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:26:12] [SEED_HISTORICAL_DATA] Populating baseline historical data in C:\Users\ash12\AppData\Local\Temp\tmpsheowqie.db
+[2026-08-27 15:26:12] [SEED_HISTORICAL_DATA_SUCCESS] Seeded 9 baseline transactions in C:\Users\ash12\AppData\Local\Temp\tmpsheowqie.db
+[2026-08-27 15:26:12] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmpjbkwnhsl.csv
+[2026-08-27 15:26:12] [TOOL_SUCCESS:read_csv] Successfully read 2 transactions from C:\Users\ash12\AppData\Local\Temp\tmpjbkwnhsl.csv
+[2026-08-27 15:26:12] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmplad9o5bo.csv
+[2026-08-27 15:26:12] [TOOL_ERROR:read_csv] Required column 'amount_inr, item' is missing from C:\Users\ash12\AppData\Local\Temp\tmplad9o5bo.csv
+[2026-08-27 15:26:12] [TOOL_CALL:read_csv] Attempting to read file: C:\Users\ash12\AppData\Local\Temp\tmp7olpafck.csv
+[2026-08-27 15:26:12] [TOOL_ERROR:read_csv] Invalid amount_inr 'FREE_ITEM' at row 1
+[2026-08-27 15:26:12] [TOOL_CALL:read_csv] Attempting to read file: data/does_not_exist_9999.csv
+[2026-08-27 15:26:12] [TOOL_ERROR:read_csv] File not found: data/does_not_exist_9999.csv
+[2026-08-27 15:26:12] [TOOL_CALL:mask_pii] Masking PII for 1 records
+[2026-08-27 15:26:12] [TOOL_SUCCESS:mask_pii] Masked 1 records. PII mapping saved in C:\Users\ash12\AppData\Local\Temp\tmpsheowqie.db
+[2026-08-27 15:26:12] [TOOL_CALL:read_sql] Executing query: SELECT * FROM pii_mapping
+[2026-08-27 15:26:12] [SECURITY_VIOLATION:read_sql] Security Exception: Direct queries to pii_mapping table are strictly prohibited for privacy.
+[2026-08-27 15:26:12] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:26:12] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:26:12] [TOOL_CALL:analyze_revenue] Analyzing revenue across 1 transactions
+[2026-08-27 15:26:12] [TOOL_SUCCESS:analyze_revenue] Analysis: Current=₹100.0, Baseline=₹2900.0, Change=-96.55%
+[2026-08-27 15:26:12] [TOOL_CALL:check_trends] Evaluating revenue trends
+[2026-08-27 15:26:12] [TOOL_SUCCESS:check_trends] Trend detected: Revenue dropped by 96.5% compared to previous 30-day baseline (₹100.00 vs ₹2900.00).
+[2026-08-27 15:26:12] [TOOL_CALL:identify_weakareas] Identifying weak areas for 1 records
+[2026-08-27 15:26:12] [TOOL_SUCCESS:identify_weakareas] Lapsed: ['C001', 'C002', 'C003', 'C004'], Slow items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']
+[2026-08-27 15:26:12] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:26:22] [QA_CRITIQUE:APPROVED] All marketing drafts passed rule-based and LLM-as-a-judge criteria.
+[2026-08-27 15:26:22] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:26:23] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Discount of 50% exceeds maximum allowed limit of 20%.
+[2026-08-27 15:26:23] [TOOL_CALL:llm_as_a_judge] Evaluating 1 drafts
+[2026-08-27 15:26:23] [QA_CRITIQUE:RULE_FAIL] Draft #1 rejected: Dollar symbol ($) used. Currency must always be Rupees (₹).
+[2026-08-27 15:26:23] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:26:23] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:26:23] [TOOL_CALL:generate_single_customer_message] Drafting message for C001
+[2026-08-27 15:26:23] [TOOL_CALL:analyze_customer] Analyzing customer C001
+[2026-08-27 15:26:23] [TOOL_SUCCESS:analyze_customer] Customer C001: Preferred=Sweets, Visits=2, Status=Active
+[2026-08-27 15:26:30] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:26:30] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C001: Offer=₹30.0
+[2026-08-27 15:26:30] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:26:30] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:26:30] [TOOL_CALL:generate_single_customer_message] Drafting message for C003
+[2026-08-27 15:26:30] [TOOL_CALL:analyze_customer] Analyzing customer C003
+[2026-08-27 15:26:30] [TOOL_SUCCESS:analyze_customer] Customer C003: Preferred=Samosa, Visits=2, Status=Active
+[2026-08-27 15:26:34] [GENERATE_CUSTOMER_MSG:LLM_FALLBACK] Using guardrailed template (name 'json' is not defined)
+[2026-08-27 15:26:34] [TOOL_SUCCESS:generate_single_customer_message] Generated draft for C003: Offer=₹24.0
+[2026-08-27 15:26:34] [TOOL_CALL:query_mom_revenue] Querying historical baseline (days=30, ref=None)
+[2026-08-27 15:26:34] [TOOL_SUCCESS:query_mom_revenue] Baseline revenue: ₹2900.0, Customers: ['C001', 'C002', 'C003', 'C004'], Items: ['Biscuits', 'Chai', 'Chai, Samosa', 'Samosa', 'Sweets']

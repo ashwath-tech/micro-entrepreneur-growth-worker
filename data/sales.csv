@@ -52,3 +52,5 @@ txn_id,date,customer_name,phone,item,amount_inr,is_return
 51,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
 52,2023-10-31,Ramesh Kumar,9876543210,Samosa,40.0,False
 53,2023-10-31,Ramesh Kumar,9876543210,Samosa,40.0,False
+54,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
+55,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False

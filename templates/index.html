@@ -1300,6 +1300,79 @@
         <div id="resultSummaryContent"></div>
         <div id="resultDraftsContent"></div>
     </div>
+
+    <!-- SECTION 7: SYSTEM DIAGNOSTICS & SHOP IMPACT SUITE -->
+    <div class="section" id="diagnosticsSection" style="border: 2px solid #0284c7;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div>
+                <div class="section-title" style="margin-bottom: 2px; border-bottom: none; padding-bottom: 0; color: #0369a1;">
+                    7. System Diagnostics &amp; Shop Help Testing Suite 🧪
+                </div>
+                <div style="font-size: 13px; color: #555;">
+                    Verify all system features: CSV format error resilience (wrong format, corrupted files, non-numeric values), PII privacy, marketing rules, and evaluate quantifiable shop growth impact.
+                </div>
+            </div>
+            <button type="button" id="btnRunDiagnostics" class="btn-large" style="background-color: #0284c7; border-color: #0284c7; color: #ffffff;" onclick="runSystemDiagnostics()">
+                ⚡ Run All System Tests &amp; Shop Impact Analysis
+            </button>
+        </div>
+
+        <div id="diagnosticsLoading" style="display: none; padding: 20px; text-align: center; background-color: #f0f9ff; border: 1px dashed #0284c7; margin-bottom: 16px;">
+            <div style="font-weight: 700; font-size: 15px; color: #0369a1; margin-bottom: 6px;">Running Automated Feature Diagnostics &amp; Business Simulation...</div>
+            <div style="font-size: 13px; color: #555;">Testing CSV edge cases, PII masking, marketing compliance rules, and shop value metrics.</div>
+        </div>
+
+        <div id="diagnosticsResults" style="display: none;">
+            <!-- Shop Growth Impact Overview Cards -->
+            <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 16px; margin-bottom: 16px;">
+                <div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                    <span>📊 Quantified Shop Help &amp; Value Impact Metrics</span>
+                    <span id="diagShopGrowthBadge" class="status-badge status-completed" style="font-size: 13px;">Score: 100/100</span>
+                </div>
+                <div class="day-stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                    <div class="day-stat-card">
+                        <div class="day-stat-val" id="diagNetValue" style="color: #166534;">₹0.00</div>
+                        <div class="day-stat-label">Estimated Net Shop Value</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-val" id="diagRevUplift" style="color: #0369a1;">+0.0%</div>
+                        <div class="day-stat-label">Potential Revenue Uplift</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-val" id="diagRoiMultiplier" style="color: #d97706;">0.0x</div>
+                        <div class="day-stat-label">Promotion ROI Multiplier</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-val" id="diagLapsedRecoverable">0 buyers</div>
+                        <div class="day-stat-label">Lapsed Customer Recovery</div>
+                    </div>
+                    <div class="day-stat-card">
+                        <div class="day-stat-val" id="diagDeadStockUnlocked">₹0.00</div>
+                        <div class="day-stat-label">Dead Stock Liquidity</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Test Cases Breakdown -->
+            <div style="font-size: 14px; font-weight: 700; color: #111; margin-bottom: 8px;">
+                Feature Test Suite Breakdown (<span id="diagTestSummaryCount">0/0 Passed</span>):
+            </div>
+            <div class="txn-table-container" style="max-height: 350px;">
+                <table class="txn-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 140px;">Category</th>
+                            <th style="width: 220px;">Feature Test</th>
+                            <th style="width: 90px;">Status</th>
+                            <th>Verification Details &amp; Edge Cases Tested</th>
+                            <th style="width: 80px;">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="diagTestTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -2739,6 +2812,76 @@
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
+    }
+
+    async function runSystemDiagnostics() {
+        const btn = document.getElementById('btnRunDiagnostics');
+        const loading = document.getElementById('diagnosticsLoading');
+        const resultsBox = document.getElementById('diagnosticsResults');
+        const tableBody = document.getElementById('diagTestTableBody');
+
+        btn.disabled = true;
+        btn.innerText = "Running Diagnostics...";
+        loading.style.display = 'block';
+        resultsBox.style.display = 'none';
+
+        try {
+            const resp = await fetch('/api/tests/run', { method: 'POST' });
+            const data = await resp.json();
+
+            if (!resp.ok) {
+                alert(`Test Execution Failed: ${data.detail || 'Server error'}`);
+                return;
+            }
+
+            // Populate Shop Impact Cards
+            const impact = data.shop_impact || {};
+            const summary = data.summary || {};
+            const testResults = data.test_results || [];
+
+            const score = impact.growth_index_score || 100;
+            const statusBadge = document.getElementById('diagShopGrowthBadge');
+            statusBadge.innerText = `Score: ${score}/100 (${impact.status || 'Active'})`;
+            statusBadge.className = score >= 70 ? 'status-badge status-completed' : 'status-badge status-waiting';
+
+            document.getElementById('diagNetValue').innerText = `₹${(impact.estimated_net_value_inr || 0).toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+            document.getElementById('diagRevUplift').innerText = `+${impact.potential_revenue_uplift_pct || 0}%`;
+            document.getElementById('diagRoiMultiplier').innerText = `${impact.promotion_roi_ratio || 0}x`;
+
+            const lapsedCount = impact.recoverable_breakdown?.lapsed_customers_count || 0;
+            const lapsedHist = impact.recoverable_breakdown?.total_lapsed_historical_value_inr || 0;
+            document.getElementById('diagLapsedRecoverable').innerText = `${lapsedCount} buyers (₹${lapsedHist})`;
+
+            const dsLiquidity = impact.dead_stock_breakdown?.estimated_unlocked_liquidity_inr || 0;
+            document.getElementById('diagDeadStockUnlocked').innerText = `₹${dsLiquidity}`;
+
+            document.getElementById('diagTestSummaryCount').innerText = `${summary.passed}/${summary.total_tests} Passed (${summary.success_rate_pct}%) in ${summary.total_duration_ms}ms`;
+
+            // Populate Test Cases Table
+            tableBody.innerHTML = '';
+            testResults.forEach(t => {
+                const tr = document.createElement('tr');
+                const badgeClass = t.success ? 'badge-active' : 'badge-lapsed';
+                const statusText = t.success ? '✓ PASSED' : '✗ FAILED';
+
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: #475569;">${escapeHtml(t.category)}</td>
+                    <td style="font-weight: 700; color: #0f172a;">${escapeHtml(t.name)}</td>
+                    <td><span class="${badgeClass}">${statusText}</span></td>
+                    <td style="color: ${t.success ? '#15803d' : '#b91c1c'}; font-size: 11px;">${escapeHtml(t.message || 'Verified')}</td>
+                    <td style="color: #64748b; font-size: 11px;">${t.duration_ms}ms</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            resultsBox.style.display = 'block';
+        } catch (err) {
+            alert(`Error executing diagnostics: ${err.message}`);
+        } finally {
+            loading.style.display = 'none';
+            btn.disabled = false;
+            btn.innerText = "⚡ Run All System Tests & Shop Impact Analysis";
+        }
     }
 
     // Initial status check and customer list load on page load

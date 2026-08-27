@@ -870,6 +870,62 @@ async def get_day_details(date: str):
         raise HTTPException(status_code=500, detail=f"Failed to fetch day details: {str(e)}")
 
 
+@app.post("/api/tests/run")
+async def run_system_tests():
+    """
+    Executes the automated diagnostics and test suite across all features:
+    CSV robustness, PII privacy, Business analysis, Marketing rules, LangGraph workflow,
+    and Shop Growth / Revenue protection evaluation.
+    """
+    try:
+        from run_tests import run_all_diagnostics
+        diagnostics = run_all_diagnostics()
+        log_audit("API:run_system_tests", f"Ran tests: {diagnostics['summary']['passed']}/{diagnostics['summary']['total_tests']} passed.")
+        return diagnostics
+    except Exception as e:
+        log_audit("API_ERROR:run_system_tests", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to execute test suite: {str(e)}")
+
+
+@app.get("/api/shop_impact")
+async def get_shop_impact():
+    """
+    Returns real-time shop growth and revenue protection evaluation for the store.
+    """
+    try:
+        from tests.test_shop_growth_evaluation import ShopImpactEvaluator
+        from src.tools import query_mom_revenue, read_sql, identify_weakareas
+
+        init_db("data/memory.db")
+        seed_historical_data("data/memory.db")
+        baseline = query_mom_revenue(days=30, db_path="data/memory.db")
+        all_txns = read_sql("SELECT txn_id, date, customer_id, item, amount_inr, is_return FROM transactions ORDER BY date ASC")
+        current_txns = all_txns[-3:] if len(all_txns) >= 3 else all_txns
+        
+        weak_areas = identify_weakareas(current_txns, baseline_data=baseline, db_path="data/memory.db")
+        lapsed = weak_areas.get("lapsed_customers", [])
+        slow_items = weak_areas.get("slow_moving_items", [])
+
+        rec = ShopImpactEvaluator.calculate_recoverable_revenue(lapsed, db_path="data/memory.db")
+        ds = ShopImpactEvaluator.calculate_dead_stock_value(slow_items, db_path="data/memory.db")
+        impact_summary = ShopImpactEvaluator.calculate_shop_growth_index(
+            rec, ds, baseline.get("total_baseline_revenue_inr", 0.0)
+        )
+
+        return {
+            "growth_index_score": impact_summary.get("shop_growth_index_score", 85),
+            "status": impact_summary.get("status", "High Growth Potential"),
+            "estimated_net_value_inr": impact_summary.get("total_estimated_net_value_inr", 0.0),
+            "potential_revenue_uplift_pct": impact_summary.get("potential_revenue_uplift_pct", 0.0),
+            "promotion_roi_ratio": impact_summary.get("promotion_roi_ratio", 0.0),
+            "recoverable_breakdown": rec,
+            "dead_stock_breakdown": ds
+        }
+    except Exception as e:
+        log_audit("API_ERROR:get_shop_impact", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to calculate shop impact: {str(e)}")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.app:app", host="127.0.0.1", port=8000, reload=True)
