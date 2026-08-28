@@ -12,10 +12,13 @@ A multi-agent assistant built for small Indian shop owners . It analyzes daily s
 5. **Decisions**: It can decide on what offers to suggest on its own, it can analyse monthly revenue and particular customer.
 6. **Output**: Detailed weekly bussiness and customer-wise analysis + offer suggestions
 7. **Constraints**: It should not send whatsapp offers without human approval, it will not suggest offers harmful to the shop revenue.
-8. **Defenition of Done**: Passes all tests that are added
-9. **Privacy Design**: It does not save names and phone numbers in the database
-10. **Escalation**: Human approval is needed for sending whatsapp messages
-11. **Success Metric**: The offer suggestions improve over time and tests do not fail
+8. **Privacy**: customer names and phone numbers arent stored in DB
+9. **Defenition of Done**: Passes all tests that are added
+10. **Privacy Design**: It does not save names and phone numbers in the database
+11. **Escalation**: Human approval is needed for sending whatsapp messages
+12. **Success Metric**: The offer suggestions improve over time and tests do not fail
+13. **What remains human-led**: The final verifying before sending offers, fixing malformed csv.
+14. **Future Improvements**: Making the workflow run periodically and Connecting to whatsapp, getting real data proper fronted with authentication.
 
 ---
 
