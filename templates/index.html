@@ -611,6 +611,25 @@
         .chart-svg-container {
             width: 100%;
             overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+        }
+
+        .chart-svg-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .chart-svg-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chart-svg-container::-webkit-scrollbar-thumb {
+            background: #cccccc;
+        }
+
+        .chart-svg-container::-webkit-scrollbar-thumb:hover {
+            background: #999999;
         }
 
         #itemChartContainer {
@@ -1188,7 +1207,7 @@
                                 <span style="font-size: 11px; color: #666; margin-left: 6px;">Visits & Amounts</span>
                             </div>
                         </div>
-                        <div id="inspectorActivityChartContainer"></div>
+                        <div id="inspectorActivityChartContainer" class="chart-svg-container"></div>
                     </div>
                 </div>
             </div>
@@ -1371,6 +1390,105 @@
                     <tbody id="diagTestTableBody"></tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <!-- SECTION 8: AGENT SELF-LEARNING & CONTINUOUS MEMORY -->
+    <div class="section" id="selfLearningSection" style="border: 2px solid #8b5cf6;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div>
+                <div class="section-title" style="margin-bottom: 2px; border-bottom: none; padding-bottom: 0; color: #6d28d9;">
+                    8. Agent Self-Learning &amp; Continuous Memory 🧠
+                </div>
+                <div style="font-size: 13px; color: #555;">
+                    Autonomous continuous learning from your edits, QA Critic reflections, and real-world sales conversion reinforcement.
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button type="button" class="btn-icon" style="background-color: #8b5cf6; color: #ffffff;" onclick="loadLearningsAnalytics()">
+                    🔄 Refresh Memory
+                </button>
+                <button type="button" class="btn-icon" style="background-color: #ffffff; color: #dc2626; border-color: #dc2626;" onclick="resetAllLearnings()">
+                    🗑️ Reset Memory
+                </button>
+            </div>
+        </div>
+
+        <!-- Reinforcement Metrics Overview Cards -->
+        <div class="day-stat-grid" style="margin-bottom: 16px;">
+            <div class="day-stat-card">
+                <div class="day-stat-label">Active Learned Rules</div>
+                <div class="day-stat-val" id="learningActiveRulesCount" style="color: #6d28d9;">0</div>
+            </div>
+            <div class="day-stat-card">
+                <div class="day-stat-label">Campaigns Evaluated</div>
+                <div class="day-stat-val" id="learningCampaignsTracked">0</div>
+            </div>
+            <div class="day-stat-card">
+                <div class="day-stat-label">Customers Reactivated</div>
+                <div class="day-stat-val" id="learningCustomersReactivated" style="color: #166534;">0</div>
+            </div>
+            <div class="day-stat-card">
+                <div class="day-stat-label">Revenue Recovered (₹)</div>
+                <div class="day-stat-val" id="learningRevenueRecovered" style="color: #166534;">₹0.00</div>
+            </div>
+        </div>
+
+        <!-- Add Custom Learning Rule Form -->
+        <div style="background-color: #f5f3ff; border: 1px solid #ddd6fe; padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 13px; font-weight: 700; color: #5b21b6; margin-bottom: 8px;">Teach Agent a New Rule / Preference:</div>
+            <div style="display: grid; grid-template-columns: 140px 1fr 120px auto; gap: 8px; align-items: center;">
+                <select id="newRuleDomain" style="font-size: 12px; padding: 6px 8px;">
+                    <option value="marketing_tone">Marketing Tone</option>
+                    <option value="discount_preference">Discount Policy</option>
+                    <option value="customer_preference">Customer Pref</option>
+                    <option value="analyst_strategy">Analyst Strategy</option>
+                </select>
+                <input type="text" id="newRuleText" placeholder="e.g. Keep greetings brief with Namaste ji and highlight tea bundles" style="font-size: 12px; padding: 6px 8px;">
+                <input type="text" id="newRuleCustId" placeholder="Cust ID (e.g. C001)" style="font-size: 12px; padding: 6px 8px;">
+                <button type="button" class="btn-success" style="font-size: 12px; padding: 6px 12px;" onclick="addNewCustomRule()">+ Teach Agent</button>
+            </div>
+            <div id="newRuleFeedback" class="form-message" style="margin-top: 6px;"></div>
+        </div>
+
+        <!-- Active Learned Rules Table -->
+        <div style="font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px;">Active In-Context Learned Rules:</div>
+        <div class="txn-table-container" style="max-height: 240px; margin-bottom: 16px;">
+            <table class="txn-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">ID</th>
+                        <th style="width: 130px;">Domain</th>
+                        <th>Learned Rule / Behavioral Preference</th>
+                        <th style="width: 90px;">Target</th>
+                        <th style="width: 80px;">Confidence</th>
+                        <th style="width: 100px;">Source</th>
+                        <th style="width: 110px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="learningRulesTableBody">
+                    <tr><td colspan="7" style="text-align: center; color: #666; padding: 12px;">Loading learned memory...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Human Edit Distillation History -->
+        <div style="font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px;">Recent Human Edits &amp; Distilled Insights:</div>
+        <div class="txn-table-container" style="max-height: 200px;">
+            <table class="txn-table">
+                <thead>
+                    <tr>
+                        <th style="width: 90px;">Customer</th>
+                        <th>Original Agent Draft</th>
+                        <th>Your Edited Version</th>
+                        <th>Distilled Preference</th>
+                        <th style="width: 90px;">Time</th>
+                    </tr>
+                </thead>
+                <tbody id="learningFeedbackTableBody">
+                    <tr><td colspan="5" style="text-align: center; color: #666; padding: 12px;">No human edits recorded yet. Edit a message during Human Review to teach the agent!</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -1612,6 +1730,28 @@
     let currentItemGraphData = null;
     let selectedDayDate = null;
 
+    function formatGraphDate(dateStr) {
+        if (!dateStr) return '';
+        const str = String(dateStr).trim();
+        const parts = str.split('-');
+        if (parts.length === 3) {
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const mIdx = parseInt(parts[1], 10) - 1;
+            const mName = (mIdx >= 0 && mIdx < 12) ? months[mIdx] : parts[1];
+            const d = parseInt(parts[2], 10);
+            return `${d} ${mName}`;
+        }
+        const slashParts = str.split('/');
+        if (slashParts.length === 2) {
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const mIdx = parseInt(slashParts[0], 10) - 1;
+            const mName = (mIdx >= 0 && mIdx < 12) ? months[mIdx] : slashParts[0];
+            const d = parseInt(slashParts[1], 10);
+            return `${d} ${mName}`;
+        }
+        return str;
+    }
+
     function toggleExpandChart(cardId) {
         const card = document.getElementById(cardId);
         if (!card) return;
@@ -1629,7 +1769,7 @@
         currentWeeklyGraphData = graphData;
         const container = document.getElementById('revenueChartContainer');
         if (!graphData || !graphData.labels || graphData.labels.length === 0) {
-            container.innerHTML = '<p style="font-size:12px; color:#888;">No revenue timeline data available.</p>';
+            container.innerHTML = '<p style="font-size:12px; color:#888; padding: 12px;">No revenue timeline data available.</p>';
             return;
         }
 
@@ -1641,17 +1781,21 @@
         const card = document.getElementById('revenueCard');
         const isExpanded = card && card.classList.contains('expanded');
 
-        const svgWidth = isExpanded ? 880 : 420;
-        const svgHeight = isExpanded ? 240 : 160;
+        const minSlotWidth = isExpanded ? 58 : 50;
         const padLeft = 45;
-        const padBottom = 28;
-        const padTop = 20;
-        const padRight = 15;
+        const padBottom = 50;
+        const padTop = 24;
+        const padRight = 20;
+
+        const baseWidth = isExpanded ? 880 : 420;
+        const calculatedWidth = padLeft + padRight + (labels.length * minSlotWidth);
+        const svgWidth = Math.max(baseWidth, calculatedWidth);
+        const svgHeight = isExpanded ? 260 : 190;
 
         const chartWidth = svgWidth - padLeft - padRight;
         const chartHeight = svgHeight - padTop - padBottom;
         const slotWidth = chartWidth / labels.length;
-        const barWidth = Math.max(12, Math.min(isExpanded ? 44 : 32, slotWidth - 6));
+        const barWidth = Math.max(14, Math.min(isExpanded ? 38 : 28, slotWidth - 12));
 
         let barsSvg = '';
         labels.forEach((lbl, idx) => {
@@ -1660,10 +1804,12 @@
             const x = padLeft + (idx * slotWidth) + ((slotWidth - barWidth) / 2);
             const y = padTop + (chartHeight - barH);
 
-            const shortDate = lbl.split('-').slice(1).join('/');
+            const displayDate = formatGraphDate(lbl);
             const isSelected = (selectedDayDate === lbl);
             const fillColor = isSelected ? '#0284c7' : '#111111';
             const strokeAttr = isSelected ? 'stroke="#111111" stroke-width="2"' : '';
+            const centerX = x + barWidth / 2;
+            const textY = padTop + chartHeight + 10;
 
             barsSvg += `
                 <!-- Clickable bar column -->
@@ -1674,14 +1820,14 @@
                     <rect class="chart-bar-rect ${isSelected ? 'selected' : ''}" x="${x}" y="${y}" width="${barWidth}" height="${barH}" fill="${fillColor}" ${strokeAttr}>
                         <title>${lbl}: ₹${val.toFixed(2)} (Click for details)</title>
                     </rect>
-                    <text x="${x + barWidth/2}" y="${y - 4}" text-anchor="middle" font-size="${isExpanded ? 11 : 9}" font-weight="600" fill="#333">₹${Math.round(val)}</text>
-                    <text x="${x + barWidth/2}" y="${svgHeight - 8}" text-anchor="middle" font-size="${isExpanded ? 11 : 9}" fill="${isSelected ? '#0284c7' : '#666'}" font-weight="${isSelected ? '700' : 'normal'}">${shortDate}</text>
+                    <text x="${centerX}" y="${Math.max(y - 5, padTop + 8)}" text-anchor="middle" font-size="${isExpanded ? 10 : 9}" font-weight="600" fill="#333">₹${Math.round(val)}</text>
+                    <text x="${centerX}" y="${textY}" transform="rotate(-45, ${centerX}, ${textY})" text-anchor="end" font-size="${isExpanded ? 11 : 10}" fill="${isSelected ? '#0284c7' : '#555'}" font-weight="${isSelected ? '700' : 'normal'}">${displayDate}</text>
                 </g>
             `;
         });
 
         container.innerHTML = `
-            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; height: ${svgHeight}px; font-family: inherit;">
+            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="min-width: ${svgWidth}px; width: 100%; height: ${svgHeight}px; font-family: inherit; display: block;">
                 <line x1="${padLeft}" y1="${padTop + chartHeight}" x2="${svgWidth - padRight}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
                 <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
                 ${barsSvg}
@@ -2157,17 +2303,20 @@
         const values = activityData.data || [];
         const maxVal = Math.max(...values.map(v => Math.abs(v)), 50);
 
-        const svgWidth = 400;
-        const svgHeight = 160;
-        const padLeft = 40;
-        const padBottom = 26;
-        const padTop = 18;
-        const padRight = 10;
+        const minSlotWidth = 48;
+        const padLeft = 45;
+        const padBottom = 48;
+        const padTop = 22;
+        const padRight = 15;
+        const baseWidth = 380;
+        const calculatedWidth = padLeft + padRight + (labels.length * minSlotWidth);
+        const svgWidth = Math.max(baseWidth, calculatedWidth);
+        const svgHeight = 180;
 
         const chartWidth = svgWidth - padLeft - padRight;
         const chartHeight = svgHeight - padTop - padBottom;
         const slotWidth = chartWidth / labels.length;
-        const barWidth = Math.max(10, Math.min(28, slotWidth - 4));
+        const barWidth = Math.max(12, Math.min(26, slotWidth - 10));
 
         let barsSvg = '';
         labels.forEach((lbl, idx) => {
@@ -2177,23 +2326,25 @@
             const barH = Math.max(4, (absVal / maxVal) * chartHeight);
             const x = padLeft + (idx * slotWidth) + ((slotWidth - barWidth) / 2);
             const y = padTop + (chartHeight - barH);
-            const shortDate = lbl.split('-').slice(1).join('/');
+            const displayDate = formatGraphDate(lbl);
 
             const fillColor = isReturn ? '#dc2626' : '#111111';
+            const centerX = x + barWidth / 2;
+            const textY = padTop + chartHeight + 10;
 
             barsSvg += `
                 <g>
                     <rect x="${x}" y="${y}" width="${barWidth}" height="${barH}" fill="${fillColor}">
                         <title>${lbl}: ${isReturn ? '-' : ''}₹${absVal.toFixed(2)}</title>
                     </rect>
-                    <text x="${x + barWidth/2}" y="${y - 4}" text-anchor="middle" font-size="9" font-weight="600" fill="#333">₹${Math.round(absVal)}</text>
-                    <text x="${x + barWidth/2}" y="${svgHeight - 6}" text-anchor="middle" font-size="9" fill="#666">${shortDate}</text>
+                    <text x="${centerX}" y="${Math.max(y - 5, padTop + 8)}" text-anchor="middle" font-size="9" font-weight="600" fill="#333">₹${Math.round(absVal)}</text>
+                    <text x="${centerX}" y="${textY}" transform="rotate(-45, ${centerX}, ${textY})" text-anchor="end" font-size="10" fill="#555">${displayDate}</text>
                 </g>
             `;
         });
 
         container.innerHTML = `
-            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="width: 100%; height: ${svgHeight}px; font-family: inherit;">
+            <svg viewBox="0 0 ${svgWidth} ${svgHeight}" style="min-width: ${svgWidth}px; width: 100%; height: ${svgHeight}px; font-family: inherit; display: block;">
                 <line x1="${padLeft}" y1="${padTop + chartHeight}" x2="${svgWidth - padRight}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
                 <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + chartHeight}" stroke="#cccccc" stroke-width="1"/>
                 ${barsSvg}
@@ -2884,9 +3035,149 @@
         }
     }
 
+    // -------------------------------------------------------------
+    // SECTION 8: AGENT SELF-LEARNING & MEMORY CLIENT LOGIC
+    // -------------------------------------------------------------
+    async function loadLearningsAnalytics() {
+        try {
+            const resp = await fetch('/api/learnings');
+            if (!resp.ok) return;
+            const data = await resp.json();
+
+            // Populate Overview Stat Cards
+            document.getElementById('learningActiveRulesCount').innerText = data.total_active_rules || 0;
+            const cMetrics = data.campaign_metrics || {};
+            document.getElementById('learningCampaignsTracked').innerText = cMetrics.campaigns_tracked || 0;
+            document.getElementById('learningCustomersReactivated').innerText = `${cMetrics.customers_reactivated || 0} (${cMetrics.conversion_rate_pct || 0}%)`;
+            document.getElementById('learningRevenueRecovered').innerText = `₹${(cMetrics.revenue_recovered_inr || 0).toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+
+            // Populate Rules Table
+            const rulesTable = document.getElementById('learningRulesTableBody');
+            rulesTable.innerHTML = '';
+            const rules = data.rules || [];
+            if (rules.length === 0) {
+                rulesTable.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666; padding: 12px;">No active rules in memory yet. Teach a rule above or run the workflow!</td></tr>';
+            } else {
+                rules.forEach(r => {
+                    const tr = document.createElement('tr');
+                    const domainBadge = `<span style="font-size: 10px; font-weight: 700; background: #ede9fe; color: #5b21b6; padding: 2px 6px; border-radius: 2px;">${escapeHtml(r.domain)}</span>`;
+                    const srcBadge = `<span style="font-size: 10px; font-weight: 600; color: #555;">[${escapeHtml((r.source || 'human_edit').toUpperCase())}]</span>`;
+                    const confColor = r.confidence_score >= 1.2 ? '#166534' : '#666';
+
+                    tr.innerHTML = `
+                        <td style="color: #666; font-size: 11px;">#${r.id}</td>
+                        <td>${domainBadge}</td>
+                        <td style="font-weight: 600; color: #111;">${escapeHtml(r.rule_description)}</td>
+                        <td style="font-size: 11px; color: #444;">${escapeHtml(r.customer_id)}</td>
+                        <td style="font-weight: 700; color: ${confColor}; font-size: 12px;">⭐ ${r.confidence_score}</td>
+                        <td>${srcBadge}</td>
+                        <td>
+                            <button type="button" class="btn-icon" style="padding: 2px 6px; font-size: 10px; margin-right: 4px;" onclick="toggleLearnedRule(${r.id})">Toggle</button>
+                            <button type="button" class="btn-icon" style="padding: 2px 6px; font-size: 10px; color: #dc2626; border-color: #dc2626;" onclick="deleteLearnedRule(${r.id})">✕ Del</button>
+                        </td>
+                    `;
+                    rulesTable.appendChild(tr);
+                });
+            }
+
+            // Populate Feedback History Table
+            const fbTable = document.getElementById('learningFeedbackTableBody');
+            fbTable.innerHTML = '';
+            const fbs = data.feedback_history || [];
+            if (fbs.length === 0) {
+                fbTable.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #666; padding: 12px;">No human edits recorded yet. Edit messages in Human Review to teach the agent!</td></tr>';
+            } else {
+                fbs.forEach(f => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-weight: 600; font-size: 11px;">${escapeHtml(f.customer_id)}</td>
+                        <td style="font-size: 11px; color: #666; max-width: 220px;">${escapeHtml(f.original_draft)}</td>
+                        <td style="font-size: 11px; color: #166534; font-weight: 600; max-width: 220px;">${escapeHtml(f.human_edited_draft)}</td>
+                        <td style="font-size: 11px; color: #5b21b6; font-weight: 600;">💡 ${escapeHtml(f.edit_delta_summary)}</td>
+                        <td style="font-size: 10px; color: #888;">${escapeHtml((f.timestamp || '').split(' ')[1] || f.timestamp)}</td>
+                    `;
+                    fbTable.appendChild(tr);
+                });
+            }
+        } catch (err) {
+            console.error("Failed to load learnings:", err);
+        }
+    }
+
+    async function addNewCustomRule() {
+        const domain = document.getElementById('newRuleDomain').value;
+        const text = document.getElementById('newRuleText').value.trim();
+        const cid = document.getElementById('newRuleCustId').value.trim() || null;
+        const feedback = document.getElementById('newRuleFeedback');
+
+        if (!text) {
+            alert("Please enter a rule description.");
+            return;
+        }
+
+        try {
+            const resp = await fetch('/api/learnings/rule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain: domain, rule_description: text, customer_id: cid })
+            });
+            const data = await resp.json();
+            if (resp.ok) {
+                document.getElementById('newRuleText').value = '';
+                document.getElementById('newRuleCustId').value = '';
+                feedback.innerText = `✓ Rule #${data.rule_id} saved to learning memory!`;
+                feedback.className = 'form-message success';
+                feedback.style.display = 'block';
+                setTimeout(() => { feedback.style.display = 'none'; }, 3500);
+                loadLearningsAnalytics();
+            } else {
+                alert(`Error: ${data.detail || 'Could not save rule'}`);
+            }
+        } catch (err) {
+            alert(`Network error: ${err.message}`);
+        }
+    }
+
+    async function toggleLearnedRule(ruleId) {
+        try {
+            const resp = await fetch(`/api/learnings/rule/${ruleId}/toggle`, { method: 'POST' });
+            if (resp.ok) {
+                loadLearningsAnalytics();
+            }
+        } catch (err) {
+            console.error("Toggle rule failed:", err);
+        }
+    }
+
+    async function deleteLearnedRule(ruleId) {
+        if (!confirm(`Delete rule #${ruleId} from memory?`)) return;
+        try {
+            const resp = await fetch(`/api/learnings/rule/${ruleId}`, { method: 'DELETE' });
+            if (resp.ok) {
+                loadLearningsAnalytics();
+            }
+        } catch (err) {
+            console.error("Delete rule failed:", err);
+        }
+    }
+
+    async function resetAllLearnings() {
+        if (!confirm("Are you sure you want to reset all agent learning memory, distilled rules, and feedback history?")) return;
+        try {
+            const resp = await fetch('/api/learnings/reset', { method: 'POST' });
+            if (resp.ok) {
+                alert("Agent memory has been reset.");
+                loadLearningsAnalytics();
+            }
+        } catch (err) {
+            alert(`Reset error: ${err.message}`);
+        }
+    }
+
     // Initial status check and customer list load on page load
     pollStatus();
     loadInitialCustomers();
+    loadLearningsAnalytics();
 </script>
 
 </body>

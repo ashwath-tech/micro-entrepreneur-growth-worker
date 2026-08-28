@@ -1,6 +1,21 @@
 # Micro Entrepreneur Growth Worker
 
-A lightweight multi-agent assistant built for small Indian shop owners (like Kirana stores and local retailers). It analyzes daily sales, spots revenue drops, identifies customers who stopped visiting, and drafts personalized WhatsApp offers in Rupees (₹) to bring them back.
+A multi-agent assistant built for small Indian shop owners . It analyzes daily sales, spots revenue drops, identifies customers who stopped visiting, and drafts personalized WhatsApp offers to bring them back.
+
+- **VIDEO DEMO LINK**: [DRIVE LINK](https://drive.google.com/file/d/1DDXQ_8sIlNqmYNWg7-wQ_R9XuVHO5123/view)
+---
+
+1. **Goal**: To help small shop owners automate the process of analyzing sales and increasing customer retention by giving attractive offers
+2. **User**: Local shops like supermarkets and grocery stores
+3. **System**: Everything is inside an asgentic self-learning revenue recovery loop
+4. **Inputs**: It needs REVENUE CSV, GEMINI_API_KEY, WHATSAPP CONNECTION(optional for v1)
+5. **Decisions**: It can decide on what offers to suggest on its own, it can analyse monthly revenue and particular customer.
+6. **Output**: Detailed weekly bussiness and customer-wise analysis + offer suggestions
+7. **Constraints**: It should not send whatsapp offers without human approval, it will not suggest offers harmful to the shop revenue.
+8. **Defenition of Done**: Passes all tests that are added
+9. **Privacy Design**: It does not save names and phone numbers in the database
+10. **Escalation**: Human approval is needed for sending whatsapp messages
+11. **Success Metric**: The offer suggestions improve over time and tests do not fail
 
 ---
 
@@ -9,11 +24,11 @@ A lightweight multi-agent assistant built for small Indian shop owners (like Kir
 - **Weekly Sales Review**: Compares current weekly sales against last month's data to show whether revenue went up or down in ₹.
 - **Lapsed Customer Detection**: Finds regular customers who have not visited recently and lists what they usually buy.
 - **Slow-Moving Stock Alerts**: Flags items that are not selling and suggests simple bundle offers to clear dead stock.
+- **Self learning Agent**: Learns by using the offers already sent and how the human has edited the offers.
 - **WhatsApp Follow-up Drafts**: Writes short, polite messages starting with "Namaste" (under 50 words, maximum 20% discount).
 - **Self-Correction Loop**: An automated QA Critic agent checks generated messages for missing ₹ symbols, excessive discounts, or bad formatting, and sends them back for correction before presenting them.
 - **Local Data Privacy**: Real customer names and phone numbers stay on your local machine in SQLite. Only masked IDs (like `C001`) are shared with the LLM.
 - **Human in the Loop**: The tool never sends messages or makes changes on its own. You review and approve everything first.
-- **Web Dashboard**: Clean browser interface to log daily sales, view revenue charts, inspect transactions by date, and open pre-filled WhatsApp links.
 - **Automated Testing Suite**: Built-in test runner that checks bad CSV files, privacy rules, agent loops, and evaluates how much money the tool can save or recover for the shop.
 
 ---
@@ -25,14 +40,18 @@ flowchart TD
     START([Start]) --> IngestionAgent[Ingestion Agent]
     
     IngestionAgent -->|On Success| AnalystAgent[Analyst Agent]
-    IngestionAgent -->|On Tool Failure / Missing Data| HumanEscalation[Human Escalation]
+    IngestionAgent -->|On Data Error| HumanEscalation[Human Escalation]
     
     AnalystAgent -->|On Success| MarketingAgent[Marketing Agent]
     MarketingAgent --> CriticAgent{Critic Agent}
     
-    CriticAgent -->|On Rejection: Data Issue| AnalystAgent
-    CriticAgent -->|On Rejection: Tone / Discount Issue| MarketingAgent
+    CriticAgent -->|Rejection: Data Issue| AnalystAgent
+    CriticAgent -->|Rejection: Tone / Discount| MarketingAgent
     CriticAgent -->|On Approval| HumanApproval[Human Approval]
+    
+    HumanApproval -->|Edits & Outcomes| SelfLearning[(Self-Learning Engine)]
+    SelfLearning -.->|Learned Rules & Tone| MarketingAgent
+    SelfLearning -.->|Strategy Insights| AnalystAgent
     
     HumanApproval --> END([End])
     HumanEscalation --> END
@@ -40,9 +59,10 @@ flowchart TD
 
 1. **Ingestion Agent**: Reads your sales CSV file, checks for required columns, and masks sensitive customer info (names and phone numbers).
 2. **Analyst Agent**: Queries the local SQLite database, calculates revenue trends against a 30-day baseline, and identifies lapsed customers and slow-moving items.
-3. **Marketing Agent**: Drafts targeted WhatsApp offers based on what each customer prefers to buy.
-4. **QA Critic Agent**: Checks every draft against business rules (uses ₹ symbol, discount is 20% or less, message is under 50 words). If a draft fails, it loops back to the marketing agent with feedback.
-5. **Human Approval**: The system unmasks the customer names on your screen so you can review, edit, and approve the drafts before saving.
+3. **Marketing Agent**: Drafts targeted WhatsApp offers based on customer preferences and learned store patterns.
+4. **QA Critic Agent**: Checks every draft against business rules (uses ₹ symbol, discount is 20% or less, message is under 50 words). If a draft fails, it loops back with actionable feedback.
+5. **Human Approval**: Unmasks customer names locally for merchant review, editing, and approval before sending.
+6. **Self-Learning Engine**: Distills human edits, rejection reflections, and sales conversion outcomes into persistent rules to continuously improve future recommendations.
 
 ---
 
@@ -101,6 +121,7 @@ You can test the entire project to make sure all features and guardrails are wor
 - **Customer privacy**: Verifies that real names and phone numbers are converted to customer IDs (like `C001`) and that direct SQL queries to personal information tables are strictly blocked.
 - **Business analysis**: Checks that revenue changes, 30-day baseline comparisons, lapsed regular customers, and slow-moving items are calculated accurately in ₹.
 - **Message rules and critic loop**: Makes sure generated WhatsApp drafts start with "Namaste", stay under 50 words, use the ₹ symbol, keep discounts at 20% or less, and never leak real customer names. It also verifies that the QA Critic rejects bad drafts and sends them back to be fixed.
+- **Self-learning & memory**: Verifies that edits made by the shop owner are saved as reusable preferences, critic feedback is remembered, and successful offers get reinforced over time.
 - **Shop growth and impact**: Measures how much the project helps the shop by calculating recoverable revenue from lapsed customers, estimated cash freed up from dead stock bundles, and margin protection.
 - **Web API and workflow**: Tests all web endpoints and the multi-agent graph connections.
 
@@ -109,11 +130,13 @@ You can test the entire project to make sure all features and guardrails are wor
 ## Project Structure
 
 - `src/agents.py`: Contains the agent nodes (Ingestion, Analyst, Marketing, QA Critic).
+- `src/learning.py`: Self-learning module that remembers your edits and tracks offer results.
 - `src/graph.py`: LangGraph definition connecting nodes and conditional retry edges.
 - `src/tools.py`: Helper functions for reading CSVs, querying SQLite, generating charts, and checking rules.
 - `src/app.py`: FastAPI server handling web routes, background tasks, and API endpoints.
 - `src/state.py`: State definitions passed between agents in the graph.
 - `templates/index.html`: Web interface for sales entry, charts, and customer management.
+- `tests/test_learning.py`: Tests for learning memory, rule distillation, and campaign outcomes.
 - `tests/test_csv_ingestion.py`: Tests for CSV validation, bad formats, and error handling.
 - `tests/test_privacy_pii.py`: Tests for customer masking and privacy security.
 - `tests/test_analyst_business_impact.py`: Tests for sales trends, customer profiles, and weak areas.

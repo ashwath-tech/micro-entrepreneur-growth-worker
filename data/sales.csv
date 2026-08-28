@@ -57,3 +57,6 @@ txn_id,date,customer_name,phone,item,amount_inr,is_return
 56,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
 57,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
 58,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
+59,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
+60,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False
+61,2023-10-30,Deepak Test,9811122233,"Chai, Biscuit",50.0,False

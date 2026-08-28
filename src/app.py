@@ -58,6 +58,12 @@ class SingleMessageSendRequest(BaseModel):
     rationale: Optional[str] = Field(default="", description="Strategic rationale for sending this message")
 
 
+class CustomRuleRequest(BaseModel):
+    domain: str = Field(..., description="Rule domain: 'marketing_tone', 'discount_preference', 'customer_preference', 'analyst_strategy'")
+    rule_description: str = Field(..., description="Actionable preference rule description")
+    customer_id: Optional[str] = Field(default=None, description="Optional customer ID (e.g. C001)")
+
+
 class WorkflowManager:
     """
     Thread-safe manager for the multi-agent workflow and Human-in-the-Loop (HITL) execution.
@@ -334,6 +340,21 @@ class WorkflowManager:
                 if self.edited_drafts and len(self.edited_drafts) > 0:
                     drafts_to_save = self.edited_drafts
                     self.add_log(f"[HumanApproval] Applying human edits/additions ({len(drafts_to_save)} total drafts).")
+
+                    # Self-learning: Distill preference rules from human edits
+                    try:
+                        from src.learning import distill_learning_from_feedback
+                        orig_map = {str(d.get("customer_id", "STORE_OFFER")).strip(): str(d.get("display_message", d.get("message_text", ""))).strip() for d in unmasked}
+                        for d in drafts_to_save:
+                            cid = str(d.get("customer_id", "STORE_OFFER")).strip() or "STORE_OFFER"
+                            edited_msg = str(d.get("display_message", d.get("message_text", ""))).strip()
+                            orig_msg = orig_map.get(cid, "")
+                            if orig_msg and orig_msg != edited_msg:
+                                res = distill_learning_from_feedback("MarketingAgent", orig_msg, edited_msg, customer_id=cid)
+                                if res:
+                                    self.add_log(f"[SelfLearning] Learned preference: '{res['rule_description']}'")
+                    except Exception as e:
+                        self.add_log(f"[SelfLearning] Note: Learning extraction skipped ({str(e)})")
                 else:
                     drafts_to_save = unmasked
 
@@ -923,6 +944,93 @@ async def get_shop_impact():
     except Exception as e:
         log_audit("API_ERROR:get_shop_impact", str(e))
         raise HTTPException(status_code=500, detail=f"Failed to calculate shop impact: {str(e)}")
+
+
+# -------------------------------------------------------------
+# Agent Self-Learning & Memory API Endpoints
+# -------------------------------------------------------------
+
+@app.get("/api/learnings")
+async def get_learnings():
+    """
+    Returns full analytics of learned rules, human feedback history, and campaign reinforcement.
+    """
+    try:
+        from src.learning import get_learning_analytics
+        analytics = get_learning_analytics("data/memory.db")
+        return analytics
+    except Exception as e:
+        log_audit("API_ERROR:get_learnings", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to fetch learnings: {str(e)}")
+
+
+@app.post("/api/learnings/rule")
+async def create_custom_rule(req: CustomRuleRequest):
+    """
+    Allows the user to explicitly define an active behavioral or tone preference rule.
+    """
+    try:
+        from src.learning import add_custom_rule
+        rule_id = add_custom_rule(
+            domain=req.domain,
+            rule_description=req.rule_description,
+            customer_id=req.customer_id,
+            db_path="data/memory.db"
+        )
+        log_audit("API:create_custom_rule", f"Added rule #{rule_id} for domain '{req.domain}'")
+        return {"status": "SUCCESS", "rule_id": rule_id, "message": "Rule saved to learning memory."}
+    except Exception as e:
+        log_audit("API_ERROR:create_custom_rule", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to save rule: {str(e)}")
+
+
+@app.post("/api/learnings/rule/{rule_id}/toggle")
+async def toggle_rule(rule_id: int):
+    """
+    Toggles a rule status between ACTIVE and DISABLED.
+    """
+    try:
+        from src.learning import toggle_rule_status
+        new_status = toggle_rule_status(rule_id, db_path="data/memory.db")
+        if new_status == "NOT_FOUND":
+            raise HTTPException(status_code=404, detail=f"Rule #{rule_id} not found.")
+        log_audit("API:toggle_rule", f"Rule #{rule_id} toggled to {new_status}")
+        return {"status": "SUCCESS", "rule_id": rule_id, "new_status": new_status}
+    except Exception as e:
+        log_audit("API_ERROR:toggle_rule", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to toggle rule: {str(e)}")
+
+
+@app.delete("/api/learnings/rule/{rule_id}")
+async def delete_learning_rule(rule_id: int):
+    """
+    Deletes a rule from the learning memory.
+    """
+    try:
+        from src.learning import delete_rule
+        deleted = delete_rule(rule_id, db_path="data/memory.db")
+        if not deleted:
+            raise HTTPException(status_code=404, detail=f"Rule #{rule_id} not found.")
+        log_audit("API:delete_learning_rule", f"Deleted rule #{rule_id}")
+        return {"status": "SUCCESS", "rule_id": rule_id, "message": "Rule deleted from memory."}
+    except Exception as e:
+        log_audit("API_ERROR:delete_learning_rule", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to delete rule: {str(e)}")
+
+
+@app.post("/api/learnings/reset")
+async def reset_learnings():
+    """
+    Resets all learned rules and human feedback history.
+    """
+    try:
+        from src.learning import reset_learning_memory
+        reset_learning_memory("data/memory.db")
+        log_audit("API:reset_learnings", "All agent learnings and feedback history were reset.")
+        return {"status": "SUCCESS", "message": "Learning memory successfully reset."}
+    except Exception as e:
+        log_audit("API_ERROR:reset_learnings", str(e))
+        raise HTTPException(status_code=500, detail=f"Failed to reset learnings: {str(e)}")
 
 
 if __name__ == "__main__":

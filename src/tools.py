@@ -164,6 +164,13 @@ def init_db(db_path: str = "data/memory.db") -> None:
     conn.commit()
     conn.close()
 
+    # Initialize self-learning subsystem tables
+    try:
+        from src.learning import init_learning_tables
+        init_learning_tables(db_path)
+    except Exception:
+        pass
+
 
 def seed_historical_data(db_path: str = "data/memory.db") -> None:
     """
@@ -436,6 +443,13 @@ def convert_to_sql(data: Union[List[Dict[str, Any]], Dict[str, Any]], db_path: s
 
     conn.commit()
     conn.close()
+
+    # Trigger reinforcement evaluation against past campaigns
+    try:
+        from src.learning import evaluate_campaign_outcomes
+        evaluate_campaign_outcomes(records, db_path=db_path)
+    except Exception:
+        pass
 
     log_audit("TOOL_SUCCESS:convert_to_sql", f"Successfully wrote {len(records)} records to transactions table in {db_path}")
     return True
@@ -1716,7 +1730,7 @@ def llm_as_a_judge(
             from langchain_google_genai import ChatGoogleGenerativeAI
             from langchain_core.messages import SystemMessage, HumanMessage
 
-            candidate_models = ["gemini-2.5-flash", "gemini-3-flash"]
+            candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-flash-latest"]
             llm = None
             for m in candidate_models:
                 try:
@@ -1725,7 +1739,7 @@ def llm_as_a_judge(
                         google_api_key=api_key,
                         temperature=0.1,
                         max_retries=1,
-                        timeout=10.0
+                        timeout=8.0
                     )
                     break
                 except Exception:

@@ -274,6 +274,59 @@ def run_all_diagnostics() -> Dict[str, Any]:
     except Exception as e:
         report.record("Shop Help Evaluation", "Quantify Shop Growth & Revenue Protection", False, str(e), (time.time() - t0) * 1000)
 
+    # -------------------------------------------------------------
+    # Suite 7: Agent Self-Learning & Reinforcement Memory
+    # -------------------------------------------------------------
+    t0 = time.time()
+    try:
+        from src.learning import (
+            distill_learning_from_feedback,
+            record_qa_critic_reflection,
+            format_learnings_for_prompt,
+            evaluate_campaign_outcomes,
+            add_custom_rule
+        )
+        # Test rule distillation
+        rule_res = distill_learning_from_feedback(
+            agent_name="MarketingAgent",
+            original_text="Namaste C001! Get 20% discount on chai.",
+            edited_text="Namaste C001 ji! Fresh chai available with 10% off (Save ₹10) today!",
+            customer_id="C001",
+            db_path=test_db
+        )
+        assert rule_res is not None and len(rule_res["rule_description"]) > 0
+
+        # Test prompt formatting
+        add_custom_rule("marketing_tone", "Use polite Namaste ji greetings.", db_path=test_db)
+        prompt_txt = format_learnings_for_prompt("marketing_tone", customer_id="C001", db_path=test_db)
+        assert "Learned Preferences" in prompt_txt
+
+        # Test campaign outcome reinforcement
+        conn = sqlite3.connect(test_db)
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO approved_drafts (customer_id, message_text, offer_inr, date_approved, rationale) VALUES (?, ?, ?, ?, ?)",
+            ("C001", "Namaste C001! ₹10 off", 10.0, "2023-10-20 10:00:00", "Retention")
+        )
+        conn.commit()
+        conn.close()
+
+        outcomes = evaluate_campaign_outcomes(
+            [{"txn_id": "T99", "date": "2023-10-23", "customer_id": "C001", "item": "Chai", "amount_inr": 150.0, "is_return": False}],
+            db_path=test_db
+        )
+        assert outcomes["conversions"] >= 1
+
+        report.record(
+            "Agent Self-Learning",
+            "Episodic Memory, Rule Distillation & Outcome Reinforcement",
+            True,
+            f"Successfully distilled rule: '{rule_res['rule_description']}' and reinforced {outcomes['conversions']} campaign outcomes",
+            (time.time() - t0) * 1000
+        )
+    except Exception as e:
+        report.record("Agent Self-Learning", "Episodic Memory, Rule Distillation & Outcome Reinforcement", False, str(e), (time.time() - t0) * 1000)
+
     # Clean up test db
     if os.path.exists(test_db):
         try:

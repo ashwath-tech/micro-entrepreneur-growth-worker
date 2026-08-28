@@ -133,3 +133,26 @@
 #### Input: Lapsed customers list and slow-moving items list.
 #### Output: Shop Growth Index score (0-100), net revenue value in ₹, and promotion ROI ratio.
 
+
+## Self-Learning & Memory Tools:
+
+### 1. distill_learning_from_feedback(agent_name, original_text, edited_text, customer_id)
+#### Description: Compares your edited message with what the agent wrote, extracting a simple preference rule for future drafts.
+#### Input: Original text, edited text, customer_id.
+#### Output: Dict with the new rule and confidence score.
+
+### 2. record_qa_critic_reflection(agent_target, feedback)
+#### Description: Saves audit rejection feedback as a lesson learned so the agents avoid repeating the same mistake.
+#### Input: Agent name and feedback string.
+#### Output: Dict with the saved critique rule.
+
+### 3. format_learnings_for_prompt(domain, customer_id)
+#### Description: Fetches the most relevant saved rules from SQLite to guide the agent during message drafting.
+#### Input: Domain name and optional customer_id.
+#### Output: Formatted text of learned preferences.
+
+### 4. evaluate_campaign_outcomes(new_transactions)
+#### Description: Checks if customers returned to shop after getting an offer, boosting confidence for strategies that worked.
+#### Input: List of new sales transactions.
+#### Output: Conversion count and revenue gained.
+

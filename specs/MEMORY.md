@@ -36,8 +36,17 @@ Permanent data is stored locally in data/memory.db (using Write-Ahead Logging WA
   - Stores the final messages the human approved ("Yes").
   - Columns: id, customer_id, message_text, offer_inr, date_approved, rationale.
   - Used to track what actions and offers were executed.
+- Table: agent_learned_rules
+  - Saves preferences and rules the agents pick up over time (like preferred greetings, discount limits, or customer habits).
+  - Columns: id, domain, rule_description, customer_id, confidence_score, status, source, created_at, last_reinforced.
+- Table: human_feedback_history
+  - Keeps a history of how you edited messages so the agents learn your personal writing and offer style.
+  - Columns: id, agent_name, customer_id, original_draft, human_edited_draft, edit_delta_summary, timestamp.
+- Table: campaign_outcomes
+  - Tracks whether customers visited again after getting an offer, so the agents see which deals worked best.
+  - Columns: id, customer_id, offer_text, offer_inr, date_sent, returned_within_7d, revenue_gained_inr, evaluated_at.
 
 ## 3. Retrieval Strategy
-- AnalystAgent Retrieval: Before analyzing this week's CSV, the AnalystAgent MUST query the transactions table for the previous 30 days to establish a baseline for comparison, query customer transaction history for RFM cohorts, and compute Apriori co-occurrence rules.
-- MarketingAgent Retrieval: Does not query SQLite directly. It relies entirely on the analysis_summary passed through the Shared Agent State.
+- AnalystAgent Retrieval: Before looking at this week's CSV, it queries the transactions table for the past 30 days to set a baseline, checks customer buying patterns, and pulls saved analysis rules.
+- MarketingAgent Retrieval: Reads the analysis summary from the shared state and pulls top learned rules from SQLite to match your preferred tone and discount style.
 

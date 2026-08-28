@@ -55,7 +55,7 @@ def get_gemini_llm(temperature: float = 0.2) -> Optional[ChatGoogleGenerativeAI]
     if not api_key or api_key == "your_free_key":
         return None
 
-    candidate_models = ["gemini-2.5-flash","gemini-3-flash"]
+    candidate_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-flash-latest"]
     for model_name in candidate_models:
         try:
             return ChatGoogleGenerativeAI(
@@ -63,7 +63,7 @@ def get_gemini_llm(temperature: float = 0.2) -> Optional[ChatGoogleGenerativeAI]
                 google_api_key=api_key,
                 temperature=temperature,
                 max_retries=1,
-                timeout=10.0
+                timeout=8.0
             )
         except Exception:
             continue
@@ -166,6 +166,13 @@ def analyst_node(state: SharedAgentState) -> Dict[str, Any]:
         cust_pref_lines.append(f"- {cid}: Status={cdata.get('activity_status')}, Preferred Items={cdata.get('preferred_items')}, Total Spent=₹{cdata.get('total_spend_inr')}")
     cust_pref_summary_str = "\n".join(cust_pref_lines)
 
+    analyst_learnings = ""
+    try:
+        from src.learning import format_learnings_for_prompt
+        analyst_learnings = format_learnings_for_prompt("analyst_strategy")
+    except Exception:
+        pass
+
     user_context = (
         f"Historical Baseline Data (Past 30 Days):\n"
         f"- Total Baseline Revenue: ₹{baseline_revenue_inr:.2f}\n"
@@ -179,6 +186,7 @@ def analyst_node(state: SharedAgentState) -> Dict[str, Any]:
         f"- Revenue Trend: {calculated_trend}\n"
         f"- Lapsed Customers: {lapsed_customers}\n"
         f"- Slow-Moving Items: {slow_moving_items}\n"
+        f"{analyst_learnings}\n"
         f"{feedback_instruction}\n\n"
         "Generate the formal analysis summary JSON."
     )
@@ -319,11 +327,19 @@ def marketing_node(state: SharedAgentState) -> Dict[str, Any]:
             f"You MUST strictly fix this issue! Ensure discounts are ≤20%, no real customer names are used, 'Namaste' starts each message, and the literal ₹ symbol is included in every single message text."
         )
 
+    marketing_learnings = ""
+    try:
+        from src.learning import format_learnings_for_prompt
+        marketing_learnings = format_learnings_for_prompt("marketing_tone", customer_id="C001")
+    except Exception:
+        pass
+
     user_context = (
         f"Analyst Findings:\n"
         f"- Revenue Trend: {revenue_trend}\n"
         f"- Slow-Moving Items (0 sales this week): {slow_moving_str}\n"
         f"- Target Customer: C001 (Preferred items: {c001_pref_str}, Top preference: {c001_top_item})\n"
+        f"{marketing_learnings}\n"
         f"{feedback_instruction}\n\n"
         "Please draft the 2 WhatsApp follow-ups for C001 and 1 local store offer in JSON."
     )
@@ -417,6 +433,14 @@ def qa_critic_node(state: SharedAgentState) -> Dict[str, Any]:
         log_audit("QA_CRITIC:DECISION_REJECTED", f"Drafts rejected (Retry #{new_retry}). Target: {target}. Feedback: {feedback}")
         print(f"  ✗ QA Critic Decision: REJECTED! Feedback: {feedback}")
         print(f"  -> Triggering Agentic Loop: routing back to {target}Agent (Attempt {new_retry}/2)...")
+
+        # Capture rejection reflection into learning subsystem
+        try:
+            from src.learning import record_qa_critic_reflection
+            record_qa_critic_reflection(target, feedback)
+        except Exception:
+            pass
+
         return {
             "qa_status": "REJECTED",
             "qa_feedback": feedback,

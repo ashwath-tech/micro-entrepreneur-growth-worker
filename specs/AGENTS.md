@@ -22,21 +22,21 @@
 
 ### 3. Marketing Agent:
 
-#### Role : This agent is the third agent that receives the analysis summary and drafts RFM-tailored WhatsApp messages for target customers and store promotional bundle offers using margin-safe discount calculations and high-affinity item pairing.
+#### Role : This agent drafts personalized WhatsApp messages and store bundle offers based on customer preferences, safe discount limits, and rules learned from past sessions.
 
-#### Tools: save_draft, generate_single_customer_message, calculate_margin_safe_discount
+#### Tools: save_draft, generate_single_customer_message, calculate_margin_safe_discount, format_learnings_for_prompt
 
 #### Next Step: Saves the drafted plan and passes it to CritiqueAgent.
 
 ### 4. Critique Agent:
 
-#### Role : This agent is the fourth agent that uses rule-based compliance checks (Namaste, <50 words, ₹ symbol, ≤20% discount, disguised discount detection, no real customer names) and LLM-as-a-judge multi-criteria rubric scoring (1-5) to audit drafts.
+#### Role : This agent audits drafts against basic business rules (starts with Namaste, under 50 words, uses ₹ symbol, maximum 20% discount, no real customer names) and scores message quality.
 
-#### Tools: llm_as_a_judge, scrub_pii_from_text, human_verify
+#### Tools: llm_as_a_judge, scrub_pii_from_text, human_verify, record_qa_critic_reflection
 
 #### Next Step: 
-- If REJECTED: Emits targeted minimal diff feedback and loops back to AnalystAgent (if data/customer issue) or MarketingAgent (if wording/discount issue). Max 2 retries.
-- If APPROVED: Passes approved drafts to human approval.
+- If REJECTED: Saves the issue as a lesson learned so it isn't repeated, and loops back to AnalystAgent (if data issue) or MarketingAgent (if wording issue). Max 2 retries.
+- If APPROVED: Passes approved drafts to human review.
 
 
 ## Workflow States (Edges)
@@ -48,4 +48,5 @@
 - CriticAgent -> AnalystAgent (On Rejection - TRIGGERS LOOP)
 - CriticAgent -> MarketingAgent (On Rejection - TRIGGERS LOOP)
 - CriticAgent -> HumanApproval (On Approval - EXITS LOOP)
+- HumanApproval -> Saves final plan & learns from any message edits
 
