@@ -2,7 +2,7 @@
 
 A multi-agent assistant built for small Indian shop owners . It analyzes daily sales, spots revenue drops, identifies customers who stopped visiting, and drafts personalized WhatsApp offers to bring them back.
 
-- **VIDEO DEMO LINK**: [DRIVE LINK](https://drive.google.com/file/d/1DDXQ_8sIlNqmYNWg7-wQ_R9XuVHO5123/view)
+- **VIDEO DEMO LINK**: [DRIVE LINK](https://drive.google.com/file/d/11JF_Rip048ECTOCsQtl8UMn3hW6t4Um6/view?usp=sharing)
 ---
 
 1. **Goal**: To help small shop owners automate the process of analyzing sales and increasing customer retention by giving attractive offers
